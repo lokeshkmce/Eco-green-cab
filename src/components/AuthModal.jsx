@@ -41,10 +41,12 @@ export default function AuthModal({ isOpen, onClose }) {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        // We assume the backend expects `phone` or `phone_number`. Sending both to be safe.
+        // The backend error "Mobile number is required" indicates it expects 'mobile' or 'mobile_number'
         body: JSON.stringify({ 
           phone: formData.phone,
-          phone_number: formData.phone 
+          phone_number: formData.phone,
+          mobile: formData.phone,
+          mobile_number: formData.phone
         })
       });
       
@@ -77,6 +79,8 @@ export default function AuthModal({ isOpen, onClose }) {
         body: JSON.stringify({ 
           phone: formData.phone,
           phone_number: formData.phone,
+          mobile: formData.phone,
+          mobile_number: formData.phone,
           otp: formData.otp 
         })
       });
