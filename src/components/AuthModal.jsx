@@ -24,7 +24,7 @@ export default function AuthModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleSendOTP = (e) => {
+  const handleSendOTP = async (e) => {
     e.preventDefault();
     if (!formData.phone) {
       setError("Please enter your phone number.");
@@ -32,41 +32,75 @@ export default function AuthModal({ isOpen, onClose }) {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    setError('');
+    
+    try {
+      const response = await fetch('https://capsule-most-rundown.ngrok-free.dev/ecogreencab/send-otp/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        // We assume the backend expects `phone` or `phone_number`. Sending both to be safe.
+        body: JSON.stringify({ 
+          phone: formData.phone,
+          phone_number: formData.phone 
+        })
+      });
+      
+      const data = await response.json().catch(() => ({}));
+      
+      if (!response.ok) {
+        throw new Error(data.detail || data.message || data.error || 'Failed to send OTP.');
+      }
+      
       setStep(2); // Move to OTP step
-    }, 800);
+    } catch (err) {
+      setError(err.message || 'An error occurred connecting to the server.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleVerifyOTP = (e) => {
+  const handleVerifyOTP = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
     
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      // Verify Mock OTP
-      if (formData.otp !== '1234') {
-        setError("Invalid OTP. Try '1234'.");
-        return;
+    try {
+      const response = await fetch('https://capsule-most-rundown.ngrok-free.dev/ecogreencab/verify-otp/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ 
+          phone: formData.phone,
+          phone_number: formData.phone,
+          otp: formData.otp 
+        })
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.detail || data.message || data.error || 'Invalid OTP.');
       }
       
+      // Successfully verified by Django backend!
+      // Keep existing logic to auto-login based on roles
       const db = JSON.parse(localStorage.getItem('eco_users_db') || '[]');
-      
-      // Check if user exists
       let userData = db.find(u => u.phone === formData.phone && u.phone !== '');
       
-      // If user doesn't exist in DB
       if (!userData) {
-         if (formData.phone === '9999999999') {
-           userData = { name: 'Super Admin', phone: '9999999999', roles: ['admin'] };
-         } else if (formData.phone === '8888888888') {
-           userData = { name: 'Demo Owner', phone: '8888888888', roles: ['owner'] };
+         if (formData.phone === '9999999999' || formData.phone === '+919999999999') {
+           userData = { name: 'Super Admin', phone: formData.phone, roles: ['admin'] };
+         } else if (formData.phone === '8888888888' || formData.phone === '+918888888888') {
+           userData = { name: 'Demo Owner', phone: formData.phone, roles: ['owner'] };
          } else {
            // Auto-create new renter account
            userData = {
-             name: 'User', // Can be updated in profile later
+             name: 'User',
              phone: formData.phone,
              roles: ['renter'],
            };
@@ -75,7 +109,10 @@ export default function AuthModal({ isOpen, onClose }) {
          }
       }
       
-      // Clean up password field if it existed in old DB entries
+      if (data.token) {
+         localStorage.setItem('eco_auth_token', data.token); // Store token if backend returns one
+      }
+      
       const { password, ...safeUserData } = userData;
       login(safeUserData);
       onClose();
@@ -87,7 +124,12 @@ export default function AuthModal({ isOpen, onClose }) {
       } else {
         navigate('/renter/dashboard');
       }
-    }, 800);
+      
+    } catch (err) {
+      setError(err.message || 'Verification failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
