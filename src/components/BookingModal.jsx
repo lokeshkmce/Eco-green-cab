@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useMarketplace } from '../context/MarketplaceContext';
+import QRCode from 'react-qr-code';
 import '../styles/components.css';
 
 export default function BookingModal({ car, onClose }) {
@@ -316,8 +317,22 @@ export default function BookingModal({ car, onClose }) {
                       <span style={{ fontWeight: 900, color: '#009958', fontFamily: 'Space Grotesk', fontSize: '1.6rem' }}>₹{total.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
-                  <div style={{ padding: '14px 18px', background: '#ecfdf5', borderRadius: '12px', border: '1px solid #a7f3d0', fontSize: '0.85rem', color: '#166534', lineHeight: 1.6 }}>
+                  <div style={{ padding: '14px 18px', background: '#ecfdf5', borderRadius: '12px', border: '1px solid #a7f3d0', fontSize: '0.85rem', color: '#166534', lineHeight: 1.6, marginBottom: '20px' }}>
                     🟢 <strong>Green RTO Plate & Active Fastag:</strong> Ready for expressways with instant automated toll processing. Pay with UPI, Cards, or NetBanking.
+                  </div>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#ffffff', border: '1px dashed #d1d5db', borderRadius: '16px', padding: '24px' }}>
+                    <div style={{ fontSize: '0.85rem', color: '#4b5563', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>Scan to Pay via UPI</div>
+                    <div style={{ padding: '12px', background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', marginBottom: '16px' }}>
+                      <QRCode 
+                        value={`upi://pay?pa=ecogreencab@upi&pn=EcoGreen%20Cab&am=${total}&cu=INR`} 
+                        size={160}
+                        fgColor="#111827"
+                      />
+                    </div>
+                    <div style={{ fontSize: '0.9rem', color: '#64748b', textAlign: 'center' }}>
+                      Open Google Pay, PhonePe, or Paytm and scan this code to complete the payment of <strong style={{ color: '#111827' }}>₹{total.toLocaleString('en-IN')}</strong>
+                    </div>
                   </div>
                 </div>
               )}
