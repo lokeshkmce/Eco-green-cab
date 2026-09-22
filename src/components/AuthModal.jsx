@@ -174,7 +174,7 @@ export default function AuthModal({ isOpen, onClose }) {
                   value={formData.loginIdentifier} 
                   onChange={handleInputChange} 
                   className="auth-input" 
-                  placeholder="+91 98765 43210 (Admin: 9999999999)" 
+                  placeholder="+91 98765 43210" 
                   required 
                 />
               </div>
@@ -186,7 +186,7 @@ export default function AuthModal({ isOpen, onClose }) {
                   value={formData.password} 
                   onChange={handleInputChange} 
                   className="auth-input" 
-                  placeholder="••••••••" 
+                  placeholder="" 
                   required 
                 />
               </div>
@@ -260,7 +260,7 @@ export default function AuthModal({ isOpen, onClose }) {
                       value={formData.password} 
                       onChange={handleInputChange} 
                       className="auth-input" 
-                      placeholder="••••••••" 
+                      placeholder="" 
                       required 
                     />
                   </div>
