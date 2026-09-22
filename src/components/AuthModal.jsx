@@ -39,7 +39,8 @@ export default function AuthModal({ isOpen, onClose }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
         },
         // The backend error "Mobile number is required" indicates it expects 'mobile' or 'mobile_number'
         body: JSON.stringify({ 
@@ -74,7 +75,8 @@ export default function AuthModal({ isOpen, onClose }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify({ 
           phone: formData.phone,
