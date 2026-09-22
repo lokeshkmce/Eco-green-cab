@@ -96,18 +96,16 @@ export default function AuthModal({ isOpen, onClose }) {
       const db = JSON.parse(localStorage.getItem('eco_users_db') || '[]');
       
       let userData = db.find(u => 
-         ((u.email === formData.loginIdentifier && u.email !== '') || 
-          (u.phone === formData.loginIdentifier && u.phone !== '')) 
-         && u.password === formData.password
+         u.phone === formData.loginIdentifier && u.phone !== '' && u.password === formData.password
       );
       
       if (!userData) {
-         if (formData.loginIdentifier === 'admin@ecogreen.com' && formData.password === 'admin') {
-           userData = { name: 'Super Admin', email: 'admin@ecogreen.com', roles: ['admin'] };
-         } else if (formData.loginIdentifier === 'owner@ecogreen.com' && formData.password === 'owner') {
-           userData = { name: 'Demo Owner', email: 'owner@ecogreen.com', roles: ['owner'] };
+         if (formData.loginIdentifier === '9999999999' && formData.password === 'admin') {
+           userData = { name: 'Super Admin', phone: '9999999999', roles: ['admin'] };
+         } else if (formData.loginIdentifier === '8888888888' && formData.password === 'owner') {
+           userData = { name: 'Demo Owner', phone: '8888888888', roles: ['owner'] };
          } else {
-           setError('Invalid credentials. Please check your phone number/email and password.');
+           setError('Invalid credentials. Please check your phone number and password.');
            return;
          }
       }
@@ -169,14 +167,14 @@ export default function AuthModal({ isOpen, onClose }) {
           {activeTab === 'login' ? (
             <form onSubmit={handleLogin}>
               <div className="form-group">
-                <label className="form-label">Phone Number or Email</label>
+                <label className="form-label">Phone Number</label>
                 <input 
-                  type="text" 
+                  type="tel" 
                   name="loginIdentifier" 
                   value={formData.loginIdentifier} 
                   onChange={handleInputChange} 
                   className="auth-input" 
-                  placeholder="+91 98765 43210 or name@example.com" 
+                  placeholder="+91 98765 43210 (Admin: 9999999999)" 
                   required 
                 />
               </div>
