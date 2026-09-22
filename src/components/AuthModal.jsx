@@ -137,17 +137,7 @@ export default function AuthModal({ isOpen, onClose }) {
                   {isLoading ? 'Sending OTP...' : 'Sign In'}
                 </button>
               </div>
-              
-              <div className="auth-divider">or</div>
 
-              <div className="social-auth">
-                <button className="btn-social" type="button">
-                  <span className="social-icon">G</span> Google
-                </button>
-                <button className="btn-social" type="button">
-                  <span className="social-icon">A</span> Apple
-                </button>
-              </div>
             </form>
           )}
 
