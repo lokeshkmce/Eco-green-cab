@@ -198,18 +198,11 @@ export default function BookingModal({ car, onClose }) {
                   ].map((ins) => (
                     <div
                       key={ins.value}
+                      className="bm-protection-card"
                       onClick={() => setForm({ ...form, insurance: ins.value })}
                       style={{
-                        padding: '18px',
-                        borderRadius: '14px',
                         border: `2px solid ${form.insurance === ins.value ? '#00b96b' : '#e5e7eb'}`,
                         background: form.insurance === ins.value ? '#f0fdf4' : '#ffffff',
-                        cursor: 'pointer',
-                        marginBottom: '14px',
-                        transition: 'all 0.2s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -282,7 +275,9 @@ export default function BookingModal({ car, onClose }) {
                   <div>
                     <label style={labelStyle}>Upload Driving License (Front & Back)</label>
                     <label style={{ display: 'block', border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '20px', textAlign: 'center', background: '#f8fafc', cursor: 'pointer' }}>
-                      <div style={{ fontSize: '1.6rem', marginBottom: '8px' }}>🪪</div>
+                      <div style={{ fontSize: '1.6rem', marginBottom: '8px', color: '#64748b', display: 'flex', justifyContent: 'center' }}>
+                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0112.28 0C16.43 19.18 14.03 20 12 20z"></path></svg>
+                      </div>
                       <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>
                         {form.drivingLicense ? form.drivingLicense.name : 'Click to upload license copy'}
                       </div>
@@ -339,7 +334,7 @@ export default function BookingModal({ car, onClose }) {
             </div>
 
             {/* Footer */}
-            <div style={{ padding: '20px 32px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', gap: '14px', background: '#f8fafc' }}>
+            <div className="bm-footer" style={{ padding: '20px 32px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', gap: '14px', background: '#f8fafc' }}>
               {step > 1 ? (
                 <button onClick={() => setStep(step - 1)} style={{ padding: '12px 24px', borderRadius: '10px', background: '#ffffff', border: '1px solid #e5e7eb', color: '#111827', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>
                   ← Back
@@ -404,7 +399,7 @@ export default function BookingModal({ car, onClose }) {
                   <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#009958' }}>{confirmedBookingId}</div>
                 </div>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="bm-success-grid">
                   <div>
                     <div style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700, marginBottom: '4px' }}>Vehicle Details</div>
                     <div style={{ fontWeight: 600, color: '#111827' }}>{car.name}</div>
