@@ -71,7 +71,7 @@ export default function Navbar() {
           <div className="navbar-actions">
             {!isLoggedIn ? (
               <button className="navbar-btn-outline" onClick={openAuth} style={{ border: 'none' }}>
-                Login / Register
+                Sign In
               </button>
             ) : (
               <Link 
@@ -134,7 +134,7 @@ export default function Navbar() {
                 onClick={openAuth}
                 style={{ border: 'none', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
-                <MdPerson size={20} /> Login / Register
+                <MdPerson size={20} /> Sign In
               </button>
             ) : (
               <Link

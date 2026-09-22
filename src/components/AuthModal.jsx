@@ -134,7 +134,7 @@ export default function AuthModal({ isOpen, onClose }) {
               </div>
               <div className="form-actions">
                 <button type="submit" className="btn-auth-submit" disabled={isLoading} style={{ opacity: isLoading ? 0.7 : 1, background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', boxShadow: '0 8px 20px rgba(0, 185, 107, 0.25)' }}>
-                  {isLoading ? 'Sending OTP...' : 'Continue'}
+                  {isLoading ? 'Sending OTP...' : 'Sign In'}
                 </button>
               </div>
               
