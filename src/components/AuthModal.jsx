@@ -59,9 +59,7 @@ export default function AuthModal({ isOpen, onClose }) {
       
       setStep(2); // Move to OTP step
     } catch (err) {
-      console.warn('API unavailable or broken. Falling back to local simulated OTP flow.', err);
-      // Fallback to local OTP simulation so the app still works!
-      setStep(2);
+      setError(err.message || 'An error occurred connecting to the server.');
     } finally {
       setIsLoading(false);
     }
@@ -99,51 +97,32 @@ export default function AuthModal({ isOpen, onClose }) {
       if (data.token) {
          localStorage.setItem('eco_auth_token', data.token); // Store token if backend returns one
       }
-    } catch (err) {
-      console.warn("Backend API verify failed, continuing with local simulated login.", err);
-      // Fallback: Proceed to local simulation without throwing an error
-    }
 
-    // Local simulation logic (runs on success or fallback)
-    try {
-      const db = JSON.parse(localStorage.getItem('eco_users_db') || '[]');
-      let userData = db.find(u => u.phone === formData.phone && u.phone !== '');
+      // Backend verification succeeded, parse user data (assuming the backend returns the user object)
+      // For now, if the backend doesn't return full user info, we create a basic session
+      const userData = data.user || {
+        name: 'User',
+        phone: formData.phone,
+        roles: ['renter']
+      };
       
-      if (!userData) {
-         if (formData.phone === '9999999999' || formData.phone === '+919999999999') {
-           userData = { name: 'Super Admin', phone: formData.phone, roles: ['admin'] };
-         } else if (formData.phone === '8888888888' || formData.phone === '+918888888888') {
-           userData = { name: 'Demo Owner', phone: formData.phone, roles: ['owner'] };
-         } else {
-           // Auto-create new renter account
-           userData = {
-             name: 'User',
-             phone: formData.phone,
-             roles: ['renter'],
-           };
-           db.push(userData);
-           localStorage.setItem('eco_users_db', JSON.stringify(db));
-         }
-      }
-      
-      const { password, ...safeUserData } = userData;
-      login(safeUserData);
+      login(userData);
       onClose();
 
-      if (safeUserData.roles?.includes('admin')) {
+      if (userData.roles?.includes('admin')) {
         navigate('/admin/dashboard');
-      } else if (safeUserData.roles?.includes('owner')) {
+      } else if (userData.roles?.includes('owner')) {
         navigate('/owner/dashboard');
       } else {
         navigate('/renter/dashboard');
       }
       
     } catch (err) {
-      setError('Verification failed. Please try again.');
+      setError(err.message || 'Verification failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="auth-modal-overlay" onClick={onClose}>
@@ -199,8 +178,7 @@ export default function AuthModal({ isOpen, onClose }) {
           {step === 2 && (
             <form onSubmit={handleVerifyOTP}>
               <div style={{ textAlign: 'center', marginBottom: '24px', color: '#4b5563', fontSize: '0.95rem', lineHeight: '1.5' }}>
-                We've sent a 4-digit verification code to <br/><strong style={{ color: '#111827' }}>+91 {formData.phone}</strong>.<br/>
-                <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>(For testing, enter OTP: 1234)</span>
+                We've sent a 4-digit verification code to <br/><strong style={{ color: '#111827' }}>+91 {formData.phone}</strong>.
               </div>
               <div className="form-group">
                 <label className="form-label" style={{ textAlign: 'center' }}>Enter OTP</label>
@@ -232,4 +210,5 @@ export default function AuthModal({ isOpen, onClose }) {
       </div>
     </div>
   );
+}
 }
