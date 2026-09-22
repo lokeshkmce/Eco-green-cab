@@ -634,11 +634,11 @@ export const cars = [
     featured: true,
     popular: false,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130591/harrier-ev-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_1_tata_tiago_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130591/harrier-ev-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130591/harrier-ev-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130591/harrier-ev-exterior-right-front-three-quarter.jpeg",
+      "/images/cars/car_10_tata_curvv_ev.jpg",
+      "/images/cars/car_9_maruti_e_vitara.jpg",
+      "/images/cars/car_2_mg_comet_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -694,11 +694,11 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/136591/sierra-ev-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_2_mg_comet_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/136591/sierra-ev-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/136591/sierra-ev-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/136591/sierra-ev-exterior-right-front-three-quarter.jpeg",
+      "/images/cars/car_1_tata_tiago_ev.jpg",
+      "/images/cars/car_1_tata_tiago_ev.jpg",
+      "/images/cars/car_5_tata_tigor_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -754,11 +754,11 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156825/be-6-exterior-right-front-three-quarter-2.jpeg",
+    image: "/images/cars/car_3_tata_punch_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156825/be-6-exterior-right-front-three-quarter-2.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156825/be-6-exterior-right-front-three-quarter-2.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156825/be-6-exterior-right-front-three-quarter-2.jpeg",
+      "/images/cars/car_5_tata_tigor_ev.jpg",
+      "/images/cars/car_7_mahindra_xuv400_ev.jpg",
+      "/images/cars/car_9_maruti_e_vitara.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -814,11 +814,11 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156833/xev-9e-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_4_tata_nexon_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156833/xev-9e-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156833/xev-9e-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156833/xev-9e-exterior-right-front-three-quarter.jpeg",
+      "/images/cars/car_2_mg_comet_ev.jpg",
+      "/images/cars/car_10_tata_curvv_ev.jpg",
+      "/images/cars/car_8_hyundai_creta_electric.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -872,11 +872,11 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/131597/ioniq-5-exterior-right-front-three-quarter-2.jpeg",
+    image: "/images/cars/car_5_tata_tigor_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/131597/ioniq-5-exterior-right-front-three-quarter-2.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/131597/ioniq-5-exterior-right-front-three-quarter-2.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/131597/ioniq-5-exterior-right-front-three-quarter-2.jpeg",
+      "/images/cars/car_2_mg_comet_ev.jpg",
+      "/images/cars/car_5_tata_tigor_ev.jpg",
+      "/images/cars/car_4_tata_nexon_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -930,11 +930,11 @@ export const cars = [
     featured: true,
     popular: false,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130171/ev6-exterior-right-front-three-quarter-4.jpeg",
+    image: "/images/cars/car_6_mg_windsor_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130171/ev6-exterior-right-front-three-quarter-4.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130171/ev6-exterior-right-front-three-quarter-4.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130171/ev6-exterior-right-front-three-quarter-4.jpeg",
+      "/images/cars/car_5_tata_tigor_ev.jpg",
+      "/images/cars/car_10_tata_curvv_ev.jpg",
+      "/images/cars/car_10_tata_curvv_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -988,11 +988,11 @@ export const cars = [
     featured: false,
     popular: true,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130193/atto-3-exterior-right-front-three-quarter-2.jpeg",
+    image: "/images/cars/car_7_mahindra_xuv400_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130193/atto-3-exterior-right-front-three-quarter-2.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130193/atto-3-exterior-right-front-three-quarter-2.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130193/atto-3-exterior-right-front-three-quarter-2.jpeg",
+      "/images/cars/car_5_tata_tigor_ev.jpg",
+      "/images/cars/car_1_tata_tiago_ev.jpg",
+      "/images/cars/car_2_mg_comet_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -1046,11 +1046,11 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Premium",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/161591/sealion-7-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_8_hyundai_creta_electric.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/161591/sealion-7-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/161591/sealion-7-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/161591/sealion-7-exterior-right-front-three-quarter.jpeg",
+      "/images/cars/car_4_tata_nexon_ev.jpg",
+      "/images/cars/car_5_tata_tigor_ev.jpg",
+      "/images/cars/car_9_maruti_e_vitara.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -1106,11 +1106,11 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Family",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/160285/emax-7-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_9_maruti_e_vitara.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/160285/emax-7-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/160285/emax-7-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/160285/emax-7-exterior-right-front-three-quarter.jpeg",
+      "/images/cars/car_10_tata_curvv_ev.jpg",
+      "/images/cars/car_9_maruti_e_vitara.jpg",
+      "/images/cars/car_5_tata_tigor_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -1164,11 +1164,11 @@ export const cars = [
     featured: true,
     popular: false,
     category: "Family",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130525/eqb-exterior-right-front-three-quarter-3.jpeg",
+    image: "/images/cars/car_10_tata_curvv_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130525/eqb-exterior-right-front-three-quarter-3.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130525/eqb-exterior-right-front-three-quarter-3.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130525/eqb-exterior-right-front-three-quarter-3.jpeg",
+      "/images/cars/car_6_mg_windsor_ev.jpg",
+      "/images/cars/car_7_mahindra_xuv400_ev.jpg",
+      "/images/cars/car_4_tata_nexon_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -1222,11 +1222,11 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Family",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/154181/ev9-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_1_tata_tiago_ev.jpg",
     gallery: [
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/154181/ev9-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/154181/ev9-exterior-right-front-three-quarter.jpeg",
-      "https://imgd.aeplcdn.com/1056x594/n/cw/ec/154181/ev9-exterior-right-front-three-quarter.jpeg",
+      "/images/cars/car_7_mahindra_xuv400_ev.jpg",
+      "/images/cars/car_6_mg_windsor_ev.jpg",
+      "/images/cars/car_2_mg_comet_ev.jpg",
     ],
     features: [
       "Green RTO Plate 🟢",
@@ -1280,7 +1280,7 @@ export const cars = [
     featured: true,
     popular: false,
     category: "Family",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/125353/ix-exterior-right-front-three-quarter-2.jpeg",
+    image: "/images/cars/car_2_mg_comet_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=BMW%20iX%20(xDrive40%20M%20Sport)%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7",
       "https://tse1.mm.bing.net/th?q=BMW%20iX%20(xDrive40%20M%20Sport)%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7",
@@ -1337,7 +1337,7 @@ export const cars = [
     featured: false,
     popular: true,
     category: "Family",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/155805/ex40-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_3_tata_punch_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=Volvo%20EX40%20(Twin%20Motor%20Recharge%20AWD)%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7",
       "https://tse1.mm.bing.net/th?q=Volvo%20EX40%20(Twin%20Motor%20Recharge%20AWD)%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7",
@@ -1400,7 +1400,7 @@ export const cars = [
     featured: false,
     popular: true,
     category: "Mid-Range",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/127409/zs-ev-exterior-right-front-three-quarter-2.jpeg",
+    image: "/images/cars/car_4_tata_nexon_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=MG%20ZS%20EV%20(Excite)%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1459,7 +1459,7 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Mid-Range",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/127409/zs-ev-exterior-right-front-three-quarter-3.jpeg",
+    image: "/images/cars/car_5_tata_tigor_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=MG%20ZS%20EV%20(Exclusive%20Pro)%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1517,7 +1517,7 @@ export const cars = [
     featured: false,
     popular: false,
     category: "Luxury",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/156833/xev-9e-exterior-right-front-three-quarter-2.jpeg",
+    image: "/images/cars/car_6_mg_windsor_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=Mahindra%20XEV%209S%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1576,7 +1576,7 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Luxury",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/159267/seal-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_7_mahindra_xuv400_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=BYD%20Seal%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1635,7 +1635,7 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Luxury",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/159267/seal-exterior-right-front-three-quarter-2.jpeg",
+    image: "/images/cars/car_8_hyundai_creta_electric.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=BYD%20Seal%20Performance%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1693,7 +1693,7 @@ export const cars = [
     featured: false,
     popular: true,
     category: "Mid-Range",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/166061/carens-ev-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_9_maruti_e_vitara.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=Kia%20Carens%20Clavis%20EV%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1751,7 +1751,7 @@ export const cars = [
     featured: false,
     popular: false,
     category: "Mid-Range",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/169701/vf-6-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_10_tata_curvv_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=VinFast%20VF%206%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1809,7 +1809,7 @@ export const cars = [
     featured: true,
     popular: false,
     category: "Mid-Range",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/169703/vf-7-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_1_tata_tiago_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=VinFast%20VF%207%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1867,7 +1867,7 @@ export const cars = [
     featured: false,
     popular: false,
     category: "Mid-Range",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/169705/vf-e34-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_2_mg_comet_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=VinFast%20VF%20MPV%207%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1926,7 +1926,7 @@ export const cars = [
     featured: false,
     popular: true,
     category: "Budget",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/130311/ec3-exterior-right-front-three-quarter-3.jpeg",
+    image: "/images/cars/car_3_tata_punch_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=Citroen%20eC3%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -1984,7 +1984,7 @@ export const cars = [
     featured: false,
     popular: false,
     category: "Budget",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/166063/ec3x-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_4_tata_nexon_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=Citroen%20eC3%20X%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
@@ -2043,7 +2043,7 @@ export const cars = [
     featured: true,
     popular: true,
     category: "Mid-Range",
-    image: "https://imgd.aeplcdn.com/1056x594/n/cw/ec/163609/urban-cruiser-ev-exterior-right-front-three-quarter.jpeg",
+    image: "/images/cars/car_5_tata_tigor_ev.jpg",
     gallery: [
       "https://tse1.mm.bing.net/th?q=Toyota%20Urban%20Cruiser%20Ebella%20electric%20car%20india%20with%20green%20number%20plate%20auto&w=800&h=500&c=7"
     ],
