@@ -1,0 +1,55 @@
+/* ─── RESPONSIVE OVERRIDES ──────────────────────────────────────────────────── */
+
+/* All main responsive CSS is already distributed within component CSS files.
+   This file holds any global responsive tweaks. */
+
+@media (max-width: 1200px) {
+  .how-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 900px) {
+  .green-content { grid-template-columns: 1fr !important; }
+  .owner-preview-content { grid-template-columns: 1fr !important; }
+  .calculator-grid { grid-template-columns: 1fr !important; }
+  .green-stats-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+@media (max-width: 768px) {
+  .hero-stats { flex-direction: column; gap: 16px !important; }
+  .hero-stat-divider { display: none; }
+  .cta-buttons { flex-direction: column; align-items: center; }
+  .testimonials-grid { grid-template-columns: 1fr !important; }
+  .testimonial-card.featured-testimonial { grid-column: span 1 !important; }
+  .charging-grid { grid-template-columns: 1fr !important; }
+  .features-grid { grid-template-columns: 1fr !important; }
+  .footer-grid { grid-template-columns: 1fr !important; }
+  .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+  .dashboard-stats { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-btn-primary, .hero-btn-secondary { width: 100%; justify-content: center; }
+  .dashboard-stats { grid-template-columns: 1fr 1fr; }
+  .green-stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .green-stat-card { padding: 12px 6px !important; }
+  .green-stat-value { font-size: 1.1rem !important; }
+  .search-widget { padding: 20px 16px; }
+  
+  /* Mobile Polish for Premium Elements */
+  .how-horizontal-card { 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    padding: 20px 16px;
+  }
+  .testimonial-card { 
+    width: 280px !important; 
+    padding: 16px !important; 
+  }
+  .carousel-blur { 
+    width: 8% !important; 
+    min-width: 40px !important; 
+  }
+}
