@@ -21,6 +21,17 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
 
+      {/* Search Widget */}
+      <div style={{
+        maxWidth: '1100px',
+        margin: '40px auto',
+        padding: '0 24px',
+        position: 'relative',
+        zIndex: 10,
+      }}>
+        <SearchWidget compact={true} />
+      </div>
+
 
       {/* Featured EVs Preview */}
       <section className="section" style={{ background: '#ffffff', paddingTop: '10px' }}>

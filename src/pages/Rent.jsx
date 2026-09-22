@@ -44,8 +44,7 @@ export default function Rent() {
             </p>
           </div>
 
-          {/* Search */}
-          <SearchWidget onSearch={setSearchFilters} compact={true} />
+
         </div>
       </div>
 
