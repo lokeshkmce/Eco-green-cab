@@ -97,7 +97,7 @@ export default function AuthModal({ isOpen, onClose }) {
 
         <div className="auth-header" style={{ paddingBottom: '16px', borderBottom: '1px solid #e5e7eb', marginBottom: '24px' }}>
           <h2 className="auth-title" style={{ textAlign: 'center', margin: '0' }}>
-            {step === 1 ? 'Login or Sign Up' : 'Verify Phone'}
+            {step === 1 ? 'Sign In' : 'Verify Phone'}
           </h2>
         </div>
 
