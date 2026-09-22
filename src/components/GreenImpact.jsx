@@ -4,7 +4,7 @@ import { MdEco, MdWbSunny, MdPeople, MdLocationCity, MdHandshake, MdElectricBolt
 import { FaTree, FaGlobeAmericas } from 'react-icons/fa';
 import '../styles/components.css';
 
-const features = [
+const highlights = [
   { icon: <MdEco size={24}/>, title: '4.2 Million kg CO₂ Prevented', sub: 'From 98K+ completed EV rentals' },
   { icon: <FaTree size={24}/>, title: '182K Trees Equivalent', sub: 'Annual carbon offset impact' },
   { icon: <MdWbSunny size={24}/>, title: '100% Green Energy Partners', sub: 'All our charging stations use renewables' },
