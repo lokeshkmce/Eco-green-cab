@@ -35,7 +35,7 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
     
     try {
-      const response = await fetch('https://capsule-most-rundown.ngrok-free.dev/ecogreencab/send-otp/', {
+      const response = await fetch('/ecogreencab/send-otp/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
     
     try {
-      const response = await fetch('https://capsule-most-rundown.ngrok-free.dev/ecogreencab/verify-otp/', {
+      const response = await fetch('/ecogreencab/verify-otp/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

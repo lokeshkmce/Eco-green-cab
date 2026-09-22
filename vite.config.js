@@ -4,4 +4,13 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/ecogreencab': {
+        target: 'https://capsule-most-rundown.ngrok-free.dev',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })
