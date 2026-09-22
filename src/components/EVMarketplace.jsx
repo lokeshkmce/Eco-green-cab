@@ -4,7 +4,7 @@ import { useMarketplace } from '../context/MarketplaceContext';
 import EVCard from './EVCard';
 import CarDetailsModal from './CarDetailsModal';
 import BookingModal from './BookingModal';
-import SearchWidget from './SearchWidget';
+import CustomSelect from './CustomSelect';
 import { MdLocationOn, MdLabel, MdDirectionsCar, MdSettings } from 'react-icons/md';
 import { FaSearch } from 'react-icons/fa';
 import '../styles/marketplace.css';
@@ -168,55 +168,47 @@ export default function EVMarketplace({ limit, searchFilters }) {
           {/* City */}
           <div style={{ flex: '1 1 200px' }}>
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdLocationOn /> City</label>
-            <select
-              style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#fff', fontSize: '0.95rem' }}
+            <CustomSelect
               value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-            >
-              <option value="">All Cities</option>
-              {cities.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
+              onChange={setSelectedCity}
+              options={cities.map(c => ({ value: c, label: c }))}
+              placeholder="All Cities"
+            />
           </div>
 
           {/* Brand */}
           <div style={{ flex: '1 1 200px' }}>
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdLabel /> Brand</label>
-            <select
-              style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#fff', fontSize: '0.95rem' }}
+            <CustomSelect
               value={selectedBrand}
-              onChange={(e) => setSelectedBrand(e.target.value)}
-            >
-              <option value="">All Brands</option>
-              {brands.map(b => <option key={b} value={b}>{b}</option>)}
-            </select>
+              onChange={setSelectedBrand}
+              options={brands.map(b => ({ value: b, label: b }))}
+              placeholder="All Brands"
+            />
           </div>
           
           {/* Model */}
           <div style={{ flex: '1 1 200px' }}>
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdDirectionsCar /> Model</label>
-            <select
-              style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: selectedBrand ? '#fff' : '#f3f4f6', fontSize: '0.95rem', cursor: selectedBrand ? 'pointer' : 'not-allowed' }}
+            <CustomSelect
               value={selectedModel}
-              onChange={(e) => setSelectedModel(e.target.value)}
+              onChange={setSelectedModel}
+              options={models.map(m => ({ value: m, label: m }))}
+              placeholder="All Models"
               disabled={!selectedBrand}
-            >
-              <option value="">All Models</option>
-              {models.map(m => <option key={m} value={m}>{m}</option>)}
-            </select>
+            />
           </div>
 
           {/* Variant */}
           <div style={{ flex: '1 1 200px' }}>
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdSettings /> Variant</label>
-            <select
-              style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: selectedModel ? '#fff' : '#f3f4f6', fontSize: '0.95rem', cursor: selectedModel ? 'pointer' : 'not-allowed' }}
+            <CustomSelect
               value={selectedVariant}
-              onChange={(e) => setSelectedVariant(e.target.value)}
+              onChange={setSelectedVariant}
+              options={variants.map(v => ({ value: v, label: v }))}
+              placeholder="All Variants"
               disabled={!selectedModel}
-            >
-              <option value="">All Variants</option>
-              {variants.map(v => <option key={v} value={v}>{v}</option>)}
-            </select>
+            />
           </div>
           
         </div>
