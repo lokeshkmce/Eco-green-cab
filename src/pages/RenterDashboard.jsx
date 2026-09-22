@@ -1,26 +1,33 @@
 import { useState } from 'react';
+import { 
+  MdElectricBolt, MdCalendarToday, MdFavorite, MdPayment, MdPerson, 
+  MdSupportAgent, MdHelp, MdDirectionsCar, MdEco, MdStar, MdLocationOn, 
+  MdPhone, MdRefresh, MdClose, MdReceipt, MdListAlt, MdFavoriteBorder, 
+  MdMail, MdCameraAlt, MdCheckCircle, MdShowChart, MdAttachMoney, 
+  MdDashboard, MdAdd, MdExitToApp, MdHome
+} from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useMarketplace } from '../context/MarketplaceContext';
 import '../styles/dashboard.css';
 
 const NAV_ITEMS = [
-  { id: 'dashboard',  icon: '⚡', label: 'Dashboard' },
-  { id: 'bookings',   icon: '📅', label: 'My Bookings' },
-  { id: 'favourites', icon: '❤️', label: 'Favourites' },
-  { id: 'payments',   icon: '💳', label: 'Payments' },
-  { id: 'profile',    icon: '👤', label: 'Profile' },
-  { id: 'support',    icon: '💬', label: 'Support' },
-  { id: 'help',       icon: '❓', label: 'Help' },
+  { id: 'dashboard',  icon: <MdElectricBolt />, label: 'Dashboard' },
+  { id: 'bookings',   icon: <MdCalendarToday />, label: 'My Bookings' },
+  { id: 'favourites', icon: <MdFavorite />, label: 'Favourites' },
+  { id: 'payments',   icon: <MdPayment />, label: 'Payments' },
+  { id: 'profile',    icon: <MdPerson />, label: 'Profile' },
+  { id: 'support',    icon: <MdSupportAgent />, label: 'Support' },
+  { id: 'help',       icon: <MdHelp />, label: 'Help' },
 ];
 
 const STATS = [
-  { icon: '🛣️', label: 'Total Trips',  value: '12',     sub: '+2 this month',    color: '#00e676', bg: 'rgba(0,230,118,0.08)'  },
+  { icon: <MdDirectionsCar />, label: 'Total Trips',  value: '12',     sub: '+2 this month',    color: '#00e676', bg: 'rgba(0,230,118,0.08)'  },
   { icon: '₹',  label: 'Total Spent',  value: '₹42.5K', sub: '₹8.2K this month', color: '#60a5fa', bg: 'rgba(96,165,250,0.08)' },
-  { icon: '📅', label: 'Upcoming',     value: '1',      sub: 'Next: Oct 12',      color: '#f59e0b', bg: 'rgba(245,158,11,0.08)'  },
-  { icon: '❤️', label: 'Saved Cars',   value: '4',      sub: '2 available now',   color: '#f472b6', bg: 'rgba(244,114,182,0.08)' },
-  { icon: '🌱', label: 'CO₂ Saved',    value: '48 kg',  sub: 'vs petrol car',     color: '#34d399', bg: 'rgba(52,211,153,0.08)'  },
-  { icon: '⭐', label: 'Avg Rating',   value: '4.9',    sub: 'Excellent renter',  color: '#fbbf24', bg: 'rgba(251,191,36,0.08)'  },
+  { icon: <MdCalendarToday />, label: 'Upcoming',     value: '1',      sub: 'Next: Oct 12',      color: '#f59e0b', bg: 'rgba(245,158,11,0.08)'  },
+  { icon: <MdFavorite />, label: 'Saved Cars',   value: '4',      sub: '2 available now',   color: '#f472b6', bg: 'rgba(244,114,182,0.08)' },
+  { icon: <MdEco />, label: 'CO₂ Saved',    value: '48 kg',  sub: 'vs petrol car',     color: '#34d399', bg: 'rgba(52,211,153,0.08)'  },
+  { icon: <MdStar />, label: 'Avg Rating',   value: '4.9',    sub: 'Excellent renter',  color: '#fbbf24', bg: 'rgba(251,191,36,0.08)'  },
 ];
 
 const ALL_BOOKINGS = [
@@ -71,7 +78,7 @@ function BookingsView({ bookings }) {
   return (
     <div className="tab-view">
       <div className="tab-view-header">
-        <h2 className="tab-view-title">📅 My Bookings</h2>
+        <h2 className="tab-view-title"><MdCalendarToday /> My Bookings</h2>
         <div className="tab-filter-pills">
           {filters.map(f => (
             <button key={f} className={`tab-pill ${filter === f ? 'active' : ''}`} onClick={() => setFilter(f)}>{f}</button>
@@ -86,7 +93,7 @@ function BookingsView({ bookings }) {
               <div className="booking-card-top">
                 <div>
                   <div className="booking-card-name">{b.vehicle}</div>
-                  <div className="booking-card-dates">📅 {b.dates}</div>
+                  <div className="booking-card-dates"><MdCalendarToday /> {b.dates}</div>
                   <div className="booking-card-id">ID: {b.id}</div>
                 </div>
                 <div className="booking-card-right">
@@ -96,24 +103,24 @@ function BookingsView({ bookings }) {
               </div>
               {b.status === 'Upcoming' && (
                 <div className="booking-card-actions">
-                  <button className="rd-btn-ghost">📍 Get Directions</button>
-                  <button className="rd-btn-ghost">📞 Call Host</button>
-                  <button className="rd-btn-ghost">🔄 Modify</button>
-                  <button className="rd-btn-danger">✕ Cancel</button>
+                  <button className="rd-btn-ghost"><MdLocationOn /> Get Directions</button>
+                  <button className="rd-btn-ghost"><MdPhone /> Call Host</button>
+                  <button className="rd-btn-ghost"><MdRefresh /> Modify</button>
+                  <button className="rd-btn-danger"><MdClose /> Cancel</button>
                 </div>
               )}
               {b.status === 'Completed' && (
                 <div className="booking-card-actions">
-                  <button className="rd-btn-ghost">⭐ Rate Trip</button>
-                  <button className="rd-btn-ghost">🧾 Download Invoice</button>
-                  <button className="rd-btn-ghost" style={{color:'#00b96b',borderColor:'#00b96b22',background:'rgba(0,185,107,0.06)'}}>🔁 Book Again</button>
+                  <button className="rd-btn-ghost"><MdStar /> Rate Trip</button>
+                  <button className="rd-btn-ghost"><MdReceipt /> Download Invoice</button>
+                  <button className="rd-btn-ghost" style={{color:'#00b96b',borderColor:'#00b96b22',background:'rgba(0,185,107,0.06)'}}><MdRefresh /> Book Again</button>
                 </div>
               )}
             </div>
           </div>
         ))}
         {filtered.length === 0 && (
-          <div className="empty-state"><div className="empty-icon">📭</div><p>No {filter.toLowerCase()} bookings found.</p></div>
+          <div className="empty-state"><div className="empty-icon"><MdListAlt /></div><p>No {filter.toLowerCase()} bookings found.</p></div>
         )}
       </div>
     </div>
@@ -126,7 +133,7 @@ function FavouritesView() {
   return (
     <div className="tab-view">
       <div className="tab-view-header">
-        <h2 className="tab-view-title">❤️ Favourites</h2>
+        <h2 className="tab-view-title"><MdFavorite /> Favourites</h2>
         <span className="tab-view-sub">{favs.length} saved vehicles</span>
       </div>
       <div className="favs-grid">
@@ -136,15 +143,15 @@ function FavouritesView() {
             <div className="fav-card" key={i}>
               <div className="fav-img-wrap">
                 <img src={c.img} alt={c.name} className="fav-img" onError={e => e.target.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400&q=80'}/>
-                <button className="fav-remove-btn" onClick={() => removeFav(i)} title="Remove">✕</button>
+                <button className="fav-remove-btn" onClick={() => removeFav(i)} title="Remove"><MdClose /></button>
                 <span className={`fav-avail-badge ${c.available ? 'avail' : 'unavail'}`}>{c.available ? '✓ Available' : '✗ Booked'}</span>
               </div>
               <div className="fav-info">
                 <div className="fav-name">{c.name}</div>
                 <div className="fav-type">{c.type}</div>
                 <div className="fav-meta">
-                  <span>⚡ {c.range}</span>
-                  <span>⭐ {c.rating}</span>
+                  <span><MdElectricBolt /> {c.range}</span>
+                  <span><MdStar /> {c.rating}</span>
                 </div>
                 <div className="fav-footer">
                   <span className="fav-price">{c.price}</span>
@@ -158,7 +165,7 @@ function FavouritesView() {
           );
         })}
         {favs.length === 0 && (
-          <div className="empty-state" style={{gridColumn:'1/-1'}}><div className="empty-icon">💔</div><p>No favourites yet. <Link to="/rent" style={{color:'#00b96b'}}>Browse EVs</Link> and save your picks!</p></div>
+          <div className="empty-state" style={{gridColumn:'1/-1'}}><div className="empty-icon"><MdFavoriteBorder /></div><p>No favourites yet. <Link to="/rent" style={{color:'#00b96b'}}>Browse EVs</Link> and save your picks!</p></div>
         )}
       </div>
     </div>
@@ -169,7 +176,7 @@ function PaymentsView() {
   return (
     <div className="tab-view">
       <div className="tab-view-header">
-        <h2 className="tab-view-title">💳 Payments</h2>
+        <h2 className="tab-view-title"><MdPayment /> Payments</h2>
       </div>
 
       <div className="payments-stats" style={{ width: '100%', marginBottom: '24px' }}>
@@ -181,7 +188,7 @@ function PaymentsView() {
       {/* Saved methods */}
       <div className="section-label">Saved Payment Methods</div>
       <div className="pay-methods">
-        <div className="pay-method"><span className="pay-method-icon">💳</span><div><div className="pay-method-name">HDFC Credit Card</div><div className="pay-method-sub">•••• 4821 · Expires 08/27</div></div><span className="pay-default-badge">Default</span></div>
+        <div className="pay-method"><span className="pay-method-icon"><MdPayment /></span><div><div className="pay-method-name">HDFC Credit Card</div><div className="pay-method-sub">•••• 4821 · Expires 08/27</div></div><span className="pay-default-badge">Default</span></div>
         <div className="pay-method"><span className="pay-method-icon">📱</span><div><div className="pay-method-name">Google Pay UPI</div><div className="pay-method-sub">lokesh@okaxis</div></div></div>
         <div className="pay-method pay-method-add"><span>+</span> Add new payment method</div>
       </div>
@@ -205,17 +212,17 @@ function ProfileView({ user }) {
   };
 
   const profileFields = [
-    { key: 'name', label: 'Full Name', type: 'text', icon: '👤' },
+    { key: 'name', label: 'Full Name', type: 'text', icon: <MdPerson /> },
     { key: 'email', label: 'Email', type: 'email', icon: '📧' },
     { key: 'phone', label: 'Phone', type: 'tel', icon: '📱' },
-    { key: 'city', label: 'City', type: 'text', icon: '📍' },
+    { key: 'city', label: 'City', type: 'text', icon: <MdLocationOn /> },
     { key: 'dob', label: 'Date of Birth', type: 'date', icon: '🎂' },
   ];
 
   return (
     <div className="tab-view">
       <div className="tab-view-header">
-        <h2 className="tab-view-title">👤 Profile</h2>
+        <h2 className="tab-view-title"><MdPerson /> Profile</h2>
         {isEditing ? (
           <div style={{display: 'flex', gap: '8px'}}>
             <button className="rd-btn-ghost" style={{fontSize:'0.82rem',padding:'8px 18px'}} onClick={() => setIsEditing(false)}>Cancel</button>
@@ -234,8 +241,8 @@ function ProfileView({ user }) {
           <div className="profile-email">{profileData.email}</div>
           <div className="profile-badges">
             <span className="profile-badge green">✓ Verified Renter</span>
-            <span className="profile-badge blue">⭐ 4.9 Rating</span>
-            <span className="profile-badge amber">🛣️ 12 Trips</span>
+            <span className="profile-badge blue"><MdStar /> 4.9 Rating</span>
+            <span className="profile-badge amber"><MdDirectionsCar /> 12 Trips</span>
           </div>
           <div className="profile-member-since">Member since Jan 2024</div>
         </div>
@@ -285,7 +292,7 @@ function SupportView() {
 
       <div className="support-grid">
         <div className="support-card-h">
-          <div className="support-card-h-icon" style={{background: 'rgba(0, 230, 118, 0.1)', color: '#00e676'}}>📞</div>
+          <div className="support-card-h-icon" style={{background: 'rgba(0, 230, 118, 0.1)', color: '#00e676'}}><MdPhone /></div>
           <div className="support-card-h-info">
             <div className="support-card-h-name">24/7 Helpline</div>
             <div className="support-card-h-desc">Immediate assistance for roadside emergencies or urgent queries.</div>
@@ -311,7 +318,7 @@ function HelpView() {
   return (
     <div className="tab-view">
       <div className="tab-view-header">
-        <h2 className="tab-view-title">❓ Help &amp; FAQs</h2>
+        <h2 className="tab-view-title"><MdHelp /> Help &amp; FAQs</h2>
       </div>
 
       <div className="help-search-wrap">
@@ -380,7 +387,7 @@ export default function RenterDashboard() {
     <div className="rd-layout">
       {/* MOBILE HEADER */}
       <div className="rd-mobile-header">
-        <Link to="/" className="rd-logo"><span className="rd-logo-icon">⚡</span><span>Eco<span style={{color:'#00e676'}}>Green</span></span></Link>
+        <Link to="/" className="rd-logo"><span className="rd-logo-icon"><MdElectricBolt /></span><span>Eco<span style={{color:'#00e676'}}>Green</span></span></Link>
         <button className="rd-hamburger" onClick={() => setIsSidebarOpen(true)}>☰</button>
       </div>
 
@@ -389,7 +396,7 @@ export default function RenterDashboard() {
       {/* SIDEBAR */}
       <aside className={`rd-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <Link to="/" className="rd-logo rd-logo-sidebar" onClick={closeSidebar}>
-          <span className="rd-logo-icon">⚡</span>
+          <span className="rd-logo-icon"><MdElectricBolt /></span>
           <span>Eco<span style={{color:'#00e676'}}>Green</span> <span style={{color:'#fff',fontWeight:600}}>Renter</span></span>
         </Link>
 
@@ -397,7 +404,7 @@ export default function RenterDashboard() {
           <div className="rd-avatar">{(user?.name || 'R')[0].toUpperCase()}</div>
           <div>
             <div className="rd-user-name">{user?.name || 'Rahul'}</div>
-            <div className="rd-user-badge">🟢 Verified Renter</div>
+            <div className="rd-user-badge"><MdCheckCircle /> Verified Renter</div>
           </div>
         </div>
 
@@ -412,7 +419,7 @@ export default function RenterDashboard() {
         </nav>
 
         <div className="rd-sidebar-footer">
-          <button className="rd-logout-btn" onClick={logout}>🚪 Logout</button>
+          <button className="rd-logout-btn" onClick={logout}><MdExitToApp /> Logout</button>
         </div>
       </aside>
 
@@ -426,7 +433,7 @@ export default function RenterDashboard() {
             <p className="rd-header-sub">{activeTab === 'dashboard' ? 'Track your journeys & upcoming rentals.' : 'Manage your account easily.'}</p>
           </div>
           <div className="rd-header-actions">
-            <Link to="/rent" className="rd-btn-primary"><span>⚡</span> Find an EV</Link>
+            <Link to="/rent" className="rd-btn-primary"><span><MdElectricBolt /></span> Find an EV</Link>
           </div>
         </header>
 
@@ -457,13 +464,13 @@ export default function RenterDashboard() {
                   <div className="rd-rental-card">
                     <div className="rd-rental-img-wrap">
                       <img src="/images/cars/car_4_tata_nexon_ev.jpg" alt="Tata Nexon EV" className="rd-rental-img" onError={e=>{e.target.src='https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400&q=80';}}/>
-                      <div className="rd-rental-img-overlay"><span className="rd-rental-plate">🟢 EV Plate</span></div>
+                      <div className="rd-rental-img-overlay"><span className="rd-rental-plate"><MdCheckCircle /> EV Plate</span></div>
                     </div>
                     <div className="rd-rental-info">
                       <div className="rd-rental-top">
                         <div>
                           <h3 className="rd-rental-name">Tata Nexon EV</h3>
-                          <p className="rd-rental-meta">🟢 Green RTO &nbsp;•&nbsp; 🛣️ Fastag Active &nbsp;•&nbsp; ⚡ 100% Charged</p>
+                          <p className="rd-rental-meta"><MdCheckCircle /> Green RTO &nbsp;•&nbsp; <MdDirectionsCar /> Fastag Active &nbsp;•&nbsp; <MdElectricBolt /> 100% Charged</p>
                         </div>
                         <div className="rd-rental-price">₹4,200</div>
                       </div>
@@ -473,9 +480,9 @@ export default function RenterDashboard() {
                         <div className="rd-timeline-item"><div className="rd-timeline-dot dropoff" /><div><div className="rd-timeline-label">DROP-OFF</div><div className="rd-timeline-val">Oct 14, 08:00 PM</div></div></div>
                       </div>
                       <div className="rd-rental-actions">
-                        <button className="rd-btn-ghost">📍 View Route</button>
-                        <button className="rd-btn-ghost">📞 Contact Host</button>
-                        <button className="rd-btn-danger">✕ Cancel</button>
+                        <button className="rd-btn-ghost"><MdLocationOn /> View Route</button>
+                        <button className="rd-btn-ghost"><MdPhone /> Contact Host</button>
+                        <button className="rd-btn-danger"><MdClose /> Cancel</button>
                       </div>
                     </div>
                   </div>
@@ -483,7 +490,7 @@ export default function RenterDashboard() {
 
                 <div className="rd-panel">
                   <div className="rd-panel-header">
-                    <h2 className="rd-panel-title">📋 Recent Bookings</h2>
+                    <h2 className="rd-panel-title"><MdListAlt /> Recent Bookings</h2>
                     <button className="rd-link-btn" onClick={() => setActiveTab('bookings')}>View All →</button>
                   </div>
                   <div className="rd-bookings-list">
@@ -495,7 +502,7 @@ export default function RenterDashboard() {
                       </div>
                     ))}
                   </div>
-                  <Link to="/rent" className="rd-quick-find"><span>⚡ Find Your Next EV</span><span className="rd-arrow">→</span></Link>
+                  <Link to="/rent" className="rd-quick-find"><span><MdElectricBolt /> Find Your Next EV</span><span className="rd-arrow">→</span></Link>
                 </div>
               </div>
             </>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { howItWorksSteps } from '../data/cars';
+import { MdOutlineListAlt, MdElectricBolt } from 'react-icons/md';
 import '../styles/components.css';
 
 export default function HowItWorks() {
@@ -7,7 +8,7 @@ export default function HowItWorks() {
     <section className="section how-section" id="how-it-works">
       <div className="container">
         <div className="section-header">
-          <span className="section-badge">📋 Simple Process</span>
+          <span className="section-badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MdOutlineListAlt/> Simple Process</span>
           <h2 className="section-title">How EcoGreen Cab Works</h2>
           <p className="section-subtitle">
             From discovery to driving — your premium EV experience in just 4 easy steps.
@@ -39,7 +40,7 @@ export default function HowItWorks() {
 
         <div style={{ textAlign: 'center', marginTop: '16px' }}>
           <Link to="/rent" className="btn btn-primary btn-lg">
-            ⚡ Start Your EV Journey
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MdElectricBolt/> Start Your EV Journey</span>
           </Link>
         </div>
       </div>

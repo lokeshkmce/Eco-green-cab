@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import '../styles/marketplace.css';
+import { MdFavorite, MdFavoriteBorder, MdLocationOn } from 'react-icons/md';
+import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 
 const Stars = ({ rating }) =>
   Array.from({ length: 5 }, (_, i) => (
     <span key={i} className="ev-rating-star">
-      {i < Math.floor(rating) ? '★' : i < rating ? '⭑' : '☆'}
+      {i < Math.floor(rating) ? <FaStar color="#f59e0b" /> : i < rating ? <FaStarHalfAlt color="#f59e0b" /> : <FaRegStar color="#d1d5db" />}
     </span>
   ));
 
@@ -30,7 +32,7 @@ export default function EVCard({ car, onViewDetails, onBook }) {
           }}
           aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
         >
-          {favorited ? '❤️' : '🤍'}
+          {favorited ? <MdFavorite color="#ef4444" size={20} /> : <MdFavoriteBorder color="#6b7280" size={20} />}
         </button>
       </div>
 
@@ -44,7 +46,7 @@ export default function EVCard({ car, onViewDetails, onBook }) {
             </div>
           </div>
           <div className="ev-card-rating">
-            <span className="ev-rating-star">★</span>
+            <span className="ev-rating-star"><FaStar size={14} color="#f59e0b"/></span>
             <span className="ev-rating-value">{car.rating}</span>
             <span className="ev-rating-count">({car.reviews})</span>
           </div>
@@ -52,7 +54,7 @@ export default function EVCard({ car, onViewDetails, onBook }) {
 
         {/* Location */}
         <div className="ev-location">
-          📍 {car.location}, {car.city}
+          <MdLocationOn style={{marginRight:'4px'}}/> {car.location}, {car.city}
         </div>
 
 

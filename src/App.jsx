@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { MdElectricBolt } from 'react-icons/md';
 
 // Pages
 import Home from './pages/Home';
@@ -84,7 +85,7 @@ function AppLayout() {
 function NotFound() {
   return (
     <main style={{ paddingTop: '72px', minHeight: '100vh', background: '#020811', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', textAlign: 'center', padding: '72px 24px' }}>
-      <div style={{ fontSize: '5rem', marginBottom: '24px' }}>⚡</div>
+      <div style={{ fontSize: '5rem', marginBottom: '24px', color: '#00e676', display: 'flex', justifyContent: 'center' }}><MdElectricBolt /></div>
       <h1 style={{ fontFamily: 'Space Grotesk', fontSize: '3rem', fontWeight: 800, color: '#f0f9ff', marginBottom: '16px' }}>
         404 — Lost in the Grid
       </h1>

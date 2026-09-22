@@ -1,4 +1,11 @@
 import { useState } from 'react';
+import { 
+  MdElectricBolt, MdCalendarToday, MdFavorite, MdPayment, MdPerson, 
+  MdSupportAgent, MdHelp, MdDirectionsCar, MdEco, MdStar, MdLocationOn, 
+  MdPhone, MdRefresh, MdClose, MdReceipt, MdListAlt, MdFavoriteBorder, 
+  MdMail, MdCameraAlt, MdCheckCircle, MdShowChart, MdAttachMoney, 
+  MdDashboard, MdAdd, MdExitToApp, MdHome
+} from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useMarketplace } from '../context/MarketplaceContext';
@@ -22,10 +29,10 @@ export default function OwnerDashboard() {
   const totalEarnings = myBookings.reduce((sum, b) => sum + (b.total || 0), 0);
 
   const navItems = [
-    { id: 'dashboard', label: '📊 Dashboard' },
-    { id: 'my_evs', label: '🚗 My EVs' },
-    { id: 'profile', label: '👤 Profile' },
-    { id: 'support', label: '💬 Support Tickets' },
+    { id: 'dashboard', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdDashboard /> Dashboard</span> },
+    { id: 'my_evs', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdDirectionsCar /> My EVs</span> },
+    { id: 'profile', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdPerson /> Profile</span> },
+    { id: 'support', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdSupportAgent /> Support Tickets</span> },
   ];
 
   const handleRenterAction = () => {
@@ -53,7 +60,7 @@ export default function OwnerDashboard() {
       {/* ─── MOBILE HEADER (Visible only on <1024px) ─── */}
       <div className="dashboard-mobile-header">
         <Link to="/" className="sidebar-logo">
-          <span style={{ color: '#00b96b' }}>⚡</span> EcoGreen
+          <span style={{ color: '#00b96b' }}><MdElectricBolt /></span> EcoGreen
         </Link>
         <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>
           ☰
@@ -69,7 +76,7 @@ export default function OwnerDashboard() {
       {/* ─── SIDEBAR (30%) ─── */}
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <Link to="/" className="sidebar-logo">
-          <span style={{ color: '#00b96b' }}>⚡</span> EcoGreen <span style={{ color: '#fff', fontWeight: 600 }}>Owner</span>
+          <span style={{ color: '#00b96b' }}><MdElectricBolt /></span> EcoGreen <span style={{ color: '#fff', fontWeight: 600 }}>Owner</span>
         </Link>
         
         <div style={{ padding: '0 12px', marginBottom: '24px' }}>
@@ -93,12 +100,12 @@ export default function OwnerDashboard() {
               {item.label}
             </button>
           ))}
-          <Link to="/list-your-ev" className="sidebar-item" style={{ borderTop: 'none', borderRight: 'none', borderBottom: 'none' }}>➕ Add EV</Link>
+          <Link to="/list-your-ev" className="sidebar-item" style={{ borderTop: 'none', borderRight: 'none', borderBottom: 'none' }}><MdAdd /> Add EV</Link>
         </nav>
 
         <div className="sidebar-footer">
           <button className="sidebar-logout" onClick={logout}>
-            🚪 Logout
+            <MdExitToApp /> Logout
           </button>
         </div>
       </aside>
@@ -122,9 +129,9 @@ export default function OwnerDashboard() {
                 onClick={handleRenterAction}
                 style={{ padding: '8px 16px', fontSize: '0.85rem' }}
               >
-                {user?.roles?.includes('renter') ? '🔄 Switch to Renter View' : '🚗 Rent an EV'}
+                {user?.roles?.includes('renter') ? '<MdRefresh /> Switch to Renter View' : '🚗 Rent an EV'}
               </button>
-              <Link to="/list-your-ev" className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>➕ Add Your EV</Link>
+              <Link to="/list-your-ev" className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}><MdAdd /> Add Your EV</Link>
             </div>
           </div>
         </header>
@@ -137,7 +144,7 @@ export default function OwnerDashboard() {
               {/* COMPACT METRICS */}
               <div className="metric-grid">
                 <div className="metric-card">
-                  <div className="metric-icon">💰</div>
+                  <div className="metric-icon"><MdAttachMoney /></div>
                   <div>
                     <div className="metric-title">Total Earnings</div>
                     <div className="metric-value">₹{totalEarnings.toLocaleString('en-IN')}</div>
@@ -145,7 +152,7 @@ export default function OwnerDashboard() {
                 </div>
                 
                 <div className="metric-card">
-                  <div className="metric-icon" style={{ background: 'rgba(59,130,246,0.1)', color: '#3b82f6' }}>📅</div>
+                  <div className="metric-icon" style={{ background: 'rgba(59,130,246,0.1)', color: '#3b82f6' }}><MdCalendarToday /></div>
                   <div>
                     <div className="metric-title">This Month</div>
                     <div className="metric-value">₹38.4K</div>
@@ -153,7 +160,7 @@ export default function OwnerDashboard() {
                 </div>
 
                 <div className="metric-card">
-                  <div className="metric-icon" style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981' }}>💳</div>
+                  <div className="metric-icon" style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981' }}><MdPayment /></div>
                   <div>
                     <div className="metric-title">Balance</div>
                     <div className="metric-value">₹12.5K</div>
@@ -161,7 +168,7 @@ export default function OwnerDashboard() {
                 </div>
 
                 <div className="metric-card">
-                  <div className="metric-icon" style={{ background: 'rgba(245,158,11,0.1)', color: '#f59e0b' }}>⭐</div>
+                  <div className="metric-icon" style={{ background: 'rgba(245,158,11,0.1)', color: '#f59e0b' }}><MdStar /></div>
                   <div>
                     <div className="metric-title">Avg Rating</div>
                     <div className="metric-value">4.96</div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cities } from '../data/cars';
+import { MdLocationOn, MdCalendarToday } from 'react-icons/md';
 import '../styles/marketplace.css';
 
 export default function SearchWidget({ onSearch, compact = false }) {
@@ -36,7 +37,7 @@ export default function SearchWidget({ onSearch, compact = false }) {
         <div className="search-pro-field" style={{ position: 'relative' }}>
           <label>Pick-up Location</label>
           <div className="input-with-icon" onClick={() => setLocationOpen(!locationOpen)}>
-            <span className="icon">📍</span>
+            <span className="icon" style={{ display: 'flex', alignItems: 'center' }}><MdLocationOn size={18} /></span>
             <div 
               className="pro-input" 
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
@@ -96,7 +97,7 @@ export default function SearchWidget({ onSearch, compact = false }) {
         <div className="search-pro-field">
           <label>Pick-up Date</label>
           <div className="input-with-icon">
-            <span className="icon">📅</span>
+            <span className="icon" style={{ display: 'flex', alignItems: 'center' }}><MdCalendarToday size={18} /></span>
             <input
               type="date"
               name="startDate"
@@ -112,7 +113,7 @@ export default function SearchWidget({ onSearch, compact = false }) {
         <div className="search-pro-field">
           <label>Return Date</label>
           <div className="input-with-icon">
-            <span className="icon">📅</span>
+            <span className="icon" style={{ display: 'flex', alignItems: 'center' }}><MdCalendarToday size={18} /></span>
             <input
               type="date"
               name="endDate"

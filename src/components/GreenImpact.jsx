@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { greenStats } from '../data/cars';
+import { MdEco, MdWbSunny, MdPeople, MdLocationCity, MdHandshake, MdElectricBolt, MdAir } from 'react-icons/md';
+import { FaTree, FaGlobeAmericas } from 'react-icons/fa';
 import '../styles/components.css';
 
-const highlights = [
-  { icon: '🌱', title: '4.2 Million kg CO₂ Prevented', sub: 'From 98K+ completed EV rentals' },
-  { icon: '🌳', title: '182K Trees Equivalent', sub: 'Annual carbon offset impact' },
-  { icon: '☀️', title: '100% Green Energy Partners', sub: 'All our charging stations use renewables' },
+const features = [
+  { icon: <MdEco size={24}/>, title: '4.2 Million kg CO₂ Prevented', sub: 'From 98K+ completed EV rentals' },
+  { icon: <FaTree size={24}/>, title: '182K Trees Equivalent', sub: 'Annual carbon offset impact' },
+  { icon: <MdWbSunny size={24}/>, title: '100% Green Energy Partners', sub: 'All our charging stations use renewables' },
 ];
 
 export default function GreenImpact() {
@@ -15,7 +17,7 @@ export default function GreenImpact() {
         <div className="green-content">
           {/* Left Text */}
           <div className="green-left">
-            <span className="section-badge">🌍 Environmental Impact</span>
+            <span className="section-badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><FaGlobeAmericas/> Environmental Impact</span>
             <h2 className="section-title" style={{ textAlign: 'left' }}>
               Every Ride Saves the Planet
             </h2>
@@ -36,7 +38,7 @@ export default function GreenImpact() {
             </div>
 
             <Link to="/about" className="btn btn-primary">
-              🌿 Our Green Mission
+              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><MdEco/> Our Green Mission</span>
             </Link>
           </div>
 
@@ -44,12 +46,12 @@ export default function GreenImpact() {
           <div>
             <div className="green-stats-grid">
               {[
-                { value: greenStats.co2Saved, label: 'kg CO₂ Saved', icon: '💨' },
-                { value: greenStats.treesEquivalent, label: 'Trees Equivalent', icon: '🌳' },
-                { value: greenStats.rentals, label: 'EV Rentals', icon: '⚡' },
-                { value: greenStats.members, label: 'Green Members', icon: '👥' },
-                { value: greenStats.cities, label: 'Cities Covered', icon: '🏙️' },
-                { value: greenStats.partners, label: 'EV Partners', icon: '🤝' },
+                { value: greenStats.co2Saved, label: 'kg CO₂ Saved', icon: <MdAir size={20}/> },
+                { value: greenStats.treesEquivalent, label: 'Trees Equivalent', icon: <FaTree size={20}/> },
+                { value: greenStats.rentals, label: 'EV Rentals', icon: <MdElectricBolt size={20}/> },
+                { value: greenStats.members, label: 'Green Members', icon: <MdPeople size={20}/> },
+                { value: greenStats.cities, label: 'Cities Covered', icon: <MdLocationCity size={20}/> },
+                { value: greenStats.partners, label: 'EV Partners', icon: <MdHandshake size={20}/> },
               ].map((stat, i) => (
                 <div key={i} className="green-stat-card">
                   <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>{stat.icon}</div>
@@ -69,7 +71,7 @@ export default function GreenImpact() {
               boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
             }}>
               <div style={{ fontSize: '0.82rem', color: '#166534', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
-                🌍 Live CO₂ Savings Today
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center' }}><FaGlobeAmericas/> Live CO₂ Savings Today</span>
               </div>
               <div style={{ fontFamily: 'Space Grotesk', fontSize: '2.2rem', fontWeight: 800, color: '#009958', marginBottom: '8px' }}>
                 3,247 kg

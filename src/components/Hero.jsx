@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MdElectricBolt, MdPlayArrow } from 'react-icons/md';
 import '../styles/hero.css';
 
 export default function Hero() {
@@ -18,7 +19,7 @@ export default function Hero() {
         <div className="hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
-            <span className="hero-badge-text">⚡ The Easiest Way to Rent an EV</span>
+            <span className="hero-badge-text"><MdElectricBolt style={{ color: '#fbbf24', marginRight: '4px' }}/> The Easiest Way to Rent an EV</span>
           </div>
 
           <h1 className="hero-title">
@@ -32,11 +33,11 @@ export default function Hero() {
 
           <div className="hero-actions">
             <Link to="/rent" className="hero-btn-primary">
-              ⚡ Explore Indian EVs
+              <MdElectricBolt size={20} /> Explore Indian EVs
               <span>→</span>
             </Link>
             <Link to="/how-it-works" className="hero-btn-secondary">
-              ▶ How It Works
+              <MdPlayArrow size={22} /> How It Works
             </Link>
           </div>
 

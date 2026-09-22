@@ -4,6 +4,9 @@ import { useMarketplace } from '../context/MarketplaceContext';
 import EVCard from './EVCard';
 import CarDetailsModal from './CarDetailsModal';
 import BookingModal from './BookingModal';
+import SearchWidget from './SearchWidget';
+import { MdLocationOn, MdLabel, MdDirectionsCar, MdSettings } from 'react-icons/md';
+import { FaSearch } from 'react-icons/fa';
 import '../styles/marketplace.css';
 
 const SORT_OPTIONS = [
@@ -164,7 +167,7 @@ export default function EVMarketplace({ limit, searchFilters }) {
           
           {/* City */}
           <div style={{ flex: '1 1 200px' }}>
-            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'block' }}>📍 City</label>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdLocationOn /> City</label>
             <select
               style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#fff', fontSize: '0.95rem' }}
               value={selectedCity}
@@ -177,7 +180,7 @@ export default function EVMarketplace({ limit, searchFilters }) {
 
           {/* Brand */}
           <div style={{ flex: '1 1 200px' }}>
-            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'block' }}>🏷️ Brand</label>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdLabel /> Brand</label>
             <select
               style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: '#fff', fontSize: '0.95rem' }}
               value={selectedBrand}
@@ -190,7 +193,7 @@ export default function EVMarketplace({ limit, searchFilters }) {
           
           {/* Model */}
           <div style={{ flex: '1 1 200px' }}>
-            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'block' }}>🚘 Model</label>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdDirectionsCar /> Model</label>
             <select
               style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: selectedBrand ? '#fff' : '#f3f4f6', fontSize: '0.95rem', cursor: selectedBrand ? 'pointer' : 'not-allowed' }}
               value={selectedModel}
@@ -204,7 +207,7 @@ export default function EVMarketplace({ limit, searchFilters }) {
 
           {/* Variant */}
           <div style={{ flex: '1 1 200px' }}>
-            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'block' }}>⚙️ Variant</label>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdSettings /> Variant</label>
             <select
               style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #d1d5db', background: selectedModel ? '#fff' : '#f3f4f6', fontSize: '0.95rem', cursor: selectedModel ? 'pointer' : 'not-allowed' }}
               value={selectedVariant}
@@ -242,7 +245,7 @@ export default function EVMarketplace({ limit, searchFilters }) {
           ))
         ) : (
           <div className="ev-empty">
-            <div className="ev-empty-icon">🔍</div>
+            <div className="ev-empty-icon"><FaSearch /></div>
             <div className="ev-empty-title">No EVs Found</div>
             <div className="ev-empty-sub">
               Try adjusting your filters or search terms.

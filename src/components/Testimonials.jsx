@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { testimonials } from '../data/cars';
+import { MdStar, MdStarBorder, MdMessage, MdCheckCircle, MdEmojiEvents, MdDirectionsCar, MdElectricBolt } from 'react-icons/md';
+import { BsStars } from 'react-icons/bs';
 import '../styles/components.css';
 
 export default function Testimonials() {
@@ -9,7 +11,7 @@ export default function Testimonials() {
     <section className="section testimonials-section" id="testimonials">
       <div className="container">
         <div className="section-header">
-          <span className="section-badge">⭐ Community Reviews</span>
+          <span className="section-badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><BsStars/> Community Reviews</span>
           <h2 className="section-title">Loved by Drivers & Hosts Alike</h2>
           <p className="section-subtitle">
             Real experiences from our community of eco-conscious renters and EV hosts.
@@ -34,7 +36,7 @@ export default function Testimonials() {
                 <div className="testimonial-stars">
                   {Array.from({ length: 5 }, (_, si) => (
                     <span key={si} className="t-star">
-                      {si < t.rating ? '★' : '☆'}
+                      {si < t.rating ? <MdStar color="#f59e0b" /> : <MdStarBorder color="#d1d5db" />}
                     </span>
                   ))}
                 </div>
@@ -56,7 +58,7 @@ export default function Testimonials() {
                       <div className="testimonial-name">
                         {t.name}
                         {t.verified && (
-                          <span style={{ marginLeft: '6px', color: '#00e676', fontSize: '0.8rem' }}>✓</span>
+                          <span style={{ marginLeft: '6px', color: '#00e676', display: 'flex', alignItems: 'center' }}><MdCheckCircle size={14}/></span>
                         )}
                       </div>
                       <div className="testimonial-role">{t.role}</div>
@@ -69,7 +71,7 @@ export default function Testimonials() {
                       {t.date}
                     </div>
                     <span className="testimonial-car" style={{ margin: 0 }}>
-                      {t.isOwner ? '🏠' : '⚡'} {t.car}
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>{t.isOwner ? <MdDirectionsCar/> : <MdElectricBolt/>} {t.car}</span>
                     </span>
                   </div>
                 </div>
@@ -93,10 +95,10 @@ export default function Testimonials() {
           boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
         }}>
           {[
-            { icon: '⭐', value: '4.9/5', label: 'Average Rating' },
-            { icon: '💬', value: '12,400+', label: 'Verified Reviews' },
-            { icon: '✅', value: '98%', label: 'Would Recommend' },
-            { icon: '🏆', value: '#1', label: 'EV Rental Platform' },
+            { icon: <MdStar size={24}/>, value: '4.9/5', label: 'Average Rating' },
+            { icon: <MdMessage size={24}/>, value: '12,400+', label: 'Verified Reviews' },
+            { icon: <MdCheckCircle size={24}/>, value: '98%', label: 'Would Recommend' },
+            { icon: <MdEmojiEvents size={24}/>, value: '#1', label: 'EV Rental Platform' },
           ].map((b, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{b.icon}</div>

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useMarketplace } from '../context/MarketplaceContext';
 import { useAuth } from '../context/AuthContext';
+import { 
+  MdDashboard, MdNotificationsActive, MdDirectionsCar, MdListAlt, 
+  MdSupportAgent, MdCheckCircle, MdCancel, MdElectricBolt, 
+  MdAttachMoney, MdPerson, MdClose 
+} from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css'; // Re-use the existing 70/30 dashboard styles
 
@@ -32,11 +37,11 @@ export default function AdminDashboard() {
   };
 
   const navItems = [
-    { id: 'overview', label: '📊 Overview' },
-    { id: 'approvals', label: '🔔 Approvals' },
-    { id: 'fleet', label: '🚗 Active Fleet' },
-    { id: 'bookings', label: '📋 All Bookings' },
-    { id: 'support', label: '💬 Support Tickets' },
+    { id: 'overview', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdDashboard /> Overview</span> },
+    { id: 'approvals', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdNotificationsActive /> Approvals</span> },
+    { id: 'fleet', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdDirectionsCar /> Active Fleet</span> },
+    { id: 'bookings', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdListAlt /> All Bookings</span> },
+    { id: 'support', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdSupportAgent /> Support Tickets</span> },
   ];
 
   const renderOverview = () => (
@@ -52,10 +57,10 @@ export default function AdminDashboard() {
         {/* KPI Cards */}
         <div className="rd-stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '30px' }}>
           {[
-            { label: 'Total Bookings', value: bookings.length, color: '#3b82f6', icon: '📋', bg: 'rgba(59,130,246,0.1)' },
-            { label: 'Active Fleet', value: approvedCars.length, color: '#00e676', icon: '🚗', bg: 'rgba(0,230,118,0.1)' },
-            { label: 'Pending Approvals', value: pendingCars.length, color: '#f59e0b', icon: '🔔', bg: 'rgba(245,158,11,0.1)' },
-            { label: 'Est. Revenue', value: `₹${platformEarnings.toLocaleString('en-IN')}`, color: '#8b5cf6', icon: '💰', bg: 'rgba(139,92,246,0.1)' },
+            { label: 'Total Bookings', value: bookings.length, color: '#3b82f6', icon: <MdListAlt size={24} />, bg: 'rgba(59,130,246,0.1)' },
+            { label: 'Active Fleet', value: approvedCars.length, color: '#00e676', icon: <MdDirectionsCar size={24} />, bg: 'rgba(0,230,118,0.1)' },
+            { label: 'Pending Approvals', value: pendingCars.length, color: '#f59e0b', icon: <MdNotificationsActive size={24} />, bg: 'rgba(245,158,11,0.1)' },
+            { label: 'Est. Revenue', value: `₹${platformEarnings.toLocaleString('en-IN')}`, color: '#8b5cf6', icon: <MdAttachMoney size={24} />, bg: 'rgba(139,92,246,0.1)' },
           ].map((kpi, i) => (
             <div className="rd-stat-card" key={i} style={{ '--card-color': kpi.color, '--card-bg': kpi.bg }}>
               <div className="rd-stat-icon-wrap"><span className="rd-stat-icon">{kpi.icon}</span></div>
@@ -71,7 +76,7 @@ export default function AdminDashboard() {
       {/* Recent Bookings */}
       <div className="rd-panel">
         <div className="rd-panel-header">
-          <h2 className="rd-panel-title">📋 Recent Bookings</h2>
+          <h2 className="rd-panel-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MdListAlt /> Recent Bookings</h2>
         </div>
         <div className="rd-bookings-list">
           {recentBookings.length === 0 ? (
@@ -109,7 +114,7 @@ export default function AdminDashboard() {
       <div style={{ padding: '24px 28px' }}>
       {pendingCars.length === 0 ? (
         <div style={{ padding: '60px', background: '#ffffff', borderRadius: '16px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '16px' }}>✅</div>
+          <div style={{ fontSize: '3rem', marginBottom: '16px', color: '#10b981', display: 'flex', justifyContent: 'center' }}><MdCheckCircle size={48} /></div>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>All caught up!</h3>
           <p style={{ color: '#64748b' }}>There are no vehicles waiting for approval right now.</p>
         </div>
@@ -214,15 +219,15 @@ export default function AdminDashboard() {
                   <div style={{ display: 'flex', gap: '8px', flex: 1 }}>
                     <button
                       onClick={() => updateCarStatus(car.id, 'REJECTED')}
-                      style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '1px solid #ef4444', color: '#ef4444', background: '#fff', fontWeight: 700, cursor: 'pointer' }}
+                      style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '1px solid #ef4444', color: '#ef4444', background: '#fff', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
                     >
-                      ✕ Reject
+                      <MdCancel /> Reject
                     </button>
                     <button
                       onClick={() => updateCarStatus(car.id, 'APPROVED')}
-                      style={{ flex: 1.5, padding: '12px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', color: '#fff', fontWeight: 700, cursor: 'pointer' }}
+                      style={{ flex: 1.5, padding: '12px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', color: '#fff', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
                     >
-                      ✓ Approve
+                      <MdCheckCircle /> Approve
                     </button>
                   </div>
                 </div>
@@ -349,9 +354,9 @@ export default function AdminDashboard() {
                     <div style={{ fontWeight: 600, color: '#111827' }}>{b.renterName}</div>
                     <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '4px' }}>{b.renterEmail}</div>
                     {b.drivingLicenseUploaded ? (
-                      <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#d1fae5', color: '#065f46', borderRadius: '4px', fontWeight: 600 }}>✅ DL Uploaded</span>
+                      <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#d1fae5', color: '#065f46', borderRadius: '4px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}><MdCheckCircle size={12} /> DL Uploaded</span>
                     ) : (
-                      <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#fef2f2', color: '#991b1b', borderRadius: '4px', fontWeight: 600 }}>❌ No DL</span>
+                      <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#fef2f2', color: '#991b1b', borderRadius: '4px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}><MdCancel size={12} /> No DL</span>
                     )}
                   </td>
                   <td style={{ padding: '16px 24px' }}>
@@ -375,7 +380,7 @@ export default function AdminDashboard() {
     <div className="rd-layout">
       {/* MOBILE HEADER */}
       <div className="rd-mobile-header">
-        <Link to="/" className="rd-logo"><span className="rd-logo-icon">⚡</span><span>Eco<span style={{color:'#00e676'}}>Green</span></span></Link>
+        <Link to="/" className="rd-logo"><span style={{color: '#00e676', display: 'inline-flex', alignItems: 'center'}}><MdElectricBolt /></span><span>Eco<span style={{color:'#00e676'}}>Green</span></span></Link>
         <button className="rd-hamburger" onClick={() => setIsSidebarOpen(true)}>☰</button>
       </div>
 
@@ -384,7 +389,7 @@ export default function AdminDashboard() {
       {/* SIDEBAR */}
       <aside className={`rd-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <Link to="/" className="rd-logo rd-logo-sidebar" onClick={() => setIsSidebarOpen(false)}>
-          <span className="rd-logo-icon">🛡️</span>
+          <span style={{ color: '#00e676', display: 'inline-flex', alignItems: 'center' }}><MdElectricBolt /></span>
           <span>Eco<span style={{color:'#00e676'}}>Green</span> <span style={{color:'#fff',fontWeight:600}}>Admin</span></span>
         </Link>
 

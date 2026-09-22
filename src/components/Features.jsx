@@ -1,38 +1,40 @@
+import { MdVpnKey, MdSecurity, MdElectricBolt, MdEco, MdSupportAgent, MdPayment } from 'react-icons/md';
+import { BsStars } from 'react-icons/bs';
 import '../styles/components.css';
 
 const features = [
   {
-    icon: '🔑',
+    icon: <MdVpnKey size={24}/>,
     title: 'Keyless Entry',
     desc: 'Unlock your EV directly from the app — no physical key handoff required. Arrive and drive.',
     accent: '#00e676',
   },
   {
-    icon: '🛡️',
+    icon: <MdSecurity size={24}/>,
     title: 'Comprehensive Insurance',
     desc: 'Every rental includes liability coverage. Upgrade to premium for zero-deductible full protection.',
     accent: '#00bcd4',
   },
   {
-    icon: '⚡',
+    icon: <MdElectricBolt size={24}/>,
     title: 'Fast Charging Access',
     desc: 'Unlimited access to our 500+ station network during your rental. Never range-anxious again.',
     accent: '#69f0ae',
   },
   {
-    icon: '🌿',
+    icon: <MdEco size={24}/>,
     title: 'CO₂ Savings Tracker',
     desc: 'See exactly how much carbon you\'ve offset with every trip — in real time.',
     accent: '#00e676',
   },
   {
-    icon: '🆘',
+    icon: <MdSupportAgent size={24}/>,
     title: '24/7 Roadside Assist',
     desc: 'Our expert support team is always a call away. Flat tire, dead battery, or just lost — we\'ve got you.',
     accent: '#00bcd4',
   },
   {
-    icon: '💳',
+    icon: <MdPayment size={24}/>,
     title: 'Instant Payouts',
     desc: 'Hosts receive automatic weekly payouts directly to their bank account — zero delays.',
     accent: '#69f0ae',
@@ -44,7 +46,7 @@ export default function Features() {
     <section className="section features-section" id="features">
       <div className="container">
         <div className="section-header">
-          <span className="section-badge">✨ Platform Features</span>
+          <span className="section-badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><BsStars/> Platform Features</span>
           <h2 className="section-title">Everything You Need, Nothing You Don't</h2>
           <p className="section-subtitle">
             EcoGreen Cab is built from the ground up to make EV rentals effortless, safe, and rewarding.

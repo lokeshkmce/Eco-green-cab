@@ -2,15 +2,16 @@ import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
+import { MdHome, MdElectricBolt, MdHelpOutline, MdOutlineDirectionsCar, MdInfoOutline, MdMailOutline, MdPerson } from 'react-icons/md';
 import '../styles/navbar.css';
 
 const navLinks = [
-  { path: '/', label: 'Home', icon: '🏠' },
-  { path: '/rent', label: 'Browse EVs', icon: '⚡' },
-  { path: '/how-it-works', label: 'How It Works', icon: '📋' },
-  { path: '/list-your-ev', label: 'List Your EV', icon: '🚗' },
-  { path: '/about', label: 'About', icon: 'ℹ️' },
-  { path: '/contact', label: 'Contact', icon: '📬' },
+  { path: '/', label: 'Home', icon: <MdHome /> },
+  { path: '/rent', label: 'Browse EVs', icon: <MdElectricBolt /> },
+  { path: '/how-it-works', label: 'How It Works', icon: <MdHelpOutline /> },
+  { path: '/list-your-ev', label: 'List Your EV', icon: <MdOutlineDirectionsCar /> },
+  { path: '/about', label: 'About', icon: <MdInfoOutline /> },
+  { path: '/contact', label: 'Contact', icon: <MdMailOutline /> },
 ];
 
 export default function Navbar() {
@@ -44,7 +45,7 @@ export default function Navbar() {
         <div className="navbar-inner">
           {/* Logo */}
           <Link to="/" className="navbar-logo" onClick={closeMenu}>
-            <div className="navbar-logo-icon">⚡</div>
+            <div className="navbar-logo-icon"><MdElectricBolt /></div>
             <span className="navbar-logo-text">
               Eco<span>Green</span> Cab
             </span>
@@ -76,19 +77,19 @@ export default function Navbar() {
               <Link 
                 to={user?.roles?.includes('admin') ? '/admin/dashboard' : user?.roles?.includes('renter') ? '/renter/dashboard' : '/owner/dashboard'} 
                 className="navbar-btn-outline" 
-                style={{ border: 'none', color: '#00b96b', fontWeight: 600 }}
+                style={{ border: 'none', color: '#00b96b', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}
               >
-                👤 {user?.name || 'My Account'}
+                <MdPerson size={18} /> {user?.name || 'My Account'}
               </Link>
             )}
             
             {isLoggedIn && user?.roles?.includes('owner') ? (
-              <Link to="/list-your-ev" className="navbar-btn-primary">
-                🚗 List Your EV
+              <Link to="/list-your-ev" className="navbar-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MdOutlineDirectionsCar size={18} /> List Your EV
               </Link>
             ) : (
-              <Link to="/rent" className="navbar-btn-primary">
-                ⚡ Rent Now
+              <Link to="/rent" className="navbar-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MdElectricBolt size={18} /> Rent Now
               </Link>
             )}
           </div>
@@ -131,18 +132,18 @@ export default function Navbar() {
               <button
                 className="mobile-btn mobile-btn-outline"
                 onClick={openAuth}
-                style={{ border: 'none', background: '#f3f4f6' }}
+                style={{ border: 'none', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
-                👤 Login / Register
+                <MdPerson size={20} /> Login / Register
               </button>
             ) : (
               <Link
                 to={user?.roles?.includes('admin') ? '/admin/dashboard' : user?.roles?.includes('renter') ? '/renter/dashboard' : '/owner/dashboard'}
                 className="mobile-btn mobile-btn-outline"
                 onClick={closeMenu}
-                style={{ border: 'none', background: '#e6f9f1', color: '#00b96b', fontWeight: 600 }}
+                style={{ border: 'none', background: '#e6f9f1', color: '#00b96b', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
-                👤 {user?.name || 'My Account'}
+                <MdPerson size={20} /> {user?.name || 'My Account'}
               </Link>
             )}
             
@@ -151,16 +152,18 @@ export default function Navbar() {
                 to="/list-your-ev"
                 className="mobile-btn mobile-btn-primary"
                 onClick={closeMenu}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
-                🚗 List Your EV
+                <MdOutlineDirectionsCar size={20} /> List Your EV
               </Link>
             ) : (
               <Link
                 to="/rent"
                 className="mobile-btn mobile-btn-primary"
                 onClick={closeMenu}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
-                ⚡ Rent an EV Now
+                <MdElectricBolt size={20} /> Rent an EV Now
               </Link>
             )}
           </div>

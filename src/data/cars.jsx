@@ -1,4 +1,7 @@
-// ─── INDIAN ELECTRIC VEHICLES DATASET (AUTHENTIC INDIAN MARKET) ──────────────────────
+import { MdElectricCar, MdOutlineDirectionsCar, MdFamilyRestroom, MdSearch, MdOutlinePhonelinkSetup, MdVpnKey, MdEco } from "react-icons/md";
+import { BsStars } from "react-icons/bs";
+
+// ─── STATIC DATA FOR ECO-GREEN CAB (INDIAN MARKET FOCUSED) ──────────────────────
 export const cars = [
   // ── 1. BUDGET / MASS-MARKET ──────────────────────────────────────────
   {
@@ -2305,10 +2308,10 @@ export const bookings = [
 
 // ─── CATEGORIES (BUDGET / MASS-MARKET, PREMIUM / LONG-DISTANCE, LARGE FAMILY / PREMIUM) ─
 export const categories = [
-  { id: "all", label: "All Indian EVs", icon: "⚡" },
-  { id: "Budget", label: "Budget / Mass-Market", icon: "🚗" },
-  { id: "Premium", label: "Premium / Long-Distance", icon: "✨" },
-  { id: "Family", label: "Large Family / Premium", icon: "👨‍👩‍👧‍👦" },
+  { id: "all", label: "All Indian EVs", icon: <MdElectricCar /> },
+  { id: "Budget", label: "Budget / Mass-Market", icon: <MdOutlineDirectionsCar /> },
+  { id: "Premium", label: "Premium / Long-Distance", icon: <BsStars /> },
+  { id: "Family", label: "Large Family / Premium", icon: <MdFamilyRestroom /> },
 ];
 
 // ─── INDIAN CITIES ─────────────────────────────────────────────────────────────
@@ -2349,25 +2352,25 @@ export const greenStats = {
 export const howItWorksSteps = [
   {
     step: 1,
-    icon: "🔍",
+    icon: <MdSearch size={28} />,
     title: "Search & Choose Your EV",
     description: "Explore top Indian electric cars from Tata, Mahindra, Maruti, MG, and Hyundai. Filter by city, daily budget in ₹, and ARAI range.",
   },
   {
     step: 2,
-    icon: "📱",
+    icon: <MdOutlinePhonelinkSetup size={28} />,
     title: "Instant Digital KYC & Booking",
     description: "Verify your Driving License and Aadhaar in 60 seconds. Pay securely via UPI (Google Pay, PhonePe, Paytm) or Credit/Debit Card.",
   },
   {
     step: 3,
-    icon: "🔑",
+    icon: <MdVpnKey size={28} />,
     title: "Pick Up with Fastag Active",
     description: "Unlock keylessly with our smartphone app or meet your host at airport/metro hubs. Clean green number plate EV with 100% charge.",
   },
   {
     step: 4,
-    icon: "🌱",
+    icon: <MdEco size={28} />,
     title: "Drive Green Across India",
     description: "Enjoy national highway and expressway drives with pre-loaded Fastag. Re-charge seamlessly at 500+ Tata Power & Jio-bp fast chargers.",
   },

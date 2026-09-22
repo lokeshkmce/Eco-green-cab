@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import '../styles/components.css';
 
+import { MdClose, MdLocationOn, MdBatteryChargingFull, MdSpeed, MdPerson, MdCheckCircle, MdElectricBolt } from 'react-icons/md';
+import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
+import { BsStars } from 'react-icons/bs';
+import { IoSpeedometerOutline } from 'react-icons/io5';
+
 export default function CarDetailsModal({ car, onClose, onBook }) {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('overview');
@@ -23,7 +28,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
         className="modal-box car-details-modal-box"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="modal-close" onClick={onClose} style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 10 }}>✕</button>
+        <button className="modal-close" onClick={onClose} style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><MdClose size={24}/></button>
 
         {/* ─── LEFT: IMAGE GALLERY ─── */}
         <div className="car-details-image-col">
@@ -65,10 +70,10 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 {car.name}
               </h2>
               <div style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 500 }}>
-                {car.year} · {car.type} · 📍 {car.location}
+                {car.year} · {car.type} · <MdLocationOn style={{verticalAlign:'text-bottom'}}/> {car.location}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
-                <span style={{ color: '#f59e0b', fontSize: '0.9rem' }}>★</span>
+                <span style={{ color: '#f59e0b', fontSize: '0.9rem', display: 'flex', alignItems: 'center' }}><FaStar/></span>
                 <span style={{ fontWeight: 800, color: '#111827', fontSize: '0.9rem' }}>{car.rating}</span>
                 <span style={{ color: '#6b7280', fontSize: '0.75rem' }}>({car.reviews} reviews)</span>
               </div>
@@ -123,10 +128,10 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 {/* Ultra Compact Specs Grid */}
                 <div className="car-details-specs-grid">
                   {[
-                    { icon: '🔋', label: 'Range', value: `${car.range} km` },
-                    { icon: '⚡', label: '0-100', value: car.acceleration },
-                    { icon: '🏎️', label: 'Speed', value: `${car.topSpeed} km/h` },
-                    { icon: '👥', label: 'Seats', value: `${car.seats}` },
+                    { icon: <MdBatteryChargingFull size={20}/>, label: 'Range', value: `${car.range} km` },
+                    { icon: <MdElectricBolt size={20}/>, label: '0-100', value: car.acceleration },
+                    { icon: <IoSpeedometerOutline size={20}/>, label: 'Speed', value: `${car.topSpeed} km/h` },
+                    { icon: <MdPerson size={20}/>, label: 'Seats', value: `${car.seats}` },
                   ].map((s, i) => (
                     <div key={i} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '10px 4px', textAlign: 'center' }}>
                       <div style={{ fontSize: '1.2rem', marginBottom: '2px' }}>{s.icon}</div>
@@ -138,7 +143,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
 
                 {/* Compact Highlights */}
                 <div>
-                  <h4 style={{ fontFamily: 'Space Grotesk', color: '#111827', marginBottom: '8px', fontSize: '0.9rem', fontWeight: 800 }}>✨ Highlights</h4>
+                  <h4 style={{ fontFamily: 'Space Grotesk', color: '#111827', marginBottom: '8px', fontSize: '0.9rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '6px' }}><BsStars/> Highlights</h4>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {car.features.map((f, i) => (
                       <span key={i} style={{ padding: '4px 10px', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '99px', fontSize: '0.75rem', color: '#065f46', fontWeight: 600 }}>
@@ -174,12 +179,12 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
                     <span style={{ fontWeight: 800, fontSize: '1rem', color: '#111827' }}>{car.owner.name}</span>
-                    {car.owner.verified && <span style={{ color: '#009958', fontSize: '0.7rem', fontWeight: 700, background: '#d1fae5', padding: '2px 6px', borderRadius: '4px' }}>✓ Verified</span>}
+                    {car.owner.verified && <span style={{ color: '#009958', fontSize: '0.7rem', fontWeight: 700, background: '#d1fae5', padding: '2px 6px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '2px' }}><MdCheckCircle/> Verified</span>}
                   </div>
                   <div style={{ color: '#64748b', fontSize: '0.75rem', marginBottom: '8px' }}>Host since {car.owner.joined}</div>
                   <div style={{ display: 'flex', gap: '16px' }}>
                     <div>
-                      <div style={{ fontWeight: 800, color: '#009958', fontSize: '0.9rem' }}>⭐ {car.owner.rating}</div>
+                      <div style={{ fontWeight: 800, color: '#009958', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '4px' }}><FaStar size={12}/> {car.owner.rating}</div>
                       <div style={{ fontSize: '0.7rem', color: '#64748b' }}>Rating</div>
                     </div>
                     <div>
@@ -211,7 +216,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 fontFamily: 'Inter, sans-serif',
               }}
             >
-              ⚡ Reserve This EV — ₹{car.price.toLocaleString('en-IN')}/day
+              <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdElectricBolt/> Reserve This EV — ₹{car.price.toLocaleString('en-IN')}/day</span>
             </button>
           </div>
 
