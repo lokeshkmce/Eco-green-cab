@@ -163,7 +163,7 @@ export default function EVMarketplace({ limit, searchFilters }) {
 
       {/* Advanced Cascading Filters */}
       {!limit && (
-        <div style={{ display: 'flex', gap: '16px', marginBottom: '28px', flexWrap: 'wrap', background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '28px', flexWrap: 'wrap', alignItems: 'flex-end', background: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
           
           {/* City */}
           <div style={{ flex: '1 1 200px' }}>
@@ -209,6 +209,26 @@ export default function EVMarketplace({ limit, searchFilters }) {
               placeholder="All Variants"
               disabled={!selectedModel}
             />
+          </div>
+          
+          <div style={{ flex: '0 0 auto' }}>
+            <button style={{
+              background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
+              color: '#fff',
+              border: 'none',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 4px 14px rgba(0, 185, 107, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '1rem',
+              height: '46px'
+            }}>
+              Search
+            </button>
           </div>
           
         </div>

@@ -24,15 +24,24 @@ export default function SearchWidget({ onSearch, compact = false }) {
     // In a real app, you might trigger onSearch or navigate here
   };
 
+  const handleSearch = (e) => {
+    if (e) e.preventDefault();
+    if (onSearch) {
+      onSearch(form);
+    } else {
+      navigate('/rent', { state: { search: form } });
+    }
+  };
+
   return (
-    <div className={`search-widget-pro ${compact ? 'compact' : ''}`} style={{ 
+    <form className={`search-widget-pro ${compact ? 'compact' : ''}`} onSubmit={handleSearch} style={{ 
       padding: '20px', 
       background: '#fff', 
       borderRadius: '12px', 
       boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
       display: 'flex',
       gap: '20px',
-      alignItems: 'center',
+      alignItems: 'flex-end',
       justifyContent: 'space-between',
       border: '1px solid #eee'
     }}>
@@ -92,6 +101,26 @@ export default function SearchWidget({ onSearch, compact = false }) {
         />
       </div>
 
-    </div>
+      <div style={{ flex: '0 0 auto' }}>
+        <button type="submit" style={{
+          background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
+          color: '#fff',
+          border: 'none',
+          padding: '12px 24px',
+          borderRadius: '8px',
+          fontWeight: 700,
+          cursor: 'pointer',
+          boxShadow: '0 4px 14px rgba(0, 185, 107, 0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontSize: '1rem',
+          height: '46px'
+        }}>
+          Search
+        </button>
+      </div>
+
+    </form>
   );
 }
