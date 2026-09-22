@@ -111,7 +111,7 @@ export default function AuthModal({ isOpen, onClose }) {
           {step === 1 && (
             <form onSubmit={handleSendOTP}>
               <div style={{ textAlign: 'center', marginBottom: '24px', color: '#4b5563', fontSize: '0.95rem' }}>
-                Enter your mobile number to instantly log in or create a new account.
+                Enter your mobile number to continue.
               </div>
               <div className="form-group">
                 <label className="form-label">Phone Number</label>
