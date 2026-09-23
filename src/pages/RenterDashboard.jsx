@@ -387,7 +387,9 @@ export default function RenterDashboard() {
     <div className="rd-layout">
       {/* MOBILE HEADER */}
       <div className="rd-mobile-header">
-        <Link to="/" className="rd-logo"><span className="rd-logo-icon"><MdElectricBolt /></span><span>Eco<span style={{color:'#00e676'}}>Green</span></span></Link>
+        <Link to="/" className="brand-logo-dashboard">
+          <img src="/images/logo.jpg" alt="ieco" />
+        </Link>
         <button className="rd-hamburger" onClick={() => setIsSidebarOpen(true)}>☰</button>
       </div>
 
@@ -395,16 +397,16 @@ export default function RenterDashboard() {
 
       {/* SIDEBAR */}
       <aside className={`rd-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <Link to="/" className="rd-logo rd-logo-sidebar" onClick={closeSidebar}>
-          <span className="rd-logo-icon"><MdElectricBolt /></span>
-          <span>Eco<span style={{color:'#00e676'}}>Green</span> <span style={{color:'#fff',fontWeight:600}}>Renter</span></span>
-        </Link>
-
-        <div className="rd-user-block">
-          <div className="rd-avatar">{(user?.name || 'R')[0].toUpperCase()}</div>
-          <div>
-            <div className="rd-user-name">{user?.name || 'Rahul'}</div>
-            <div className="rd-user-badge"><MdCheckCircle /> Verified Renter</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
+          <Link to="/" className="brand-logo-dashboard" onClick={closeSidebar} style={{ margin: 0, padding: '4px 8px' }}>
+            <img src="/images/logo.jpg" alt="ieco Renter" style={{ height: '32px' }} />
+          </Link>
+          
+          <div className="rd-user-block" style={{ margin: 0, padding: 0, background: 'transparent', border: 'none' }}>
+            <div>
+              <div className="rd-user-name" style={{ fontSize: '0.9rem' }}>{user?.name || 'Rahul'}</div>
+              <div className="rd-user-badge" style={{ fontSize: '0.65rem' }}><MdCheckCircle /> Verified</div>
+            </div>
           </div>
         </div>
 
@@ -432,7 +434,10 @@ export default function RenterDashboard() {
             </div>
             <p className="rd-header-sub">{activeTab === 'dashboard' ? 'Track your journeys & upcoming rentals.' : 'Manage your account easily.'}</p>
           </div>
-          <div className="rd-header-actions">
+          <div className="rd-header-actions" style={{ display: 'flex', gap: '12px' }}>
+            <Link to="/" style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', color: '#0f172a', fontWeight: 700, borderRadius: '12px', padding: '10px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <MdHome size={18} /> Go to Homescreen
+            </Link>
             <Link to="/rent" className="rd-btn-primary"><span><MdElectricBolt /></span> Find an EV</Link>
           </div>
         </header>

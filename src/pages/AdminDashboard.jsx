@@ -57,12 +57,17 @@ export default function AdminDashboard() {
         {/* KPI Cards */}
         <div className="rd-stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '30px' }}>
           {[
-            { label: 'Total Bookings', value: bookings.length, color: '#3b82f6', icon: <MdListAlt size={24} />, bg: 'rgba(59,130,246,0.1)' },
-            { label: 'Active Fleet', value: approvedCars.length, color: '#00e676', icon: <MdDirectionsCar size={24} />, bg: 'rgba(0,230,118,0.1)' },
-            { label: 'Pending Approvals', value: pendingCars.length, color: '#f59e0b', icon: <MdNotificationsActive size={24} />, bg: 'rgba(245,158,11,0.1)' },
-            { label: 'Est. Revenue', value: `₹${platformEarnings.toLocaleString('en-IN')}`, color: '#8b5cf6', icon: <MdAttachMoney size={24} />, bg: 'rgba(139,92,246,0.1)' },
+            { id: 'bookings', label: 'Total Bookings', value: bookings.length, color: '#3b82f6', icon: <MdListAlt size={24} />, bg: 'rgba(59,130,246,0.1)' },
+            { id: 'fleet', label: 'Active Fleet', value: approvedCars.length, color: '#00e676', icon: <MdDirectionsCar size={24} />, bg: 'rgba(0,230,118,0.1)' },
+            { id: 'approvals', label: 'Pending Approvals', value: pendingCars.length, color: '#f59e0b', icon: <MdNotificationsActive size={24} />, bg: 'rgba(245,158,11,0.1)' },
+            { id: 'overview', label: 'Est. Revenue', value: `₹${platformEarnings.toLocaleString('en-IN')}`, color: '#8b5cf6', icon: <MdAttachMoney size={24} />, bg: 'rgba(139,92,246,0.1)' },
           ].map((kpi, i) => (
-            <div className="rd-stat-card" key={i} style={{ '--card-color': kpi.color, '--card-bg': kpi.bg }}>
+            <div 
+              className="rd-stat-card" 
+              key={i} 
+              style={{ '--card-color': kpi.color, '--card-bg': kpi.bg, cursor: 'pointer' }}
+              onClick={() => setActiveTab(kpi.id)}
+            >
               <div className="rd-stat-icon-wrap"><span className="rd-stat-icon">{kpi.icon}</span></div>
               <div className="rd-stat-glow" />
               <div className="rd-stat-info">
@@ -117,6 +122,12 @@ export default function AdminDashboard() {
           <div style={{ fontSize: '3rem', marginBottom: '16px', color: '#10b981', display: 'flex', justifyContent: 'center' }}><MdCheckCircle size={48} /></div>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>All caught up!</h3>
           <p style={{ color: '#64748b' }}>There are no vehicles waiting for approval right now.</p>
+          <div style={{ marginTop: '20px', fontSize: '0.8rem', color: '#94a3b8', background: '#f8fafc', padding: '12px', borderRadius: '8px' }}>
+            Diagnostic: Total Cars in Database = {cars.length}. 
+            Cars with 'PENDING' status = {cars.filter(c => c.status === 'PENDING').length}.
+            Recently Added = {cars.length > 36 ? cars[cars.length - 1].name : 'None'} 
+            ({cars.length > 36 ? cars[cars.length - 1].status : 'N/A'})
+          </div>
         </div>
       ) : (
         <div style={{ display: 'grid', gap: '24px' }}>
@@ -380,7 +391,9 @@ export default function AdminDashboard() {
     <div className="rd-layout">
       {/* MOBILE HEADER */}
       <div className="rd-mobile-header">
-        <Link to="/" className="rd-logo"><span style={{color: '#00e676', display: 'inline-flex', alignItems: 'center'}}><MdElectricBolt /></span><span>Eco<span style={{color:'#00e676'}}>Green</span></span></Link>
+        <Link to="/" className="brand-logo-dashboard">
+          <img src="/images/logo.jpg" alt="ieco" />
+        </Link>
         <button className="rd-hamburger" onClick={() => setIsSidebarOpen(true)}>☰</button>
       </div>
 
@@ -388,16 +401,16 @@ export default function AdminDashboard() {
 
       {/* SIDEBAR */}
       <aside className={`rd-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <Link to="/" className="rd-logo rd-logo-sidebar" onClick={() => setIsSidebarOpen(false)}>
-          <span style={{ color: '#00e676', display: 'inline-flex', alignItems: 'center' }}><MdElectricBolt /></span>
-          <span>Eco<span style={{color:'#00e676'}}>Green</span> <span style={{color:'#fff',fontWeight:600}}>Admin</span></span>
-        </Link>
-
-        <div className="rd-user-block">
-          <div className="rd-avatar" style={{background: '#3b82f6', color: '#fff'}}>SA</div>
-          <div>
-            <div className="rd-user-name">Super Admin</div>
-            <div className="rd-user-badge" style={{color: '#3b82f6', background: 'rgba(59,130,246,0.1)'}}>🔵 Platform Admin</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
+          <Link to="/" className="brand-logo-dashboard" onClick={() => setIsSidebarOpen(false)} style={{ margin: 0, padding: '4px 8px' }}>
+            <img src="/images/logo.jpg" alt="ieco Admin" style={{ height: '32px' }} />
+          </Link>
+          
+          <div className="rd-user-block" style={{ margin: 0, padding: 0, background: 'transparent', border: 'none' }}>
+            <div>
+              <div className="rd-user-name" style={{ fontSize: '0.9rem' }}>Super Admin</div>
+              <div className="rd-user-badge" style={{color: '#3b82f6', background: 'rgba(59,130,246,0.1)', fontSize: '0.65rem'}}>🔵 Platform</div>
+            </div>
           </div>
         </div>
 

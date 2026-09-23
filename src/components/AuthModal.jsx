@@ -42,6 +42,12 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
     
     try {
+      // --- DEMO MODE BYPASS (Start) ---
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 600));
+      setStep(2);
+      /* 
+      // Original Backend Code (Commented out for demo)
       const response = await fetch('/ecogreencab/send-otp/', {
         method: 'POST',
         headers: {
@@ -50,10 +56,7 @@ export default function AuthModal({ isOpen, onClose }) {
           'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify({ 
-          phone: formData.phone,
-          phone_number: formData.phone,
-          mobile: formData.phone,
-          mobile_number: formData.phone
+          phone: formData.phone
         })
       });
       
@@ -61,10 +64,16 @@ export default function AuthModal({ isOpen, onClose }) {
       
       if (!response.ok) {
         console.warn("Backend error:", data);
-        throw new Error(data.detail || data.message || data.error || 'Failed to send OTP.');
+        let errorMsg = data.detail || data.message || data.error || 'Failed to send OTP.';
+        if (typeof errorMsg === 'object') {
+          errorMsg = Object.values(errorMsg).flat()[0] || JSON.stringify(errorMsg);
+        }
+        throw new Error(errorMsg);
       }
       
       setStep(2);
+      */
+      // --- DEMO MODE BYPASS (End) ---
     } catch (err) {
       setError(err.message || 'An error occurred connecting to the server.');
     } finally {
@@ -78,6 +87,48 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
     
     try {
+      // --- DEMO MODE BYPASS (Start) ---
+      await new Promise(resolve => setTimeout(resolve, 600));
+      
+      if (formData.otp !== '1234') {
+        throw new Error("Invalid Demo OTP. Please use 1234.");
+      }
+
+      // Hardcoded Admin Account Bypass
+      if (formData.phone === '9003797945') {
+        const adminUserData = {
+          name: 'Alex',
+          phone: '9003797945',
+          roles: ['admin']
+        };
+        login(adminUserData);
+        onClose();
+        navigate('/admin/dashboard');
+        return;
+      }
+
+      // Automatically mock a successful verification and proceed to role selection
+      const demoUsers = JSON.parse(localStorage.getItem('eco_demo_users') || '{}');
+      const savedRole = demoUsers[formData.phone];
+
+      const userData = {
+        name: formData.username.trim() || 'Demo User',
+        phone: formData.phone,
+        roles: savedRole ? [savedRole] : [] // Force role selection if not saved
+      };
+
+      if (savedRole) {
+        login(userData);
+        onClose();
+        navigate(savedRole === 'owner' ? '/owner/dashboard' : '/renter/dashboard');
+        return;
+      }
+
+      setVerifiedUserData(userData);
+      setStep(3);
+
+      /*
+      // Original Backend Code (Commented out for demo)
       const response = await fetch('/ecogreencab/verify-otp/', {
         method: 'POST',
         headers: {
@@ -87,9 +138,6 @@ export default function AuthModal({ isOpen, onClose }) {
         },
         body: JSON.stringify({ 
           phone: formData.phone,
-          phone_number: formData.phone,
-          mobile: formData.phone,
-          mobile_number: formData.phone,
           otp: formData.otp 
         })
       });
@@ -98,7 +146,11 @@ export default function AuthModal({ isOpen, onClose }) {
 
       if (!response.ok) {
         console.warn("Backend verification error:", data);
-        throw new Error(data.detail || data.message || data.error || 'Invalid OTP.');
+        let errorMsg = data.detail || data.message || data.error || 'Invalid OTP.';
+        if (typeof errorMsg === 'object') {
+          errorMsg = Object.values(errorMsg).flat()[0] || JSON.stringify(errorMsg);
+        }
+        throw new Error(errorMsg);
       }
       
       if (data.token) {
@@ -130,6 +182,8 @@ export default function AuthModal({ isOpen, onClose }) {
       // New user → show role selection
       setVerifiedUserData(userData);
       setStep(3);
+      */
+      // --- DEMO MODE BYPASS (End) ---
       
     } catch (err) {
       setError(err.message || 'Verification failed. Please try again.');
@@ -145,6 +199,12 @@ export default function AuthModal({ isOpen, onClose }) {
   const handleRoleConfirm = () => {
     if (!selectedRole) return;
     const finalUserData = { ...verifiedUserData, roles: [selectedRole] };
+    
+    // Save to demo database
+    const demoUsers = JSON.parse(localStorage.getItem('eco_demo_users') || '{}');
+    demoUsers[finalUserData.phone] = selectedRole;
+    localStorage.setItem('eco_demo_users', JSON.stringify(demoUsers));
+
     login(finalUserData);
     handleClose();
     navigate(selectedRole === 'owner' ? '/owner/dashboard' : '/renter/dashboard');
@@ -156,6 +216,7 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
     setSelectedRole(null);
     setVerifiedUserData(null);
+    setIsLoading(false);
     onClose();
   };
 

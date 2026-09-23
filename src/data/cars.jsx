@@ -1369,7 +1369,6 @@ export const cars = [
       verified: true,
     },
   },
-,
   {
     name: "MG ZS EV (Excite)",
     brand: "MG Motor India",

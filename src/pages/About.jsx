@@ -152,7 +152,7 @@ export default function About() {
         </p>
         <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link to="/rent" className="btn btn-primary btn-lg">⚡ Rent an EV</Link>
-          <Link to="/list-your-ev" className="btn btn-outline btn-lg" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.25)' }}>🚗 List Your EV</Link>
+          <Link to="/list-your-ev" className="btn btn-outline-light btn-lg">🚗 List Your EV</Link>
         </div>
       </section>
     </main>

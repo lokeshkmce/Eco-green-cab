@@ -9,6 +9,7 @@ import { IoSpeedometerOutline } from 'react-icons/io5';
 export default function CarDetailsModal({ car, onClose, onBook }) {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('overview');
+  const [hoveredHostCar, setHoveredHostCar] = useState(null);
 
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -33,14 +34,14 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
         {/* ─── LEFT: IMAGE GALLERY ─── */}
         <div className="car-details-image-col">
           <img
-            src={car.gallery[activeImage] || car.image}
+            src={hoveredHostCar ? hoveredHostCar.gallery[activeImage] || hoveredHostCar.image : (car.gallery[activeImage] || car.image)}
             alt={car.name}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
           {/* Badges Removed */}
           {/* Thumbnails */}
           <div style={{ position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
-            {car.gallery.map((_, i) => (
+            {(hoveredHostCar || car).gallery.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveImage(i)}
@@ -93,7 +94,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
 
           {/* Compact Tabs */}
           <div style={{ display: 'flex', gap: '4px', marginBottom: '16px', borderBottom: '1px solid #e5e7eb' }}>
-            {['overview', 'specs', 'owner'].map((tab) => (
+            {['overview', 'specs', car.isGroup ? 'hosts' : 'owner'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -173,7 +174,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
               </div>
             )}
 
-            {activeTab === 'owner' && (
+            {activeTab === 'owner' && !car.isGroup && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px' }}>
                 <img src={car.owner.avatar} alt={car.owner.name} style={{ width: '60px', height: '60px', borderRadius: '50%', border: '2px solid #00b96b', objectFit: 'cover' }} />
                 <div style={{ flex: 1 }}>
@@ -195,29 +196,93 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 </div>
               </div>
             )}
+
+            {activeTab === 'hosts' && car.isGroup && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ fontSize: '0.85rem', color: '#4b5563', marginBottom: '4px' }}>
+                  Select a specific host to book this EV model:
+                </div>
+                {car.cars.map((hostCar, idx) => (
+                  <div 
+                    key={idx} 
+                    onMouseEnter={() => setHoveredHostCar(hostCar)}
+                    onMouseLeave={() => setHoveredHostCar(null)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px', cursor: 'pointer', transition: 'all 0.2s ease', borderColor: hoveredHostCar?.id === hostCar.id ? '#00b96b' : '#e2e8f0' }}
+                  >
+                    <div style={{ position: 'relative', width: '80px', height: '60px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
+                      <img src={hostCar.image} alt={hostCar.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ position: 'absolute', bottom: '-4px', right: '-4px', background: '#fff', borderRadius: '50%', padding: '2px' }}>
+                        <img src={hostCar.owner.avatar} alt={hostCar.owner.name} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                        <span style={{ fontWeight: 800, fontSize: '0.95rem', color: '#111827' }}>{hostCar.owner.name}</span>
+                        {hostCar.owner.verified && <span style={{ color: '#009958', fontSize: '0.65rem', fontWeight: 700, background: '#d1fae5', padding: '2px 4px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '2px' }}><MdCheckCircle/></span>}
+                      </div>
+                      <div style={{ color: '#64748b', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '2px', color: '#f59e0b', fontWeight: 700 }}><FaStar size={10}/> {hostCar.owner.rating}</span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}><MdLocationOn /> {hostCar.location}</span>
+                      </div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontWeight: 800, color: '#009958', fontSize: '0.95rem' }}>₹{hostCar.price.toLocaleString('en-IN')}</div>
+                      <button
+                        onClick={() => onBook(hostCar)}
+                        style={{ marginTop: '4px', background: '#00b96b', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}
+                      >
+                        Select
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Book Button (Anchored to Bottom) */}
           <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e5e7eb' }}>
-            <button
-              onClick={() => onBook(car)}
-              style={{
-                width: '100%',
-                padding: '14px',
-                borderRadius: '10px',
-                fontWeight: 700,
-                fontSize: '0.95rem',
-                background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
-                color: '#ffffff',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 4px 14px rgba(0,185,107,0.3)',
-                fontFamily: 'Inter, sans-serif',
-              }}
-            >
-              <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdElectricBolt/> Reserve This EV — ₹{car.price.toLocaleString('en-IN')}/day</span>
-            </button>
+            {car.isGroup && activeTab !== 'hosts' ? (
+              <button
+                onClick={() => setActiveTab('hosts')}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
+                  color: '#ffffff',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 14px rgba(0,185,107,0.3)',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                View Available Hosts →
+              </button>
+            ) : !car.isGroup ? (
+              <button
+                onClick={() => onBook(car)}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
+                  color: '#ffffff',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 14px rgba(0,185,107,0.3)',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}><MdElectricBolt/> Reserve This EV — ₹{car.price.toLocaleString('en-IN')}/day</span>
+              </button>
+            ) : null}
           </div>
 
         </div>

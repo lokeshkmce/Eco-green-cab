@@ -17,7 +17,12 @@ export const MarketplaceProvider = ({ children }) => {
       let parsed = [];
       try {
         const raw = localStorage.getItem('eco_cars');
-        if (raw) parsed = JSON.parse(raw);
+        if (raw) {
+          const parsedRaw = JSON.parse(raw);
+          if (Array.isArray(parsedRaw)) {
+            parsed = parsedRaw.filter(c => c && c.id); // Bulletproof against null/invalid objects
+          }
+        }
       } catch (e) {
         console.warn('eco_cars localStorage was corrupt, resetting.', e);
         localStorage.removeItem('eco_cars');
@@ -61,6 +66,16 @@ export const MarketplaceProvider = ({ children }) => {
     } catch (e) {
       localStorage.removeItem('eco_messages');
     }
+
+    // Sync across tabs
+    const handleStorage = (e) => {
+      if (e.key === 'eco_cars' && e.newValue) {
+        setCars(JSON.parse(e.newValue));
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   // Save to LocalStorage whenever state changes

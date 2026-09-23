@@ -556,8 +556,18 @@
     grid-template-columns: 1fr;
   }
 
+  .auth-modal-content {
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
   .auth-modal-content--wide {
     max-width: 100%;
+  }
+
+  .auth-modal-overlay {
+    padding: 16px;
   }
 }
 

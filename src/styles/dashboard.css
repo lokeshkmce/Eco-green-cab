@@ -874,7 +874,7 @@
 
 @media (max-width: 768px) {
   .rd-stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .rd-header { padding: 16px 20px; }
+  .rd-header { padding: 16px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
   .rd-header-greeting { font-size: 1.2rem; }
   .rd-content { padding: 16px 20px; }
 }
@@ -890,6 +890,7 @@
 .dashboard-header { padding: 16px 24px; border-bottom: 1px solid #e5e7eb; background: #ffffff; z-index: 10; }
 .dashboard-header-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .dashboard-content { padding: 20px 24px; width: 100%; flex: 1; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+.dashboard-content-scroll { flex: 1; overflow-y: auto; }
 .sidebar-logo { padding: 0 16px 20px; display: flex; align-items: center; gap: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 800; color: #ffffff; text-decoration: none; }
 .sidebar-nav { display: flex; flex-direction: column; gap: 4px; padding: 0 12px; flex: 1; }
 .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: #9ca3af; text-decoration: none; font-weight: 500; transition: all 0.2s ease; font-size: 0.9rem; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; }
@@ -919,4 +920,65 @@
 @media (max-width: 1024px) {
   .dashboard-layout { flex-direction: column; }
   .dashboard-mobile-header { display: flex; }
+  .dashboard-sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 280px;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  .dashboard-sidebar.open { transform: translateX(0); }
+  .dashboard-main { flex: 1; overflow-y: auto; height: calc(100vh - 56px); }
+  .dashboard-sidebar-overlay.open { display: block; }
+}
+
+@media (max-width: 768px) {
+  .metric-grid { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-split-view { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .metric-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Highly Attractive Dashboard Logo for Dark Backgrounds ─── */
+.brand-logo-dashboard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start; /* Prevent stretching across sidebar */
+  text-decoration: none;
+  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+  padding: 6px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 16px rgba(0, 230, 118, 0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin: 24px;
+}
+
+.brand-logo-dashboard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 230, 118, 0.25);
+  border-color: #ffffff;
+}
+
+.brand-logo-dashboard img {
+  display: block;
+  height: 40px;
+  border-radius: 6px;
+  mix-blend-mode: normal !important; /* override global if any */
+}
+
+/* Adjust for mobile headers */
+.dashboard-mobile-header .brand-logo-dashboard,
+.rd-mobile-header .brand-logo-dashboard {
+  margin: 0 16px !important;
+  transform: scale(0.85);
+  transform-origin: left center;
+}
+.dashboard-mobile-header .brand-logo-dashboard:hover,
+.rd-mobile-header .brand-logo-dashboard:hover {
+  transform: scale(0.85) translateY(-2px);
 }

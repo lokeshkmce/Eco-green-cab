@@ -86,7 +86,7 @@ export default function EVMarketplace({ limit, searchFilters }) {
       result = result.filter((c) => c.category === activeCategory);
     }
 
-    // All filters flow through local state (synced from searchFilters prop via useEffect)
+    // All filters flow through local state
     if (selectedCity) {
       result = result.filter((c) => c.city === selectedCity);
     }
@@ -100,28 +100,88 @@ export default function EVMarketplace({ limit, searchFilters }) {
       result = result.filter((c) => c.variant === selectedVariant);
     }
 
+    // Grouping Logic: Group by Brand + Model
+    const groupsMap = new Map();
+    
+    result.forEach(car => {
+      const key = `${car.brand}-${car.model}`;
+
+      if (!groupsMap.has(key)) {
+        groupsMap.set(key, {
+          id: key, 
+          isGroup: true, 
+          name: `${car.brand} ${car.model}`,
+          brand: car.brand,
+          model: car.model,
+          type: car.type,
+          category: car.category,
+          image: car.image, // Cover image
+          gallery: car.gallery,
+          price: car.price, // Will hold min price
+          originalPrice: car.originalPrice,
+          rating: car.rating, // Will hold avg rating
+          reviews: car.reviews, // Will hold total reviews
+          location: car.city,
+          city: car.city,
+          range: car.range,
+          seats: car.seats,
+          acceleration: car.acceleration,
+          topSpeed: car.topSpeed,
+          chargingTime: car.chargingTime,
+          transmission: car.transmission,
+          features: car.features,
+          specs: car.specs,
+          description: car.description,
+          featured: car.featured,
+          
+          cars: [] // The specific host listings
+        });
+      }
+      
+      const group = groupsMap.get(key);
+      group.cars.push(car);
+      
+      // Update aggregates
+      if (car.price < group.price) group.price = car.price;
+      if (car.featured) group.featured = true;
+    });
+
+    let groupedResult = Array.from(groupsMap.values());
+
+    // Recalculate averages and strings
+    groupedResult.forEach(group => {
+      const totalRating = group.cars.reduce((sum, c) => sum + Number(c.rating), 0);
+      group.rating = (totalRating / group.cars.length).toFixed(1);
+      group.reviews = group.cars.reduce((sum, c) => sum + Number(c.reviews), 0);
+      
+      const uniqueCities = [...new Set(group.cars.map(c => c.city))];
+      if (uniqueCities.length > 1) {
+        group.location = `${uniqueCities.length} Cities`;
+      }
+    });
+
     // Sort
     switch (sortBy) {
       case 'price-asc':
-        result.sort((a, b) => a.price - b.price);
+        groupedResult.sort((a, b) => a.price - b.price);
         break;
       case 'price-desc':
-        result.sort((a, b) => b.price - a.price);
+        groupedResult.sort((a, b) => b.price - a.price);
         break;
       case 'rating':
-        result.sort((a, b) => b.rating - a.rating);
+        groupedResult.sort((a, b) => b.rating - a.rating);
         break;
       case 'range':
-        result.sort((a, b) => b.range - a.range);
+        groupedResult.sort((a, b) => b.range - a.range);
         break;
       default:
-        result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+        groupedResult.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     }
 
     // Limit for homepage preview
-    if (limit) result = result.slice(0, limit);
+    if (limit) groupedResult = groupedResult.slice(0, limit);
 
-    return result;
+    return groupedResult;
   }, [activeCategory, sortBy, limit, selectedCity, selectedBrand, selectedModel, selectedVariant, approvedCars]);
 
 

@@ -247,6 +247,17 @@ input, textarea, select {
   transform: translateY(-2px);
 }
 
+.btn-outline-light {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255,255,255,0.25);
+}
+.btn-outline-light:hover {
+  background: #ffffff;
+  color: var(--dark-900);
+  transform: translateY(-2px);
+}
+
 .btn-dark {
   background: var(--dark-900);
   color: var(--text-on-dark);
@@ -486,3 +497,23 @@ input, textarea, select {
   .section-header { margin-bottom: 12px; }
 }
 @media (max-width: 480px)  { :root { --section-padding: 16px 0; } }
+
+/* --- Global Logo Styling (Seamless Blend) --- */
+.brand-logo-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.brand-logo-container:hover {
+  transform: scale(1.03);
+}
+
+.brand-logo-container img {
+  display: block;
+  height: 48px !important;
+  /* This completely removes the white square background of the image when placed on light backgrounds */
+  mix-blend-mode: multiply; 
+}

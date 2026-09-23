@@ -44,16 +44,13 @@ export default function Navbar() {
       <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
         <div className="navbar-inner">
           {/* Logo */}
-          <Link to="/" className="navbar-logo" onClick={closeMenu}>
-            <div className="navbar-logo-icon"><MdElectricBolt /></div>
-            <span className="navbar-logo-text">
-              Eco<span>Green</span> Cab
-            </span>
+          <Link to="/" className="brand-logo-container" onClick={closeMenu}>
+            <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" style={{ height: '45px', objectFit: 'contain' }} />
           </Link>
 
           {/* Desktop Nav */}
           <div className="navbar-links">
-            {navLinks.map((link) => (
+            {navLinks.filter(link => !(link.path === '/list-your-ev' && isLoggedIn && user?.roles?.includes('renter') && !user?.roles?.includes('owner'))).map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
@@ -110,7 +107,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="mobile-menu">
-          {navLinks.map((link) => (
+          {navLinks.filter(link => !(link.path === '/list-your-ev' && isLoggedIn && user?.roles?.includes('renter') && !user?.roles?.includes('owner'))).map((link) => (
             <NavLink
               key={link.path}
               to={link.path}

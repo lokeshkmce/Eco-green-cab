@@ -10,13 +10,8 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Brand */}
           <div>
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginBottom: '16px' }}>
-              <div style={{ width: '36px', height: '36px', background: 'linear-gradient(135deg, #00e676 0%, #00bcd4 100%)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', boxShadow: '0 0 16px rgba(0,230,118,0.3)' }}>
-                ⚡
-              </div>
-              <span style={{ fontFamily: 'Space Grotesk', fontWeight: 800, fontSize: '1.2rem', color: '#f0f9ff' }}>
-                Eco<span style={{ color: '#00e676' }}>Green</span> Cab
-              </span>
+            <Link to="/" className="brand-logo-container" style={{ marginBottom: '16px', display: 'inline-flex' }}>
+              <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" style={{ height: '45px', borderRadius: '8px' }} />
             </Link>
             <p className="footer-brand-desc">
               India's premier self-drive electric vehicle marketplace. Driving sustainable, zero-emission smart mobility across Bengaluru, Mumbai, Delhi NCR, and 28+ Indian smart cities.

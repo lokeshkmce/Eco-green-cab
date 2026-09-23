@@ -23,9 +23,25 @@ export default function ListYourEV() {
     setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
   };
 
-  const handleSubmit = (e) => {
+  const fileToBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    reader.readAsDataURL(file);
+  });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
+    let imageUrl = '/images/cars/car_4.jpg'; // Fallback
+    if (form.photos && form.photos.length > 0) {
+      try {
+        imageUrl = await fileToBase64(form.photos[0]);
+      } catch (err) {
+        console.error("Failed to read image", err);
+      }
+    }
+
     // Add vehicle to context
     addCar({
       name: `${form.carBrand} ${form.carModel} ${form.carYear}`,
@@ -36,7 +52,7 @@ export default function ListYourEV() {
       price: parseInt(form.dailyRate, 10),
       city: form.city,
       location: form.location,
-      image: '/images/cars/car_4.jpg', // Placeholder for user-uploaded image
+      image: imageUrl, // User-uploaded image or fallback
       range: 300,
       seats: 5,
       acceleration: 8.5,
@@ -376,7 +392,7 @@ export default function ListYourEV() {
               <strong style={{ color: '#009958' }}>{form.carYear} {form.carBrand} {form.carModel}</strong>. Our onboarding team will review and activate your listing within 24 hours.
             </p>
             <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/owner" style={{ padding: '14px 28px', borderRadius: '12px', background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', color: '#ffffff', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', boxShadow: '0 4px 16px rgba(0,185,107,0.3)' }}>
+              <Link to="/owner/dashboard" style={{ padding: '14px 28px', borderRadius: '12px', background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', color: '#ffffff', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', boxShadow: '0 4px 16px rgba(0,185,107,0.3)' }}>
                 📊 View Host Dashboard
               </Link>
               <Link to="/" style={{ padding: '14px 28px', borderRadius: '12px', background: '#f3f4f6', border: '1px solid #e5e7eb', color: '#111827', fontWeight: 700, textDecoration: 'none' }}>

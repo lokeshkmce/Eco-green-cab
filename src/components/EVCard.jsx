@@ -21,8 +21,11 @@ export default function EVCard({ car, onViewDetails, onBook }) {
       <div className="ev-card-image">
         <img src={car.image} alt={car.name} loading="lazy" />
 
-        {/* Badges Removed */}
-
+        {car.isGroup && car.cars && (
+          <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(0, 0, 0, 0.7)', color: '#fff', padding: '4px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 'bold', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.2)' }}>
+            {car.cars.length} Available
+          </div>
+        )}
         {/* Favorite */}
         <button
           className={`ev-card-fav${favorited ? ' favorited' : ''}`}
@@ -54,14 +57,14 @@ export default function EVCard({ car, onViewDetails, onBook }) {
 
         {/* Location */}
         <div className="ev-location">
-          <MdLocationOn style={{marginRight:'4px'}}/> {car.location}, {car.city}
+          <MdLocationOn style={{marginRight:'4px'}}/> {car.location}
         </div>
 
 
         {/* Footer */}
         <div className="ev-card-footer">
           <div className="ev-card-price">
-            <span className="ev-price-current">₹{car.price.toLocaleString('en-IN')}</span>
+            <span className="ev-price-current">{car.isGroup ? 'From ' : ''}₹{car.price.toLocaleString('en-IN')}</span>
             <span className="ev-price-period">/day</span>
             {car.originalPrice > car.price && (
               <span className="ev-price-original">₹{car.originalPrice.toLocaleString('en-IN')}</span>
@@ -74,7 +77,7 @@ export default function EVCard({ car, onViewDetails, onBook }) {
               onBook(car);
             }}
           >
-            Book Now →
+            {car.isGroup ? 'View Hosts →' : 'Book Now →'}
           </button>
         </div>
       </div>

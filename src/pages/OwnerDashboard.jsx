@@ -20,7 +20,12 @@ export default function OwnerDashboard() {
   const [profileForm, setProfileForm] = useState({ name: user?.name || '', email: user?.email || '', phone: user?.phone || '' });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const myCars = cars.filter(c => c.ownerEmail === user?.email);
+  const normalizePhone = (phone) => phone ? phone.toString().replace(/[\s\-\+]/g, '').slice(-10) : '';
+
+  const myCars = cars.filter(c => 
+    (user?.phone && normalizePhone(c.ownerPhone) === normalizePhone(user.phone)) || 
+    (user?.email && c.ownerEmail === user.email)
+  );
   const counteredCars = myCars.filter(c => c.status === 'COUNTERED');
   const activeCars = myCars.filter(c => c.status === 'APPROVED');
   const pendingCars = myCars.filter(c => c.status === 'PENDING');
@@ -59,8 +64,8 @@ export default function OwnerDashboard() {
       
       {/* ─── MOBILE HEADER (Visible only on <1024px) ─── */}
       <div className="dashboard-mobile-header">
-        <Link to="/" className="sidebar-logo">
-          <span style={{ color: '#00b96b' }}><MdElectricBolt /></span> EcoGreen
+        <Link to="/" className="brand-logo-dashboard">
+          <img src="/images/logo.jpg" alt="ieco" />
         </Link>
         <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>
           ☰
@@ -75,14 +80,14 @@ export default function OwnerDashboard() {
 
       {/* ─── SIDEBAR (30%) ─── */}
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <Link to="/" className="sidebar-logo">
-          <span style={{ color: '#00b96b' }}><MdElectricBolt /></span> EcoGreen <span style={{ color: '#fff', fontWeight: 600 }}>Owner</span>
-        </Link>
-        
-        <div style={{ padding: '0 12px', marginBottom: '24px' }}>
-          <div style={{ background: '#1e293b', padding: '16px', borderRadius: '12px', border: '1px solid #334155' }}>
-            <div style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.05em', marginBottom: '4px' }}>LOGGED IN AS</div>
-            <div style={{ color: '#fff', fontWeight: 600 }}>{user?.name || 'Owner'}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
+          <Link to="/" className="brand-logo-dashboard" style={{ margin: 0, padding: '4px 8px' }}>
+            <img src="/images/logo.jpg" alt="ieco Owner" style={{ height: '32px' }} />
+          </Link>
+          
+          <div style={{ margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <div style={{ fontSize: '0.65rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.05em' }}>LOGGED IN AS</div>
+            <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '120px' }}>{user?.name || 'Owner'}</div>
           </div>
         </div>
 
@@ -124,13 +129,9 @@ export default function OwnerDashboard() {
               </p>
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button 
-                className="btn btn-outline" 
-                onClick={handleRenterAction}
-                style={{ padding: '8px 16px', fontSize: '0.85rem' }}
-              >
-                {user?.roles?.includes('renter') ? '<MdRefresh /> Switch to Renter View' : '🚗 Rent an EV'}
-              </button>
+              <Link to="/" style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', color: '#0f172a', fontWeight: 700, borderRadius: '8px', padding: '8px 16px', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MdHome size={16} /> Go to Homescreen
+              </Link>
               <Link to="/list-your-ev" className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}><MdAdd /> Add Your EV</Link>
             </div>
           </div>

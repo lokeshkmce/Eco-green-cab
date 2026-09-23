@@ -4,7 +4,6 @@ import { useMarketplace } from '../context/MarketplaceContext';
 const contactMethods = [
   { icon: '📧', title: 'Email Support', value: 'support@ecogreencab.in', sub: 'Response within 2 hours', color: '#009958' },
   { icon: '📱', title: 'Toll-Free & WhatsApp', value: '1800-209-4733', sub: '24/7 Pan-India Roadside Assist', color: '#0284c7' },
-  { icon: '💬', title: 'Live Chat Support', value: 'Available in-app', sub: 'Hindi, English & Regional languages', color: '#059669' },
   { icon: '🏢', title: 'HQ Bengaluru', value: '100ft Road, Indiranagar', sub: 'Bengaluru, Karnataka 560038', color: '#009958' },
 ];
 
@@ -69,7 +68,7 @@ export default function Contact() {
 
       {/* Contact Methods — 70% Clean Light Section */}
       <div className="container" style={{ padding: '56px 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '64px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '64px' }}>
           {contactMethods.map((method) => (
             <div key={method.title} style={{
               background: '#ffffff',
