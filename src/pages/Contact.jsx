@@ -68,7 +68,7 @@ export default function Contact() {
 
       {/* Contact Methods — 70% Clean Light Section */}
       <div className="container" style={{ padding: '56px 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '64px' }}>
+        <div className="grid-responsive-3" style={{ marginBottom: '64px' }}>
           {contactMethods.map((method) => (
             <div key={method.title} style={{
               background: '#ffffff',
@@ -92,7 +92,7 @@ export default function Contact() {
         </div>
 
         {/* Contact Form */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '60px', alignItems: 'start', maxWidth: '1100px', margin: '0 auto' }}>
+        <div className="grid-responsive-2" style={{ alignItems: 'start', maxWidth: '1100px', margin: '0 auto' }}>
           {/* Left */}
           <div>
             <h2 style={{ fontFamily: 'Space Grotesk', fontSize: '1.9rem', fontWeight: 800, color: '#111827', marginBottom: '16px' }}>
@@ -158,7 +158,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="grid-responsive-2">
                   <div>
                     <label style={labelStyle}>Full Name</label>
                     <input name="name" value={form.name} onChange={handleChange} placeholder="Vikram Malhotra" required style={inputStyle}

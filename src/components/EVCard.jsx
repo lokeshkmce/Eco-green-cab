@@ -22,7 +22,7 @@ export default function EVCard({ car, onViewDetails, onBook }) {
         <img src={car.image} alt={car.name} loading="lazy" />
 
         {car.isGroup && car.cars && (
-          <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(0, 0, 0, 0.7)', color: '#fff', padding: '4px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 'bold', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.2)' }}>
+          <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(0, 0, 0, 0.7)', color: '#fff', padding: '4px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 'bold', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.2)' }}>
             {car.cars.length} Available
           </div>
         )}

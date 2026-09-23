@@ -229,7 +229,7 @@ export default function OwnerDashboard() {
                   </h2>
                   <div style={{ display: 'grid', gap: '16px' }}>
                     {counteredCars.map(car => (
-                      <div key={car.id} style={{ background: '#fff', border: '2px solid #3b82f6', borderRadius: '16px', padding: '24px', display: 'flex', gap: '24px', alignItems: 'center' }}>
+                      <div key={car.id} className="flex-responsive" style={{ background: '#fff', border: '2px solid #3b82f6', borderRadius: '16px', padding: '24px', alignItems: 'center' }}>
                         <img src={car.image} alt={car.name} style={{ width: '120px', height: '80px', borderRadius: '8px', objectFit: 'cover' }} />
                         <div style={{ flex: 1 }}>
                           <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: '0 0 8px' }}>{car.name}</h3>
@@ -436,7 +436,7 @@ export default function OwnerDashboard() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div className="flex-responsive">
               <button 
                 onClick={() => setConfirmingCar(null)}
                 style={{ flex: 1, padding: '14px', background: 'transparent', border: '1px solid #cbd5e1', color: '#64748b', borderRadius: '12px', fontWeight: 700, cursor: 'pointer' }}

@@ -39,7 +39,7 @@ export default function HowItWorksPage() {
             <span className="section-badge">🏠 For Hosts</span>
             <h2 className="section-title" style={{ color: '#111827' }}>How to List Your EV</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+          <div className="grid-responsive-3">
             {[
               { step: 1, icon: '📝', title: 'Create Your Listing', desc: 'Sign up and add your EV details, photos, daily rate, and availability in minutes.' },
               { step: 2, icon: '✅', title: 'Get Verified', desc: 'Our team reviews your listing and vehicle. Once approved, you go live instantly.' },

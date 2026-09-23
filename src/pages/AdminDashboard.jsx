@@ -14,7 +14,8 @@ export default function AdminDashboard() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   
-  const [activeTab, setActiveTab] = useState('overview'); // overview, approvals, fleet, bookings, support
+  const [activeTab, setActiveTab] = useState('overview'); // overview, approvals, fleet, bookings, support, users
+  const [userFilter, setUserFilter] = useState('car'); // 'car' or 'rent'
   const [counterInputs, setCounterInputs] = useState({}); // { carId: price }
   const [replyInputs, setReplyInputs] = useState({}); // { msgId: text }
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -41,8 +42,123 @@ export default function AdminDashboard() {
     { id: 'approvals', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdNotificationsActive /> Approvals</span> },
     { id: 'fleet', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdDirectionsCar /> Active Fleet</span> },
     { id: 'bookings', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdListAlt /> All Bookings</span> },
+    { id: 'users', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdPerson /> User List</span> },
     { id: 'support', label: <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}><MdSupportAgent /> Support Tickets</span> },
   ];
+  const renderUsers = () => {
+    const demoUsersRaw = JSON.parse(localStorage.getItem('eco_demo_users') || '{}');
+    const realUsers = Object.keys(demoUsersRaw).map(phone => ({
+      name: 'User ' + phone.slice(-4),
+      phone,
+      role: demoUsersRaw[phone],
+      status: 'Active'
+    }));
+
+    const mockUsers = [
+      { name: 'Arjun Kumar', phone: '9876543210', role: 'owner', status: 'Active' },
+      { name: 'Priya Sharma', phone: '9123456789', role: 'renter', status: 'Active' },
+      { name: 'Rahul Desai', phone: '9988776655', role: 'renter', status: 'Active' },
+      { name: 'Kavita Singh', phone: '9876512345', role: 'owner', status: 'Active' },
+    ];
+
+    const combinedUsers = [...realUsers, ...mockUsers].reduce((acc, current) => {
+      const x = acc.find(item => item.phone === current.phone);
+      if (!x) return acc.concat([current]);
+      return acc;
+    }, []);
+
+    const owners = combinedUsers.filter(u => u.role === 'owner');
+    const renters = combinedUsers.filter(u => u.role === 'renter');
+
+    const UserTable = ({ title, users, badgeColor }) => (
+      <div className="rd-panel" style={{ marginBottom: '24px' }}>
+        <div className="rd-panel-header">
+          <h2 className="rd-panel-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MdPerson /> {title} ({users.length})</h2>
+        </div>
+        <div className="rd-bookings-list">
+          {users.map((u, i) => (
+            <div className="rd-booking-row" key={i}>
+              <div className="rd-booking-num">{i + 1}</div>
+              <div className="rd-booking-info" style={{ flex: 1 }}>
+                <div className="rd-booking-vehicle">{u.name}</div>
+                <div className="rd-booking-dates">{u.phone}</div>
+              </div>
+              <div className="rd-booking-right">
+                <span style={{ 
+                  background: badgeColor, 
+                  color: '#fff', 
+                  padding: '6px 12px', 
+                  borderRadius: '12px', 
+                  fontSize: '0.75rem', 
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase'
+                }}>
+                  {u.role === 'owner' ? 'Car User' : u.role === 'renter' ? 'Rent User' : u.role}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+
+    return (
+      <div className="rd-content" style={{ padding: 0 }}>
+        <header className="rd-header">
+          <div className="rd-header-left">
+            <div className="rd-header-greeting">User Management</div>
+            <p className="rd-header-sub">View and manage all registered Rent Users and Car Users.</p>
+          </div>
+        </header>
+        <div style={{ padding: '24px 28px' }}>
+          
+          {/* Tabs for Toggle */}
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', background: '#f8fafc', padding: '6px', borderRadius: '12px', width: 'fit-content' }}>
+            <button 
+              onClick={() => setUserFilter('car')}
+              style={{
+                padding: '10px 20px',
+                borderRadius: '8px',
+                border: 'none',
+                background: userFilter === 'car' ? '#ffffff' : 'transparent',
+                color: userFilter === 'car' ? '#111827' : '#64748b',
+                fontWeight: userFilter === 'car' ? 700 : 500,
+                boxShadow: userFilter === 'car' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              Car Users
+            </button>
+            <button 
+              onClick={() => setUserFilter('rent')}
+              style={{
+                padding: '10px 20px',
+                borderRadius: '8px',
+                border: 'none',
+                background: userFilter === 'rent' ? '#ffffff' : 'transparent',
+                color: userFilter === 'rent' ? '#111827' : '#64748b',
+                fontWeight: userFilter === 'rent' ? 700 : 500,
+                boxShadow: userFilter === 'rent' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              Rent Users
+            </button>
+          </div>
+
+          {userFilter === 'car' && (
+            <UserTable title="Car Users" users={owners} badgeColor="#f59e0b" />
+          )}
+          {userFilter === 'rent' && (
+            <UserTable title="Rent Users" users={renters} badgeColor="#3b82f6" />
+          )}
+
+        </div>
+      </div>
+    );
+  };
 
   const renderOverview = () => (
     <div className="rd-content" style={{ padding: 0 }}>
@@ -55,7 +171,7 @@ export default function AdminDashboard() {
 
       <div style={{ padding: '24px 28px' }}>
         {/* KPI Cards */}
-        <div className="rd-stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '30px' }}>
+        <div className="rd-stats-grid" style={{ marginBottom: '30px' }}>
           {[
             { id: 'bookings', label: 'Total Bookings', value: bookings.length, color: '#3b82f6', icon: <MdListAlt size={24} />, bg: 'rgba(59,130,246,0.1)' },
             { id: 'fleet', label: 'Active Fleet', value: approvedCars.length, color: '#00e676', icon: <MdDirectionsCar size={24} />, bg: 'rgba(0,230,118,0.1)' },
@@ -156,7 +272,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', marginBottom: '24px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                  <div className="grid-responsive-4" style={{ gap: '16px' }}>
                     <div>
                       <div style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700, marginBottom: '4px' }}>Brand</div>
                       <div style={{ fontWeight: 600, color: '#111827' }}>{car.brand}</div>
@@ -434,6 +550,7 @@ export default function AdminDashboard() {
         {activeTab === 'approvals' && renderApprovals()}
         {activeTab === 'fleet' && renderFleet()}
         {activeTab === 'bookings' && renderBookings()}
+        {activeTab === 'users' && renderUsers()}
         {activeTab === 'support' && (
           <div className="rd-content" style={{ padding: 0 }}>
             <header className="rd-header">

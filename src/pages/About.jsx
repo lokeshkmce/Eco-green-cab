@@ -40,7 +40,7 @@ export default function About() {
       {/* Mission — 70% Clean Light Section */}
       <section className="section" style={{ background: '#ffffff' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+          <div className="grid-responsive-2" style={{ gap: '80px', alignItems: 'center' }}>
             <div>
               <span className="section-badge">🎯 Our Mission</span>
               <h2 className="section-title" style={{ textAlign: 'left', marginTop: '16px', marginBottom: '20px', color: '#111827' }}>
@@ -63,7 +63,7 @@ export default function About() {
             </div>
 
             {/* Stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+            <div className="grid-responsive-2" style={{ gap: '16px' }}>
               {[
                 { icon: '🚗', value: greenStats.rentals, label: 'EV Rentals', sub: 'Across India' },
                 { icon: '🌱', value: greenStats.co2Saved, label: 'kg CO₂ Saved', sub: 'Total impact' },
@@ -89,7 +89,7 @@ export default function About() {
             <span className="section-badge">💚 Our Values</span>
             <h2 className="section-title" style={{ color: '#111827' }}>What We Stand For</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+          <div className="grid-responsive-3">
             {[
               { icon: '🇮🇳', title: 'Desh Ka Vikas', desc: 'Supporting the National Electric Mobility Mission (NEMMP) & Swachh Bharat with 100% zero tailpipe emissions.' },
               { icon: '🤝', title: 'Community-Driven', desc: 'Our platform empowers Indian vehicle hosts to earn ₹35,000–₹75,000/month by sharing their idle green vehicles.' },
@@ -117,7 +117,7 @@ export default function About() {
             <span className="section-badge">👥 Meet the Team</span>
             <h2 className="section-title" style={{ color: '#111827' }}>The People Behind the Platform</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+          <div className="grid-responsive-4">
             {team.map((member) => (
               <div key={member.name} style={{
                 background: '#ffffff',

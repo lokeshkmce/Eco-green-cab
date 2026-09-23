@@ -227,7 +227,7 @@ export default function ListYourEV() {
               {step === 2 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
                   <h3 style={{ fontFamily: 'Space Grotesk', color: '#111827', fontSize: '1.25rem', fontWeight: 800, marginBottom: '4px' }}>🚗 Vehicle Details</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div className="grid-responsive-2">
                     {[
                       { name: 'carBrand', label: 'Brand', placeholder: 'Tata, Mahindra, MG, BYD...' },
                       { name: 'carModel', label: 'Model', placeholder: 'Nexon EV, XUV400, ZS EV...' },
@@ -278,7 +278,7 @@ export default function ListYourEV() {
                       onBlur={(e) => { e.target.style.borderColor = '#e5e7eb'; e.target.style.boxShadow = 'none'; }}
                     />
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div className="grid-responsive-2">
                     <div>
                       <label style={labelStyle}>Vehicle Photos (Max 5)</label>
                       <label style={{ display: 'block', border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '24px', textAlign: 'center', background: '#f8fafc', cursor: 'pointer' }}>
@@ -307,7 +307,7 @@ export default function ListYourEV() {
               {step === 3 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
                   <h3 style={{ fontFamily: 'Space Grotesk', color: '#111827', fontSize: '1.25rem', fontWeight: 800, marginBottom: '4px' }}>📋 Listing & Terms</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div className="grid-responsive-2">
                     <div>
                       <label style={labelStyle}>Daily Rate (₹ INR)</label>
                       <input

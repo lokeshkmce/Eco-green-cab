@@ -53,3 +53,22 @@
     min-width: 40px !important; 
   }
 }
+
+/* Responsive Grid Utilities */
+.grid-responsive-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-responsive-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-responsive-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.grid-responsive-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.flex-responsive { display: flex; gap: 20px; }
+
+@media (max-width: 1024px) {
+  .grid-responsive-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-responsive-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .grid-responsive-4 { grid-template-columns: 1fr; }
+  .grid-responsive-3 { grid-template-columns: 1fr; }
+  .grid-responsive-2 { grid-template-columns: 1fr; }
+  .flex-responsive { flex-direction: column; }
+}
