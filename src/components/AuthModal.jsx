@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
@@ -25,6 +25,16 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
   };
 
+  // Auto-verify when OTP reaches 4 digits (from the auto-typer)
+  useEffect(() => {
+    if (step === 2 && formData.otp === '1234') {
+      const timer = setTimeout(() => {
+        handleVerifyOTP({ preventDefault: () => {} });
+      }, 400); // slight pause so user sees the 4th digit
+      return () => clearTimeout(timer);
+    }
+  }, [formData.otp, step]);
+
   if (!isOpen) return null;
 
   const handleSendOTP = async (e) => {
@@ -42,38 +52,17 @@ export default function AuthModal({ isOpen, onClose }) {
     setError('');
     
     try {
-      // --- DEMO MODE BYPASS (Start) ---
-      // Simulate network delay
+      // Simulate network delay for a realistic feel
       await new Promise(resolve => setTimeout(resolve, 600));
-      setStep(2);
-      /* 
-      // Original Backend Code (Commented out for demo)
-      const response = await fetch('/ecogreencab/send-otp/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify({ 
-          phone: formData.phone
-        })
-      });
-      
-      const data = await response.json().catch(() => ({}));
-      
-      if (!response.ok) {
-        console.warn("Backend error:", data);
-        let errorMsg = data.detail || data.message || data.error || 'Failed to send OTP.';
-        if (typeof errorMsg === 'object') {
-          errorMsg = Object.values(errorMsg).flat()[0] || JSON.stringify(errorMsg);
-        }
-        throw new Error(errorMsg);
-      }
       
       setStep(2);
-      */
-      // --- DEMO MODE BYPASS (End) ---
+      
+      // Auto-type OTP effect for demo
+      setTimeout(() => setFormData(prev => ({ ...prev, otp: '1' })), 400);
+      setTimeout(() => setFormData(prev => ({ ...prev, otp: '12' })), 600);
+      setTimeout(() => setFormData(prev => ({ ...prev, otp: '123' })), 800);
+      setTimeout(() => setFormData(prev => ({ ...prev, otp: '1234' })), 1000);
+
     } catch (err) {
       setError(err.message || 'An error occurred connecting to the server.');
     } finally {
@@ -127,62 +116,6 @@ export default function AuthModal({ isOpen, onClose }) {
       setVerifiedUserData(userData);
       setStep(3);
 
-      /*
-      // Original Backend Code (Commented out for demo)
-      const response = await fetch('/ecogreencab/verify-otp/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify({ 
-          phone: formData.phone,
-          otp: formData.otp 
-        })
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        console.warn("Backend verification error:", data);
-        let errorMsg = data.detail || data.message || data.error || 'Invalid OTP.';
-        if (typeof errorMsg === 'object') {
-          errorMsg = Object.values(errorMsg).flat()[0] || JSON.stringify(errorMsg);
-        }
-        throw new Error(errorMsg);
-      }
-      
-      if (data.token) {
-        localStorage.setItem('eco_auth_token', data.token);
-      }
-
-      const userData = data.user || {
-        name: formData.username.trim() || 'User',
-        phone: formData.phone,
-        roles: []
-      };
-
-      // Admin bypass — skip role selection
-      if (userData.roles?.includes('admin')) {
-        login(userData);
-        onClose();
-        navigate('/admin/dashboard');
-        return;
-      }
-
-      // If backend already assigned a concrete role, skip role selection
-      if (userData.roles?.includes('owner') || userData.roles?.includes('renter')) {
-        login(userData);
-        onClose();
-        navigate(userData.roles.includes('owner') ? '/owner/dashboard' : '/renter/dashboard');
-        return;
-      }
-
-      // New user → show role selection
-      setVerifiedUserData(userData);
-      setStep(3);
-      */
       // --- DEMO MODE BYPASS (End) ---
       
     } catch (err) {

@@ -77,7 +77,7 @@ export default function EVCard({ car, onViewDetails, onBook }) {
               onBook(car);
             }}
           >
-            {car.isGroup ? 'View Hosts →' : 'Book Now →'}
+            {'Book Now →'}
           </button>
         </div>
       </div>

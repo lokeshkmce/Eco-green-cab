@@ -44,7 +44,7 @@ export default function Home() {
             </p>
           </div>
 
-          <EVMarketplace limit={6} />
+          <EVMarketplace limit={8} />
 
           <div style={{ textAlign: 'center', marginTop: '10px' }}>
             <Link to="/rent" className="btn btn-outline btn-lg">

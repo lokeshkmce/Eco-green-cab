@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMarketplace } from '../context/MarketplaceContext';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 
 export default function ListYourEV() {
   const { user } = useAuth();
@@ -42,7 +43,38 @@ export default function ListYourEV() {
       }
     }
 
-    // Add vehicle to context
+    // Call Backend API
+    try {
+      const response = await fetch(`${API_BASE_URL}rental-car/create/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          rental_person: user?.id || 1, // Requires a valid user ID/foreign key
+          car_brand: form.carBrand,
+          car_model: form.carModel,
+          car_year: form.carYear,
+          car_type: form.carType,
+          description: form.description || 'A great EV ready for rent!',
+          daily_rate: form.dailyRate,
+          city: form.city,
+          location: form.location
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        console.error("Backend validation failed:", errData);
+      } else {
+        console.log("Successfully created on backend!");
+      }
+    } catch (err) {
+      console.error("Network error when connecting to API:", err);
+    }
+
+    // Add vehicle to local context (so it appears in the frontend Demo immediately)
     addCar({
       name: `${form.carBrand} ${form.carModel} ${form.carYear}`,
       brand: form.carBrand,
@@ -52,7 +84,7 @@ export default function ListYourEV() {
       price: parseInt(form.dailyRate, 10),
       city: form.city,
       location: form.location,
-      image: imageUrl, // User-uploaded image or fallback
+      image: imageUrl,
       range: 300,
       seats: 5,
       acceleration: 8.5,
