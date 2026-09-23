@@ -10,27 +10,56 @@ export const MarketplaceProvider = ({ children }) => {
   const [bookings, setBookings] = useState([]);
   const [messages, setMessages] = useState([]);
 
-  // Initialize from LocalStorage or default data
+  // Initialize — always ensure all static cars are APPROVED, with safe error recovery
   useEffect(() => {
-    localStorage.removeItem('eco_cars'); // Force refresh to pick up Tamil Nadu cities
-    const savedCars = localStorage.getItem('eco_cars');
-    if (savedCars) {
-      setCars(JSON.parse(savedCars));
-    } else {
-      // Add default status 'APPROVED' to existing static cars
-      const defaultCars = initialCars.map(car => ({ ...car, status: 'APPROVED' }));
-      setCars(defaultCars);
-      localStorage.setItem('eco_cars', JSON.stringify(defaultCars));
+    try {
+      // Safely parse saved cars — if corrupt, fall back to empty
+      let parsed = [];
+      try {
+        const raw = localStorage.getItem('eco_cars');
+        if (raw) parsed = JSON.parse(raw);
+      } catch (e) {
+        console.warn('eco_cars localStorage was corrupt, resetting.', e);
+        localStorage.removeItem('eco_cars');
+        parsed = [];
+      }
+
+      // Static car IDs — always authoritative
+      const staticIds = new Set(initialCars.map(c => c.id));
+
+      // Rebuild static cars as APPROVED, preserving any admin price overrides
+      const staticApproved = initialCars.map(car => {
+        const saved = parsed.find(s => s.id === car.id);
+        return saved ? { ...car, ...saved, status: 'APPROVED' } : { ...car, status: 'APPROVED' };
+      });
+
+      // Keep user-submitted cars that aren't in static data
+      const userSubmitted = parsed.filter(c => !staticIds.has(c.id));
+
+      const merged = [...staticApproved, ...userSubmitted];
+      setCars(merged);
+      localStorage.setItem('eco_cars', JSON.stringify(merged));
+    } catch (e) {
+      // Nuclear fallback — if anything fails, load static cars fresh
+      console.error('MarketplaceContext init error, falling back to static data:', e);
+      localStorage.removeItem('eco_cars');
+      const fallback = initialCars.map(car => ({ ...car, status: 'APPROVED' }));
+      setCars(fallback);
+      localStorage.setItem('eco_cars', JSON.stringify(fallback));
     }
 
-    const savedBookings = localStorage.getItem('eco_bookings');
-    if (savedBookings) {
-      setBookings(JSON.parse(savedBookings));
+    try {
+      const savedBookings = localStorage.getItem('eco_bookings');
+      if (savedBookings) setBookings(JSON.parse(savedBookings));
+    } catch (e) {
+      localStorage.removeItem('eco_bookings');
     }
 
-    const savedMessages = localStorage.getItem('eco_messages');
-    if (savedMessages) {
-      setMessages(JSON.parse(savedMessages));
+    try {
+      const savedMessages = localStorage.getItem('eco_messages');
+      if (savedMessages) setMessages(JSON.parse(savedMessages));
+    } catch (e) {
+      localStorage.removeItem('eco_messages');
     }
   }, []);
 

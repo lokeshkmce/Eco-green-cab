@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import EVMarketplace from '../components/EVMarketplace';
 import SearchWidget from '../components/SearchWidget';
 import { cars } from '../data/cars';
@@ -7,9 +7,17 @@ import '../styles/marketplace.css';
 
 export default function Rent() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchFilters, setSearchFilters] = useState(
-    location.state?.search || {}
+    location.state?.search || null
   );
+
+  // Clear the location state so navigating back doesn't re-apply stale filters
+  useEffect(() => {
+    if (location.state?.search) {
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, []);
 
   return (
     <main style={{ paddingTop: '70px', minHeight: '100vh', background: '#f8fafc' }}>

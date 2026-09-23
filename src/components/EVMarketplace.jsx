@@ -33,20 +33,9 @@ export default function EVMarketplace({ limit, searchFilters }) {
   const [selectedModel, setSelectedModel] = useState('');
   const [selectedVariant, setSelectedVariant] = useState('');
 
-  // Extract unique brands from data — normalize known aliases to canonical names, then sort
-  const brandNormalizer = (b) => {
-    if (!b) return b;
-    if (b === 'Tata') return 'Tata Motors';
-    if (b === 'BYD') return 'BYD India';
-    if (b === 'Kia') return 'Kia India';
-    if (b === 'Mahindra') return 'Mahindra Electric';
-    if (b === 'Toyota') return 'Toyota India';
-    if (b === 'VinFast') return 'VinFast India';
-    if (b === 'Citroën' || b === 'Citroen') return 'Citroën India';
-    return b;
-  };
+  // Extract unique brands from data (raw values to match car.brand exactly)
   const brands = useMemo(
-    () => [...new Set(approvedCars.map(c => brandNormalizer(c.brand)))].sort(),
+    () => [...new Set(approvedCars.map(c => c.brand).filter(Boolean))].sort(),
     [approvedCars]
   );
 
@@ -56,15 +45,28 @@ export default function EVMarketplace({ limit, searchFilters }) {
     [approvedCars]
   );
 
-  // Compute available models based on selected brand
+  // Compute available models based on selected brand + city
   const models = useMemo(() => {
-    return selectedBrand ? [...new Set(approvedCars.filter(c => c.brand === selectedBrand).map(c => c.model))] : [];
-  }, [selectedBrand, approvedCars]);
+    let pool = approvedCars;
+    if (selectedCity) pool = pool.filter(c => c.city === selectedCity);
+    return selectedBrand ? [...new Set(pool.filter(c => c.brand === selectedBrand).map(c => c.model))] : [];
+  }, [selectedBrand, selectedCity, approvedCars]);
 
-  // Compute available variants based on selected model
+  // Compute available variants based on selected model + city
   const variants = useMemo(() => {
-    return selectedModel ? [...new Set(approvedCars.filter(c => c.model === selectedModel).map(c => c.variant))] : [];
-  }, [selectedModel, approvedCars]);
+    let pool = approvedCars;
+    if (selectedCity) pool = pool.filter(c => c.city === selectedCity);
+    return selectedModel ? [...new Set(pool.filter(c => c.model === selectedModel).map(c => c.variant))] : [];
+  }, [selectedModel, selectedCity, approvedCars]);
+
+  // Sync incoming searchFilters (from Home page SearchWidget) into local filter state
+  useEffect(() => {
+    if (!searchFilters) return;
+    if (searchFilters.city) setSelectedCity(searchFilters.city);
+    if (searchFilters.brand) setSelectedBrand(searchFilters.brand);
+    if (searchFilters.model) setSelectedModel(searchFilters.model);
+    if (searchFilters.variant) setSelectedVariant(searchFilters.variant);
+  }, [searchFilters]);
 
   // Reset downstream filters when upstream filter changes
   useEffect(() => {
@@ -84,19 +86,12 @@ export default function EVMarketplace({ limit, searchFilters }) {
       result = result.filter((c) => c.category === activeCategory);
     }
 
-    // Search filters from prop
-    if (searchFilters?.location) {
-      result = result.filter((c) =>
-        c.city.toLowerCase().includes(searchFilters.location.toLowerCase())
-      );
-    }
-
-    // Cascading Filters
+    // All filters flow through local state (synced from searchFilters prop via useEffect)
     if (selectedCity) {
       result = result.filter((c) => c.city === selectedCity);
     }
     if (selectedBrand) {
-      result = result.filter((c) => brandNormalizer(c.brand) === selectedBrand);
+      result = result.filter((c) => c.brand === selectedBrand);
     }
     if (selectedModel) {
       result = result.filter((c) => c.model === selectedModel);
@@ -127,7 +122,8 @@ export default function EVMarketplace({ limit, searchFilters }) {
     if (limit) result = result.slice(0, limit);
 
     return result;
-  }, [activeCategory, sortBy, searchFilters, limit, selectedBrand, selectedModel, selectedVariant, approvedCars]);
+  }, [activeCategory, sortBy, limit, selectedCity, selectedBrand, selectedModel, selectedVariant, approvedCars]);
+
 
   return (
     <div className="ev-marketplace">
@@ -211,24 +207,53 @@ export default function EVMarketplace({ limit, searchFilters }) {
             />
           </div>
           
-          <div style={{ flex: '0 0 auto' }}>
-            <button style={{
-              background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
-              color: '#fff',
-              border: 'none',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(0, 185, 107, 0.3)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              fontSize: '1rem',
-              height: '46px'
-            }}>
+          <div style={{ flex: '0 0 auto', display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <button
+              onClick={() => {
+                // Filters are reactive via useMemo — this button just provides explicit trigger UX
+                // Force a re-render by toggling a dummy state if needed; filters already applied
+                setSelectedCity(prev => prev);
+              }}
+              style={{
+                background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
+                color: '#fff',
+                border: 'none',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(0, 185, 107, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '1rem',
+                height: '46px'
+              }}>
               Search
             </button>
+            {(selectedCity || selectedBrand || selectedModel || selectedVariant) && (
+              <button
+                onClick={() => {
+                  setSelectedCity('');
+                  setSelectedBrand('');
+                  setSelectedModel('');
+                  setSelectedVariant('');
+                }}
+                style={{
+                  background: '#f1f5f9',
+                  color: '#64748b',
+                  border: '1px solid #e2e8f0',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: '0.875rem',
+                  height: '46px',
+                  whiteSpace: 'nowrap'
+                }}>
+                ✕ Clear
+              </button>
+            )}
           </div>
           
         </div>
