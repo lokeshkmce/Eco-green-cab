@@ -17,8 +17,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isAuthOpen, setAuthOpen] = useState(false);
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, isAuthModalOpen, setAuthModalOpen } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export default function Navbar() {
 
   const openAuth = () => {
     closeMenu();
-    setAuthOpen(true);
+    setAuthModalOpen(true);
   };
 
   return (
@@ -169,8 +168,8 @@ export default function Navbar() {
 
       {/* Auth Modal */}
       <AuthModal 
-        isOpen={isAuthOpen} 
-        onClose={() => setAuthOpen(false)} 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setAuthModalOpen(false)} 
       />
     </>
   );

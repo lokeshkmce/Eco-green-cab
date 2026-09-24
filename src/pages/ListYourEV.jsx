@@ -4,6 +4,14 @@ import { useMarketplace } from '../context/MarketplaceContext';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config';
 
+const EV_BRANDS = {
+  'Tata Motors': ['Punch EV', 'Nexon EV', 'Tiago EV', 'Tigor EV', 'Curvv EV', 'Harrier EV', 'Sierra EV'],
+  'MG Motor India': ['Comet EV', 'Windsor EV'],
+  'Mahindra Electric': ['XUV400 EV', 'BE 6', 'XEV 9e'],
+  'Hyundai India': ['Creta Electric'],
+  'Maruti Suzuki India': ['e Vitara']
+};
+
 export default function ListYourEV() {
   const { user } = useAuth();
   const [step, setStep] = useState(1);
@@ -85,9 +93,29 @@ export default function ListYourEV() {
       city: form.city,
       location: form.location,
       image: imageUrl,
+      gallery: [imageUrl],
       range: 300,
       seats: 5,
-      acceleration: 8.5,
+      acceleration: '8.5s',
+      topSpeed: 140,
+      chargingTime: '60 min',
+      transmission: 'Automatic',
+      description: form.description || 'A great EV ready for rent!',
+      features: ['Green RTO Plate 🟢', 'Fastag', 'Clean Interior'],
+      specs: {
+        battery: 'Standard Range',
+        motor: 'Single Motor RWD',
+        weight: '1,400 kg',
+      },
+      status: 'PENDING', // Requires Admin approval
+      owner: {
+        name: form.name || 'New Host',
+        avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(form.name || 'Host') + '&background=00b96b&color=fff',
+        rating: 5.0,
+        trips: 0,
+        joined: new Date().getFullYear().toString(),
+        verified: true,
+      },
       ownerName: form.name,
       ownerEmail: user?.email || form.email,
       ownerPhone: form.phone,
@@ -228,25 +256,52 @@ export default function ListYourEV() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
                   <h3 style={{ fontFamily: 'Space Grotesk', color: '#111827', fontSize: '1.25rem', fontWeight: 800, marginBottom: '4px' }}>🚗 Vehicle Details</h3>
                   <div className="grid-responsive-2">
-                    {[
-                      { name: 'carBrand', label: 'Brand', placeholder: 'Tata, Mahindra, MG, BYD...' },
-                      { name: 'carModel', label: 'Model', placeholder: 'Nexon EV, XUV400, ZS EV...' },
-                      { name: 'carYear', label: 'Registration Year', placeholder: '2024' },
-                    ].map((f) => (
-                      <div key={f.name}>
-                        <label style={labelStyle}>{f.label}</label>
-                        <input
-                          name={f.name}
-                          value={form[f.name]}
-                          onChange={handleChange}
-                          placeholder={f.placeholder}
-                          required
-                          style={fieldStyle}
-                          onFocus={(e) => { e.target.style.borderColor = '#00b96b'; e.target.style.boxShadow = '0 0 0 3px rgba(0,185,107,0.15)'; }}
-                          onBlur={(e) => { e.target.style.borderColor = '#e5e7eb'; e.target.style.boxShadow = 'none'; }}
-                        />
-                      </div>
-                    ))}
+                    <div>
+                      <label style={labelStyle}>Brand</label>
+                      <select
+                        name="carBrand"
+                        value={form.carBrand}
+                        onChange={(e) => setForm({ ...form, carBrand: e.target.value, carModel: '' })}
+                        required
+                        style={fieldStyle}
+                        onFocus={(e) => { e.target.style.borderColor = '#00b96b'; e.target.style.boxShadow = '0 0 0 3px rgba(0,185,107,0.15)'; }}
+                        onBlur={(e) => { e.target.style.borderColor = '#e5e7eb'; e.target.style.boxShadow = 'none'; }}
+                      >
+                        <option value="">Select Brand</option>
+                        {Object.keys(EV_BRANDS).map(b => <option key={b} value={b}>{b}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label style={labelStyle}>Model</label>
+                      <select
+                        name="carModel"
+                        value={form.carModel}
+                        onChange={handleChange}
+                        required
+                        disabled={!form.carBrand}
+                        style={{ ...fieldStyle, opacity: form.carBrand ? 1 : 0.6 }}
+                        onFocus={(e) => { e.target.style.borderColor = '#00b96b'; e.target.style.boxShadow = '0 0 0 3px rgba(0,185,107,0.15)'; }}
+                        onBlur={(e) => { e.target.style.borderColor = '#e5e7eb'; e.target.style.boxShadow = 'none'; }}
+                      >
+                        <option value="">Select Model</option>
+                        {(EV_BRANDS[form.carBrand] || []).map(m => <option key={m} value={m}>{m}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label style={labelStyle}>Registration Year</label>
+                      <select
+                        name="carYear"
+                        value={form.carYear}
+                        onChange={handleChange}
+                        required
+                        style={fieldStyle}
+                        onFocus={(e) => { e.target.style.borderColor = '#00b96b'; e.target.style.boxShadow = '0 0 0 3px rgba(0,185,107,0.15)'; }}
+                        onBlur={(e) => { e.target.style.borderColor = '#e5e7eb'; e.target.style.boxShadow = 'none'; }}
+                      >
+                        <option value="">Select Year</option>
+                        {[2025, 2024, 2023, 2022, 2021, 2020].map(y => <option key={y} value={y}>{y}</option>)}
+                      </select>
+                    </div>
                     <div>
                       <label style={labelStyle}>Vehicle Type</label>
                       <select

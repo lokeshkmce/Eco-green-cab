@@ -42,8 +42,13 @@ function AppLayout() {
       {!isDashboard && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/rent" element={<Rent />} />
-        <Route path="/list-your-ev" element={<ListYourEV />} />
+        
+        {/* Protected Public-Facing Routes */}
+        <Route path="/rent" element={<ProtectedRoute><Rent /></ProtectedRoute>} />
+        <Route path="/list-your-ev" element={<ProtectedRoute><ListYourEV /></ProtectedRoute>} />
+        <Route path="/how-it-works" element={<ProtectedRoute><HowItWorksPage /></ProtectedRoute>} />
+        <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+        <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
         
         {/* Protected Dashboard Routes */}
         <Route 
@@ -71,9 +76,6 @@ function AppLayout() {
           } 
         />
         
-        <Route path="/how-it-works" element={<HowItWorksPage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
         {/* 404 catch-all */}
         <Route path="*" element={<NotFound />} />
       </Routes>

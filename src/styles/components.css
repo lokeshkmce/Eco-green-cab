@@ -1465,4 +1465,14 @@
   .bm-footer button {
     width: 100%;
   }
+  .modal-overlay {
+    padding: 12px;
+  }
+  .modal-box {
+    border-radius: 16px;
+  }
+  .modal-box > div:not(.modal-close) {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
 }

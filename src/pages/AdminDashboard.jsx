@@ -248,8 +248,8 @@ export default function AdminDashboard() {
       ) : (
         <div style={{ display: 'grid', gap: '24px' }}>
           {pendingCars.map(car => (
-            <div key={car.id} style={{ display: 'flex', background: '#ffffff', borderRadius: '20px', border: '1px solid #e5e7eb', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.03)' }}>
-              <div style={{ width: '280px', background: '#f1f5f9', position: 'relative' }}>
+            <div key={car.id} className="flex-responsive" style={{ background: '#ffffff', borderRadius: '20px', border: '1px solid #e5e7eb', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.03)' }}>
+              <div style={{ flex: '1 1 280px', minHeight: '200px', background: '#f1f5f9', position: 'relative' }}>
                 <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
                 <div style={{ position: 'absolute', top: '12px', left: '12px', background: '#f59e0b', color: '#fff', fontSize: '0.75rem', fontWeight: 700, padding: '4px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>
                   Pending Review
@@ -294,7 +294,7 @@ export default function AdminDashboard() {
 
                 <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', marginBottom: '24px', borderLeft: '3px solid #3b82f6' }}>
                   <div style={{ fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 800, marginBottom: '8px' }}>👤 Host Details & Documents</div>
-                  <div style={{ display: 'flex', gap: '24px' }}>
+                  <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
                     <div>
                       <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Name</div>
                       <div style={{ fontWeight: 600, color: '#111827' }}>{car.ownerName || 'Unknown Owner'}</div>
@@ -317,9 +317,9 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '12px', marginTop: 'auto', alignItems: 'center' }}>
-                  <div style={{ flex: 1, display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <div style={{ position: 'relative', flex: 1 }}>
+                <div className="flex-responsive" style={{ gap: '12px', marginTop: 'auto', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <div style={{ flex: '1 1 300px', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div style={{ position: 'relative', flex: 1, minWidth: '150px' }}>
                       <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b', fontWeight: 600 }}>₹</span>
                       <input 
                         type="number" 
@@ -370,7 +370,7 @@ export default function AdminDashboard() {
           <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#111827', marginBottom: '20px' }}>Awaiting Owner's Response</h2>
           <div style={{ display: 'grid', gap: '16px' }}>
             {counteredCars.map(car => (
-              <div key={car.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff', padding: '20px', borderRadius: '16px', border: '1px solid #e5e7eb' }}>
+              <div key={car.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', background: '#fff', padding: '20px', borderRadius: '16px', border: '1px solid #e5e7eb' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <img src={car.image} alt={car.name} style={{ width: '60px', height: '60px', borderRadius: '8px', objectFit: 'cover' }} />
                   <div>
@@ -568,7 +568,7 @@ export default function AdminDashboard() {
               ) : (
                 messages.map(msg => (
                   <div key={msg.id} style={{ background: '#fff', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                           <span style={{ fontWeight: 700, color: '#111827', fontSize: '1.1rem' }}>{msg.name}</span>

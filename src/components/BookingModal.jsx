@@ -118,7 +118,7 @@ export default function BookingModal({ car, onClose }) {
               </div>
 
               {/* Step indicator */}
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                 {['Dates', 'Protection', 'KYC Contact', 'Payment'].map((s, i) => (
                   <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{
@@ -334,7 +334,7 @@ export default function BookingModal({ car, onClose }) {
             </div>
 
             {/* Footer */}
-            <div className="bm-footer" style={{ padding: '20px 32px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', gap: '14px', background: '#f8fafc' }}>
+            <div className="bm-footer" style={{ padding: '20px 32px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', gap: '14px', background: '#f8fafc', flexWrap: 'wrap' }}>
               {step > 1 ? (
                 <button onClick={() => setStep(step - 1)} style={{ padding: '12px 24px', borderRadius: '10px', background: '#ffffff', border: '1px solid #e5e7eb', color: '#111827', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>
                   ← Back

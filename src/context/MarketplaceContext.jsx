@@ -38,8 +38,8 @@ export const MarketplaceProvider = ({ children }) => {
         return saved ? { ...car, ...saved, status: 'APPROVED' } : { ...car, status: 'APPROVED' };
       });
 
-      // Keep user-submitted cars that aren't in static data
-      const userSubmitted = parsed.filter(c => !staticIds.has(c.id));
+      // Keep user-submitted cars that aren't in static data and have a valid owner object
+      const userSubmitted = parsed.filter(c => !staticIds.has(c.id) && c.owner && c.owner.name);
 
       const merged = [...staticApproved, ...userSubmitted];
       setCars(merged);
@@ -96,7 +96,7 @@ export const MarketplaceProvider = ({ children }) => {
     const carWithId = {
       ...newCar,
       id: Date.now(),
-      status: 'PENDING',
+      status: newCar.status || 'PENDING',
       rating: 0,
       reviews: 0
     };

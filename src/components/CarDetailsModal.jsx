@@ -10,6 +10,9 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('overview');
   const [hoveredHostCar, setHoveredHostCar] = useState(null);
+  const [selectedHostCar, setSelectedHostCar] = useState(null);
+
+  const displayCar = hoveredHostCar || selectedHostCar || car;
 
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -34,14 +37,14 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
         {/* ─── LEFT: IMAGE GALLERY ─── */}
         <div className="car-details-image-col">
           <img
-            src={hoveredHostCar ? hoveredHostCar.gallery[activeImage] || hoveredHostCar.image : (car.gallery[activeImage] || car.image)}
-            alt={car.name}
+            src={(displayCar.gallery && displayCar.gallery[activeImage]) || (displayCar.gallery && displayCar.gallery[0]) || displayCar.image}
+            alt={displayCar.name}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
           {/* Badges Removed */}
           {/* Thumbnails */}
           <div style={{ position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
-            {(hoveredHostCar || car).gallery.map((_, i) => (
+            {(displayCar.gallery || [displayCar.image]).map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveImage(i)}
@@ -65,7 +68,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
         <div className="car-details-content-col">
           
           {/* Header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
             <div>
               <h2 style={{ fontFamily: 'Space Grotesk', fontSize: '1.4rem', fontWeight: 800, color: '#111827', margin: '0 0 4px 0' }}>
                 {car.name}
@@ -79,7 +82,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 <span style={{ color: '#6b7280', fontSize: '0.75rem' }}>({car.reviews} reviews)</span>
               </div>
             </div>
-            <div style={{ textAlign: 'right', paddingRight: '24px' }}>
+            <div style={{ textAlign: 'left' }}>
               <div style={{ fontFamily: 'Space Grotesk', fontSize: '1.6rem', fontWeight: 900, color: '#009958', lineHeight: 1 }}>
                 ₹{car.price.toLocaleString('en-IN')}
               </div>
@@ -205,9 +208,10 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 {car.cars.map((hostCar, idx) => (
                   <div 
                     key={idx} 
+                    onClick={() => { setSelectedHostCar(hostCar); setActiveImage(0); }}
                     onMouseEnter={() => setHoveredHostCar(hostCar)}
                     onMouseLeave={() => setHoveredHostCar(null)}
-                    style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px', cursor: 'pointer', transition: 'all 0.2s ease', borderColor: hoveredHostCar?.id === hostCar.id ? '#00b96b' : '#e2e8f0' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px', cursor: 'pointer', transition: 'all 0.2s ease', borderColor: (selectedHostCar?.id === hostCar.id || hoveredHostCar?.id === hostCar.id) ? '#00b96b' : '#e2e8f0' }}
                   >
                     <div style={{ position: 'relative', width: '80px', height: '60px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
                       <img src={hostCar.image} alt={hostCar.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -228,10 +232,10 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontWeight: 800, color: '#009958', fontSize: '0.95rem' }}>₹{hostCar.price.toLocaleString('en-IN')}</div>
                       <button
-                        onClick={() => onBook(hostCar)}
-                        style={{ marginTop: '4px', background: '#00b96b', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}
+                        onClick={(e) => { e.stopPropagation(); setSelectedHostCar(hostCar); setActiveImage(0); }}
+                        style={{ marginTop: '4px', background: selectedHostCar?.id === hostCar.id ? '#10b981' : '#f1f5f9', color: selectedHostCar?.id === hostCar.id ? '#fff' : '#475569', border: '1px solid', borderColor: selectedHostCar?.id === hostCar.id ? '#10b981' : '#cbd5e1', padding: '6px 12px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s ease' }}
                       >
-                        Select
+                        {selectedHostCar?.id === hostCar.id ? 'Viewing' : 'View'}
                       </button>
                     </div>
                   </div>
@@ -261,6 +265,44 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 }}
               >
                 View Available Hosts →
+              </button>
+            ) : car.isGroup && activeTab === 'hosts' && selectedHostCar ? (
+              <button
+                onClick={() => onBook(selectedHostCar)}
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)',
+                  color: '#ffffff',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 14px rgba(0,185,107,0.3)',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}><MdElectricBolt/> Proceed with {selectedHostCar.owner.name} — ₹{selectedHostCar.price.toLocaleString('en-IN')}/day</span>
+              </button>
+            ) : car.isGroup && activeTab === 'hosts' && !selectedHostCar ? (
+              <button
+                disabled
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  borderRadius: '10px',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  background: '#f1f5f9',
+                  color: '#94a3b8',
+                  border: 'none',
+                  cursor: 'not-allowed',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                Please select a host to proceed
               </button>
             ) : !car.isGroup ? (
               <button
