@@ -305,6 +305,32 @@
 }
 
 @media (max-width: 640px) {
-  .hero-stats { gap: 16px; }
+  .hero {
+    padding-top: 70px;
+    padding-bottom: 40px;
+  }
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .hero-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    justify-content: center;
+  }
+  .hero-stat-divider {
+    display: none;
+  }
   .hero-float-card { display: none; }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-btn-primary, .hero-btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  .hero-car-img {
+    max-height: 250px;
+  }
 }
