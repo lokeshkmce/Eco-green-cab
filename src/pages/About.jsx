@@ -14,7 +14,11 @@ export default function About() {
       {/* Hero — 30% Dark Anchor Banner */}
       <div style={{
         background: '#0d1117',
-        padding: '80px 24px',
+        padding: '50px 24px 30px',
+        minHeight: '200px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
@@ -26,7 +30,7 @@ export default function About() {
           background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,185,107,0.15) 0%, transparent 65%)',
           pointerEvents: 'none'
         }} />
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '720px', margin: '0 auto' }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '720px', margin: '0 auto', width: '100%' }}>
           <span className="section-badge">🌿 Our Story</span>
           <h1 style={{ fontFamily: 'Space Grotesk', fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', fontWeight: 800, color: '#ffffff', margin: '16px 0 20px' }}>
             We're Building a Greener India, One Ride at a Time
@@ -142,12 +146,12 @@ export default function About() {
       </section>
 
       {/* CTA — 30% Dark Anchor Banner */}
-      <section style={{ padding: '90px 24px', textAlign: 'center', background: '#0d1117', borderTop: '1px solid #1e293b' }}>
-        <span className="section-badge" style={{ marginBottom: '20px' }}>🚀 Join Us</span>
-        <h2 style={{ fontFamily: 'Space Grotesk', fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800, color: '#ffffff', marginBottom: '16px' }}>
+      <section style={{ padding: '48px 24px', textAlign: 'center', background: '#0d1117', borderTop: '1px solid #1e293b' }}>
+        <span className="section-badge" style={{ marginBottom: '12px' }}>🚀 Join Us</span>
+        <h2 style={{ fontFamily: 'Space Grotesk', fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', fontWeight: 800, color: '#ffffff', marginBottom: '12px' }}>
           Ready to Drive the Change?
         </h2>
-        <p style={{ color: '#94a3b8', marginBottom: '32px', fontSize: '1.05rem', maxWidth: '540px', margin: '0 auto 32px' }}>
+        <p style={{ color: '#94a3b8', marginBottom: '24px', fontSize: '1rem', maxWidth: '540px', margin: '0 auto 24px' }}>
           Join 45,000+ members who are already contributing to cleaner air and zero-emission travel.
         </p>
         <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>

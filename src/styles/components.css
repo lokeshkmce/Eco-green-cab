@@ -48,10 +48,10 @@
 
 .how-horizontal-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
   position: relative;
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .how-horizontal-card {
@@ -64,8 +64,10 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
 }
 
 .how-horizontal-card::before {
@@ -129,10 +131,26 @@
   margin-bottom: 0;
 }
 
+@media (max-width: 1024px) {
+  .how-horizontal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 @media (max-width: 768px) {
   .how-horizontal-grid {
     grid-template-columns: 1fr;
   }
+}
+
+@keyframes floatBob {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+.float-emoji {
+  animation: floatBob 3s ease-in-out infinite;
+  display: inline-block;
 }
 
 /* ─── GREEN IMPACT (70% Light) ──────────────────────────────────────────────── */
@@ -948,8 +966,8 @@
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
 
 .feature-card {
@@ -962,8 +980,10 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
 }
 
 .feature-card::before {
@@ -1007,8 +1027,8 @@
   font-size: 0.85rem;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 2px;
-  margin-top: 0;
+  margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .feature-desc {
@@ -1197,9 +1217,9 @@
   -webkit-backdrop-filter: blur(8px);
   z-index: 9000;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 20px;
+  padding: 40px 20px;
   animation: fadeIn 0.25s ease;
   overflow-y: auto;
 }
@@ -1212,8 +1232,9 @@
   width: 100%;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
   animation: fadeInUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  overflow: hidden;
   position: relative;
+  overflow: visible;
+  margin: auto;
 }
 
 .modal-close {
@@ -1245,21 +1266,21 @@
 .footer {
   background: #0d1117; /* Intentional DARK section anchor */
   border-top: 1px solid #1e293b;
-  padding: 40px 0 24px;
+  padding: 24px 0 16px;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 32px;
-  margin-bottom: 32px;
+  gap: 24px;
+  margin-bottom: 20px;
 }
 
 .footer-brand-desc {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #94a3b8;
-  line-height: 1.7;
-  margin: 16px 0 24px;
+  line-height: 1.6;
+  margin: 12px 0 16px;
   max-width: 280px;
 }
 
@@ -1297,13 +1318,13 @@
   color: #f1f5f9;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .footer-links {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .footer-link {
@@ -1321,7 +1342,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 24px;
+  padding-top: 16px;
   border-top: 1px solid #1e293b;
   gap: 16px;
   flex-wrap: wrap;
@@ -1362,7 +1383,7 @@
   .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
   .testimonial-card.featured-testimonial { grid-column: span 2; }
   .charging-grid { grid-template-columns: repeat(2, 1fr); }
-  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(3, 1fr); }
   .how-grid { grid-template-columns: repeat(2, 1fr); }
   .how-grid::before { display: none; }
   .green-content { grid-template-columns: 1fr; gap: 40px; }
@@ -1375,14 +1396,14 @@
   .testimonials-grid { grid-template-columns: 1fr; }
   .testimonial-card.featured-testimonial { grid-column: span 1; }
   .charging-grid { grid-template-columns: 1fr; }
-  .features-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
   .green-stats-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr; }
 }
 
 /* Car Details Modal Responsive Styles */
 .car-details-modal-box {
-  max-width: 960px;
+  max-width: 1080px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -1394,10 +1415,14 @@
 }
 
 .car-details-image-col {
-  width: 400px;
+  width: 55%;
   flex-shrink: 0;
   position: relative;
-  background: #f3f4f6;
+  background: #ffffff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .car-details-content-col {
@@ -1466,7 +1491,7 @@
     width: 100%;
   }
   .modal-overlay {
-    padding: 12px;
+    padding: 24px 12px;
   }
   .modal-box {
     border-radius: 16px;

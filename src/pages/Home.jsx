@@ -4,7 +4,6 @@ import SearchWidget from '../components/SearchWidget';
 import EVMarketplace from '../components/EVMarketplace';
 import HowItWorks from '../components/HowItWorks';
 import EarningsCalculator from '../components/EarningsCalculator';
-import GreenImpact from '../components/GreenImpact';
 import EVLocationFinder from '../components/EVLocationFinder';
 
 import Features from '../components/Features';
@@ -59,9 +58,6 @@ export default function Home() {
 
       {/* Features */}
       <Features />
-
-      {/* Green Impact */}
-      <GreenImpact />
 
       {/* EV Location Finder */}
       <EVLocationFinder />

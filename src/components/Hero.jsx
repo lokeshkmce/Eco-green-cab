@@ -1,21 +1,70 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdElectricBolt, MdPlayArrow } from 'react-icons/md';
 import '../styles/hero.css';
 
+const SLIDES = [
+  {
+    img: '/hero_ev_1.jpg',
+    car: 'Tata Nexon EV',
+    location: 'Kerala Coastal Highway, NH66',
+    bgPosition: 'center 55%',
+  },
+  {
+    img: '/hero_ev_2.jpg',
+    car: 'Mahindra BE Electric',
+    location: 'Ooty Hill Station, Tamil Nadu',
+    bgPosition: 'center 65%',
+  },
+  {
+    img: '/hero_ev_3.jpg',
+    car: 'Hyundai Ioniq 5',
+    location: 'Outer Ring Road, Bengaluru',
+    bgPosition: 'center 60%',
+  },
+  {
+    img: '/hero_ev_4.jpg',
+    car: 'Tata Punch EV',
+    location: 'East Coast Road, Chennai',
+    bgPosition: 'left 55%', // Pushes the center of the image to the right
+  },
+  {
+    img: '/hero_ev_5.jpg',
+    car: 'MG ZS EV',
+    location: 'Alleppey Backwaters, Kerala',
+    bgPosition: 'left 60%', // Pushes the center of the image to the right
+  },
+];
+
 export default function Hero() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  // Simple, bulletproof auto-slide — runs once, uses functional update so it
+  // always gets the LATEST state without stale closure issues.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide(prev => (prev + 1) % SLIDES.length);
+    }, 2000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="hero" id="hero">
-      {/* Background */}
-      <div className="hero-bg">
-        <div className="hero-bg-gradient" />
-        <div className="hero-grid" />
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
+      {/* Dynamic Background Slides */}
+      <div className="hero-slides">
+        {SLIDES.map((slide, i) => (
+          <div
+            key={slide.img}
+            className={`hero-slide${i === activeSlide ? ' active' : ''}`}
+            style={{ backgroundImage: `url(${slide.img})`, backgroundPosition: slide.bgPosition }}
+          />
+        ))}
+        {/* Gradient overlay — ensures text readability over any slide */}
+        <div className="hero-slide-overlay" />
       </div>
 
-      {/* Content */}
+      {/* Static Content */}
       <div className="hero-content">
-        {/* Left */}
         <div className="hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
@@ -24,7 +73,7 @@ export default function Hero() {
 
           <h1 className="hero-title">
             <span className="hero-title-line1">Rent an Electric Car.</span>
-            <span className="hero-title-line2">Save Money & the Planet.</span>
+            <span className="hero-title-line2">Save Money &amp; the Planet.</span>
           </h1>
 
           <p className="hero-subtitle">
@@ -60,18 +109,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right — Featured Car */}
-        <div className="hero-right">
-          <div className="hero-car-wrapper">
-            <div className="hero-car-glow" />
-            <img
-              src="/hero_green_ev.jpg"
-              alt="Tata Nexon EV — India's No. 1 Electric SUV"
-              className="hero-car-img"
-            />
-
-          </div>
-        </div>
       </div>
     </section>
   );

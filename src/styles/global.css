@@ -504,16 +504,28 @@ input, textarea, select {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: transform 0.2s ease;
 }
 
-.brand-logo-container:hover {
-  transform: scale(1.03);
-}
-
-.brand-logo-container img {
+.navbar-logo-img {
   display: block;
-  height: 48px !important;
-  /* This completely removes the white square background of the image when placed on light backgrounds */
-  mix-blend-mode: multiply; 
+  height: 52px !important; 
+  width: 52px !important;
+  object-fit: contain;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 4px;
+  border: 1.5px solid rgba(0, 185, 107, 0.2);
+  box-shadow: 0 4px 14px rgba(0, 185, 107, 0.15);
+}
+
+.navbar-logo-text-gradient {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #00b96b 0%, #007a46 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
 }

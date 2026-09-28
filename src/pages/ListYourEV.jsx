@@ -154,7 +154,11 @@ export default function ListYourEV() {
       {/* Hero — 30% Dark Anchor Banner */}
       <div style={{
         background: '#0d1117',
-        padding: '64px 24px 44px',
+        padding: '50px 24px 30px',
+        minHeight: '200px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         borderBottom: '1px solid #1e293b',
         textAlign: 'center',
         position: 'relative',
@@ -335,7 +339,7 @@ export default function ListYourEV() {
                   </div>
                   <div className="grid-responsive-2">
                     <div>
-                      <label style={labelStyle}>Vehicle Photos (Max 5)</label>
+                      <label style={{...labelStyle, minHeight: '36px'}}>Vehicle Photos (Max 5)</label>
                       <label style={{ display: 'block', border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '24px', textAlign: 'center', background: '#f8fafc', cursor: 'pointer' }}>
                         <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>📸</div>
                         <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>
@@ -345,7 +349,7 @@ export default function ListYourEV() {
                       </label>
                     </div>
                     <div>
-                      <label style={labelStyle}>Original Documents (RC, Insurance, etc.)</label>
+                      <label style={{...labelStyle, minHeight: '36px'}}>Original Documents (RC, Insurance, etc.)</label>
                       <label style={{ display: 'block', border: '2px dashed #cbd5e1', borderRadius: '12px', padding: '24px', textAlign: 'center', background: '#f8fafc', cursor: 'pointer' }}>
                         <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>📄</div>
                         <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>

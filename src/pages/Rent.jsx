@@ -24,7 +24,11 @@ export default function Rent() {
       {/* Page Hero Header — 30% Dark Anchor Banner */}
       <div style={{
         background: '#0d1117',
-        padding: '60px 0 44px',
+        padding: '50px 24px 30px',
+        minHeight: '200px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         borderBottom: '1px solid #1e293b',
         position: 'relative',
       }}>
@@ -35,7 +39,7 @@ export default function Rent() {
           overflow: 'hidden',
         }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{ textAlign: 'center' }}>
             <span className="section-badge">⚡ EV Marketplace</span>
             <h1 style={{
               fontFamily: 'Space Grotesk',

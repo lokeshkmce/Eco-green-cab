@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { MdElectricBolt } from 'react-icons/md';
+import { FaXTwitter, FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa6';
 import '../styles/components.css';
 
 export default function Footer() {
@@ -10,8 +12,9 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Brand */}
           <div>
-            <Link to="/" className="brand-logo-container" style={{ marginBottom: '16px', display: 'inline-flex' }}>
-              <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" style={{ height: '45px', borderRadius: '8px' }} />
+            <Link to="/" className="brand-logo-container" style={{ margin: '0 0 16px 0', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', textDecoration: 'none' }}>
+              <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" style={{ height: '48px', borderRadius: '8px', background: '#ffffff', padding: '4px', mixBlendMode: 'normal' }} />
+              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>Eco Green Cab</span>
             </Link>
             <p className="footer-brand-desc">
               India's premier self-drive electric vehicle marketplace. Driving sustainable, zero-emission smart mobility across Bengaluru, Mumbai, Delhi NCR, and 28+ Indian smart cities.
@@ -21,11 +24,11 @@ export default function Footer() {
             </div>
             <div className="footer-social">
               {[
-                { icon: '𝕏', label: 'Twitter' },
-                { icon: '📘', label: 'Facebook' },
-                { icon: '📸', label: 'Instagram' },
-                { icon: '💼', label: 'LinkedIn' },
-                { icon: '▶️', label: 'YouTube' },
+                { icon: <FaXTwitter />, label: 'Twitter' },
+                { icon: <FaFacebookF />, label: 'Facebook' },
+                { icon: <FaInstagram />, label: 'Instagram' },
+                { icon: <FaLinkedinIn />, label: 'LinkedIn' },
+                { icon: <FaYoutube />, label: 'YouTube' },
               ].map((s) => (
                 <a key={s.label} href="#" className="footer-social-link" aria-label={s.label}>
                   {s.icon}

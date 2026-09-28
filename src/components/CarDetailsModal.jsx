@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../styles/components.css';
 
-import { MdClose, MdLocationOn, MdBatteryChargingFull, MdSpeed, MdPerson, MdCheckCircle, MdElectricBolt } from 'react-icons/md';
+import { MdClose, MdLocationOn, MdBatteryChargingFull, MdSpeed, MdPerson, MdCheckCircle, MdElectricBolt, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { BsStars } from 'react-icons/bs';
 import { IoSpeedometerOutline } from 'react-icons/io5';
@@ -9,10 +9,9 @@ import { IoSpeedometerOutline } from 'react-icons/io5';
 export default function CarDetailsModal({ car, onClose, onBook }) {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('overview');
-  const [hoveredHostCar, setHoveredHostCar] = useState(null);
   const [selectedHostCar, setSelectedHostCar] = useState(null);
 
-  const displayCar = hoveredHostCar || selectedHostCar || car;
+  const displayCar = selectedHostCar || car;
 
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -39,29 +38,53 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
           <img
             src={(displayCar.gallery && displayCar.gallery[activeImage]) || (displayCar.gallery && displayCar.gallery[0]) || displayCar.image}
             alt={displayCar.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', background: 'transparent', transition: 'transform 0.3s ease' }}
           />
-          {/* Badges Removed */}
-          {/* Thumbnails */}
-          <div style={{ position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
-            {(displayCar.gallery || [displayCar.image]).map((_, i) => (
+          {/* Slider Arrows */}
+          {displayCar.gallery && displayCar.gallery.length > 1 && (
+            <>
               <button
-                key={i}
-                onClick={() => setActiveImage(i)}
-                style={{
-                  width: i === activeImage ? '24px' : '6px',
-                  height: '6px',
-                  borderRadius: '3px',
-                  background: i === activeImage ? '#00b96b' : 'rgba(255,255,255,0.7)',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  padding: 0,
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImage((prev) => (prev === 0 ? displayCar.gallery.length - 1 : prev - 1));
                 }}
-              />
-            ))}
-          </div>
+                style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', color: '#111827' }}
+              >
+                <MdChevronLeft size={24} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImage((prev) => (prev === displayCar.gallery.length - 1 ? 0 : prev + 1));
+                }}
+                style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', color: '#111827' }}
+              >
+                <MdChevronRight size={24} />
+              </button>
+            </>
+          )}
+          {/* Thumbnails */}
+          {displayCar.gallery && displayCar.gallery.length > 1 && (
+            <div style={{ position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
+              {displayCar.gallery.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveImage(i)}
+                  style={{
+                    width: i === activeImage ? '24px' : '6px',
+                    height: '6px',
+                    borderRadius: '3px',
+                    background: i === activeImage ? '#00b96b' : 'rgba(255,255,255,0.7)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    padding: 0,
+                    boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* ─── RIGHT: COMPACT CONTENT ─── */}
@@ -209,9 +232,7 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                   <div 
                     key={idx} 
                     onClick={() => { setSelectedHostCar(hostCar); setActiveImage(0); }}
-                    onMouseEnter={() => setHoveredHostCar(hostCar)}
-                    onMouseLeave={() => setHoveredHostCar(null)}
-                    style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px', cursor: 'pointer', transition: 'all 0.2s ease', borderColor: (selectedHostCar?.id === hostCar.id || hoveredHostCar?.id === hostCar.id) ? '#00b96b' : '#e2e8f0' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px', cursor: 'pointer', transition: 'all 0.2s ease', borderColor: selectedHostCar?.id === hostCar.id ? '#00b96b' : '#e2e8f0' }}
                   >
                     <div style={{ position: 'relative', width: '80px', height: '60px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
                       <img src={hostCar.image} alt={hostCar.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

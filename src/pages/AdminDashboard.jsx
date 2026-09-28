@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMarketplace } from '../context/MarketplaceContext';
 import { useAuth } from '../context/AuthContext';
 import { 
   MdDashboard, MdNotificationsActive, MdDirectionsCar, MdListAlt, 
   MdSupportAgent, MdCheckCircle, MdCancel, MdElectricBolt, 
-  MdAttachMoney, MdPerson, MdClose 
+  MdAttachMoney, MdPerson, MdClose, MdEdit 
 } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import '../styles/dashboard.css'; // Re-use the existing 70/30 dashboard styles
 
 export default function AdminDashboard() {
@@ -19,6 +20,63 @@ export default function AdminDashboard() {
   const [counterInputs, setCounterInputs] = useState({}); // { carId: price }
   const [replyInputs, setReplyInputs] = useState({}); // { msgId: text }
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [chartFilter, setChartFilter] = useState('month'); // 'month' or 'year'
+  const [apiUsers, setApiUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [editUserForm, setEditUserForm] = useState({ name: '', phone: '', role: '' });
+  const [userOverrides, setUserOverrides] = useState({});
+
+  useEffect(() => {
+    if (activeTab === 'users') {
+      const fetchUsers = async () => {
+        setLoadingUsers(true);
+        try {
+          const response = await fetch('http://127.0.0.1:8000/ecogreencab/users/');
+          if (response.ok) {
+            const data = await response.json();
+            setApiUsers(data);
+          } else {
+            console.error('Failed to fetch users:', response.statusText);
+          }
+        } catch (error) {
+          console.error("API connection failed:", error);
+        } finally {
+          setLoadingUsers(false);
+        }
+      };
+      fetchUsers();
+    }
+  }, [activeTab]);
+
+  const handleDeleteUser = async (userId, userPhone) => {
+    if (!window.confirm(`Are you sure you want to delete ${userPhone}?`)) return;
+
+    if (userId) {
+      // Optimistically update UI for API users
+      setApiUsers(prev => prev.filter(u => u.id !== userId));
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/ecogreencab/user/${userId}/delete/`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          console.error("Failed to delete user on API:", response.statusText);
+        }
+      } catch (error) {
+        console.error("API connection failed:", error);
+      }
+    } else {
+      // Fallback for local demo users (no ID)
+      const demoUsersRaw = JSON.parse(localStorage.getItem('eco_demo_users') || '{}');
+      if (demoUsersRaw[userPhone]) {
+        delete demoUsersRaw[userPhone];
+        localStorage.setItem('eco_demo_users', JSON.stringify(demoUsersRaw));
+        // We'll force a state update to trigger a re-render
+        setUserFilter(prev => prev === 'car' ? 'car ' : 'car'); // Hacky way to re-render local users
+        setTimeout(() => setUserFilter(prev => prev.trim()), 0);
+      }
+    }
+  };
 
   const pendingCars = cars.filter(c => c.status === 'PENDING');
   const counteredCars = cars.filter(c => c.status === 'COUNTERED');
@@ -61,9 +119,20 @@ export default function AdminDashboard() {
       { name: 'Kavita Singh', phone: '9876512345', role: 'owner', status: 'Active' },
     ];
 
-    const combinedUsers = [...realUsers, ...mockUsers].reduce((acc, current) => {
+    const apiUsersFormatted = apiUsers.map(u => ({
+      id: u.id,
+      name: u.name || 'API User',
+      phone: u.phone || 'N/A',
+      role: u.role || u.roles?.[0] || 'renter',
+      status: 'Active'
+    }));
+
+    const combinedUsers = [...apiUsersFormatted, ...realUsers, ...mockUsers].reduce((acc, current) => {
       const x = acc.find(item => item.phone === current.phone);
-      if (!x) return acc.concat([current]);
+      if (!x) {
+        const overridden = userOverrides[current.phone];
+        return acc.concat([overridden ? { ...current, ...overridden } : current]);
+      }
       return acc;
     }, []);
 
@@ -75,26 +144,104 @@ export default function AdminDashboard() {
         <div className="rd-panel-header">
           <h2 className="rd-panel-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MdPerson /> {title} ({users.length})</h2>
         </div>
-        <div className="rd-bookings-list">
+        <div className="rd-bookings-list" style={{ padding: '0 8px 12px 8px' }}>
           {users.map((u, i) => (
-            <div className="rd-booking-row" key={i}>
-              <div className="rd-booking-num">{i + 1}</div>
-              <div className="rd-booking-info" style={{ flex: 1 }}>
-                <div className="rd-booking-vehicle">{u.name}</div>
-                <div className="rd-booking-dates">{u.phone}</div>
+            <div 
+              key={i} 
+              className="rd-user-row-mobile"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '16px 20px',
+                margin: '12px 0',
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
+                borderRadius: '16px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.06)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)'; }}
+            >
+              <div style={{
+                width: '46px',
+                height: '46px',
+                borderRadius: '50%',
+                background: `${badgeColor}15`,
+                color: badgeColor,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold',
+                fontSize: '1.2rem',
+                marginRight: '16px'
+              }}>
+                {u.name.charAt(0).toUpperCase()}
               </div>
-              <div className="rd-booking-right">
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', marginBottom: '4px' }}>{u.name}</div>
+                <div style={{ fontSize: '0.85rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  {u.phone} 
+                </div>
+              </div>
+              <div className="rd-user-actions-mobile" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <span style={{ 
                   background: badgeColor, 
                   color: '#fff', 
-                  padding: '6px 12px', 
-                  borderRadius: '12px', 
+                  padding: '6px 14px', 
+                  borderRadius: '20px', 
                   fontSize: '0.75rem', 
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase'
+                  fontWeight: '700',
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase',
+                  marginRight: '12px'
                 }}>
-                  {u.role === 'owner' ? 'Car User' : u.role === 'renter' ? 'Rent User' : u.role}
+                  {u.role === 'owner' ? 'Host User' : u.role === 'renter' ? 'Rental User' : u.role}
                 </span>
+                
+                {/* Actions */}
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <button 
+                    onClick={() => { setEditingUser(u); setEditUserForm({ name: u.name, phone: u.phone, role: u.role }); }}
+                    style={{ 
+                      background: '#f1f5f9',
+                      border: 'none',
+                      color: '#475569',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '8px',
+                      borderRadius: '10px',
+                      transition: 'background 0.2s, color 0.2s'
+                    }}
+                    title="Edit User"
+                    onMouseEnter={(e) => { e.currentTarget.style.background = '#e2e8f0'; e.currentTarget.style.color = '#0f172a'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#475569'; }}
+                  >
+                    <MdEdit size={18} />
+                  </button>
+                  <button 
+                    onClick={() => handleDeleteUser(u.id, u.phone)}
+                    style={{ 
+                      background: '#fef2f2',
+                      border: 'none',
+                      color: '#ef4444',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '8px',
+                      borderRadius: '10px',
+                      transition: 'background 0.2s'
+                    }}
+                    title="Delete User"
+                    onMouseEnter={(e) => { e.currentTarget.style.background = '#fee2e2'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = '#fef2f2'; }}
+                  >
+                    <MdClose size={18} />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -107,16 +254,20 @@ export default function AdminDashboard() {
         <header className="rd-header">
           <div className="rd-header-left">
             <div className="rd-header-greeting">User Management</div>
-            <p className="rd-header-sub">View and manage all registered Rent Users and Car Users.</p>
+            <p className="rd-header-sub">View and manage all registered Rental Users and Host Users.</p>
+          </div>
+          <div className="rd-header-right">
+            <Link to="/" className="rd-btn-primary">Go to Home</Link>
           </div>
         </header>
         <div style={{ padding: '24px 28px' }}>
           
           {/* Tabs for Toggle */}
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', background: '#f8fafc', padding: '6px', borderRadius: '12px', width: 'fit-content' }}>
-            <button 
-              onClick={() => setUserFilter('car')}
-              style={{
+          <div className="rd-chart-header-mobile" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', gap: '12px', background: '#f8fafc', padding: '6px', borderRadius: '12px', width: 'fit-content' }}>
+              <button 
+                onClick={() => setUserFilter('car')}
+                style={{
                 padding: '10px 20px',
                 borderRadius: '8px',
                 border: 'none',
@@ -128,7 +279,7 @@ export default function AdminDashboard() {
                 transition: 'all 0.2s'
               }}
             >
-              Car Users
+              Host Users
             </button>
             <button 
               onClick={() => setUserFilter('rent')}
@@ -144,15 +295,17 @@ export default function AdminDashboard() {
                 transition: 'all 0.2s'
               }}
             >
-              Rent Users
+              Rental Users
             </button>
+            </div>
+            {loadingUsers && <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Syncing with live API...</div>}
           </div>
 
           {userFilter === 'car' && (
-            <UserTable title="Car Users" users={owners} badgeColor="#f59e0b" />
+            <UserTable title="Host Users" users={owners} badgeColor="#f59e0b" />
           )}
           {userFilter === 'rent' && (
-            <UserTable title="Rent Users" users={renters} badgeColor="#3b82f6" />
+            <UserTable title="Rental Users" users={renters} badgeColor="#3b82f6" />
           )}
 
         </div>
@@ -160,12 +313,40 @@ export default function AdminDashboard() {
     );
   };
 
-  const renderOverview = () => (
-    <div className="rd-content" style={{ padding: 0 }}>
+  const renderOverview = () => {
+    const monthlyChartData = [
+      { name: 'Week 1', bookings: 12 },
+      { name: 'Week 2', bookings: 19 },
+      { name: 'Week 3', bookings: 15 },
+      { name: 'Week 4', bookings: Math.max(22, bookings.length) },
+    ];
+
+    const yearlyChartData = [
+      { name: 'Jan', bookings: 45 },
+      { name: 'Feb', bookings: 52 },
+      { name: 'Mar', bookings: 48 },
+      { name: 'Apr', bookings: 61 },
+      { name: 'May', bookings: 59 },
+      { name: 'Jun', bookings: 75 },
+      { name: 'Jul', bookings: 82 },
+      { name: 'Aug', bookings: 70 },
+      { name: 'Sep', bookings: 85 },
+      { name: 'Oct', bookings: 68 },
+      { name: 'Nov', bookings: 90 },
+      { name: 'Dec', bookings: 110 },
+    ];
+
+    const chartData = chartFilter === 'month' ? monthlyChartData : yearlyChartData;
+
+    return (
+      <div className="rd-content" style={{ padding: 0 }}>
       <header className="rd-header">
         <div className="rd-header-left">
           <div className="rd-header-greeting">Admin Overview</div>
           <p className="rd-header-sub">High-level metrics and platform health.</p>
+        </div>
+        <div className="rd-header-right">
+          <Link to="/" className="rd-btn-primary">Go to Home</Link>
         </div>
       </header>
 
@@ -192,6 +373,44 @@ export default function AdminDashboard() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Bookings Visualization Chart */}
+        <div className="rd-panel" style={{ marginBottom: '30px' }}>
+          <div className="rd-panel-header rd-chart-header-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 className="rd-panel-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <MdDashboard /> Bookings Overview
+            </h2>
+            <select 
+              value={chartFilter} 
+              onChange={(e) => setChartFilter(e.target.value)}
+              className="rd-select"
+              style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid #e2e8f0', background: '#f8fafc', fontWeight: 600, color: '#475569', cursor: 'pointer' }}
+            >
+              <option value="month">This Month</option>
+              <option value="year">Full Year</option>
+            </select>
+          </div>
+          <div style={{ width: '100%', height: 320, padding: '10px 0' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorBookings" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#00b96b" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#00b96b" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dx={-10} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                  itemStyle={{ color: '#00b96b', fontWeight: 600 }}
+                />
+                <Area type="monotone" dataKey="bookings" stroke="#00b96b" strokeWidth={3} fillOpacity={1} fill="url(#colorBookings)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
       {/* Recent Bookings */}
@@ -222,6 +441,7 @@ export default function AdminDashboard() {
       </div>
     </div>
   );
+};
 
   const renderApprovals = () => (
     <div className="rd-content" style={{ padding: 0 }}>
@@ -229,6 +449,9 @@ export default function AdminDashboard() {
         <div className="rd-header-left">
           <div className="rd-header-greeting">Pending Approvals</div>
           <p className="rd-header-sub">Review vehicle quality and details before allowing them on the marketplace.</p>
+        </div>
+        <div className="rd-header-right">
+          <Link to="/" className="rd-btn-primary">Go to Home</Link>
         </div>
       </header>
 
@@ -249,8 +472,8 @@ export default function AdminDashboard() {
         <div style={{ display: 'grid', gap: '24px' }}>
           {pendingCars.map(car => (
             <div key={car.id} className="flex-responsive" style={{ background: '#ffffff', borderRadius: '20px', border: '1px solid #e5e7eb', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.03)' }}>
-              <div style={{ flex: '1 1 280px', minHeight: '200px', background: '#f1f5f9', position: 'relative' }}>
-                <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
+              <div style={{ flex: '1 1 280px', minHeight: '220px', background: '#f8fafc', position: 'relative' }}>
+                <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'contain', position: 'absolute', inset: 0 }} />
                 <div style={{ position: 'absolute', top: '12px', left: '12px', background: '#f59e0b', color: '#fff', fontSize: '0.75rem', fontWeight: 700, padding: '4px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>
                   Pending Review
                 </div>
@@ -398,14 +621,17 @@ export default function AdminDashboard() {
           <div className="rd-header-greeting">Active Fleet Vehicles</div>
           <p className="rd-header-sub">Manage all currently approved and active vehicles on the platform.</p>
         </div>
+        <div className="rd-header-right">
+          <Link to="/" className="rd-btn-primary">Go to Home</Link>
+        </div>
       </header>
 
       <div style={{ padding: '24px 28px' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
         {approvedCars.map(car => (
           <div key={car.id} style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-            <div style={{ height: '160px', position: 'relative' }}>
-              <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ height: '200px', position: 'relative', background: '#f8fafc' }}>
+              <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#10b981', color: '#fff', fontSize: '0.7rem', fontWeight: 700, padding: '4px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>
                 Active
               </div>
@@ -455,10 +681,13 @@ export default function AdminDashboard() {
           <div className="rd-header-greeting">All Bookings</div>
           <p className="rd-header-sub">Comprehensive ledger of all transactions and reservations.</p>
         </div>
+        <div className="rd-header-right">
+          <Link to="/" className="rd-btn-primary">Go to Home</Link>
+        </div>
       </header>
 
       <div style={{ padding: '24px 28px' }}>
-      <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
+      <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e5e7eb', overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
             <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e5e7eb' }}>
@@ -504,8 +733,27 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="rd-layout">
-      {/* MOBILE HEADER */}
+    <>
+      <style>{`
+        @media (max-width: 1024px) {
+          .rd-layout { flex-direction: column !important; }
+          .rd-sidebar { 
+            position: fixed !important; 
+            top: 0 !important; 
+            left: 0 !important; 
+            bottom: 0 !important; 
+            width: 280px !important; 
+            z-index: 9999 !important; 
+            transform: translateX(-100%); 
+            transition: transform 0.3s ease !important;
+          }
+          .rd-sidebar.open { transform: translateX(0) !important; }
+          .rd-mobile-header { display: flex !important; z-index: 101 !important; }
+          .rd-overlay { display: block !important; z-index: 9998 !important; }
+        }
+      `}</style>
+      <div className="rd-layout">
+        {/* MOBILE HEADER */}
       <div className="rd-mobile-header">
         <Link to="/" className="brand-logo-dashboard">
           <img src="/images/logo.jpg" alt="ieco" />
@@ -557,6 +805,9 @@ export default function AdminDashboard() {
               <div className="rd-header-left">
                 <div className="rd-header-greeting">Support Tickets</div>
                 <p className="rd-header-sub">Manage incoming queries and contact requests.</p>
+              </div>
+              <div className="rd-header-right">
+                <Link to="/" className="rd-btn-primary">Go to Home</Link>
               </div>
             </header>
             
@@ -629,6 +880,78 @@ export default function AdminDashboard() {
           </div>
         )}
       </main>
+
+      {/* Edit User Modal */}
+      {editingUser && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999
+        }}>
+          <div style={{
+            background: '#fff', padding: '30px', borderRadius: '20px', width: '100%', maxWidth: '420px',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+          }}>
+            <h2 style={{ margin: '0 0 20px 0', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <MdEdit color="#00b96b" /> Edit User
+            </h2>
+            
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#64748b', marginBottom: '6px' }}>Full Name</label>
+              <input 
+                type="text" 
+                value={editUserForm.name} 
+                onChange={e => setEditUserForm({...editUserForm, name: e.target.value})}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#64748b', marginBottom: '6px' }}>Phone Number</label>
+              <input 
+                type="text" 
+                value={editUserForm.phone} 
+                onChange={e => setEditUserForm({...editUserForm, phone: e.target.value})}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#64748b', marginBottom: '6px' }}>Role</label>
+              <select 
+                value={editUserForm.role} 
+                onChange={e => setEditUserForm({...editUserForm, role: e.target.value})}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+              >
+                <option value="owner">Host User (Owner)</option>
+                <option value="renter">Rental User (Renter)</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button 
+                onClick={() => setEditingUser(null)}
+                style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '10px', fontWeight: 600, cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setUserOverrides(prev => ({ ...prev, [editingUser.phone]: editUserForm }));
+                  if (editUserForm.phone !== editingUser.phone) {
+                    setUserOverrides(prev => ({ ...prev, [editingUser.phone]: { ...editUserForm, phone: editUserForm.phone } }));
+                  }
+                  setEditingUser(null);
+                }}
+                style={{ flex: 1, padding: '12px', background: 'linear-gradient(135deg, #00b96b 0%, #009657 100%)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 600, cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,185,107,0.3)' }}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+    </>
   );
 }

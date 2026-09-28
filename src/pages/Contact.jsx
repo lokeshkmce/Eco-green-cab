@@ -48,14 +48,18 @@ export default function Contact() {
       {/* Hero — 30% Dark Anchor Banner */}
       <div style={{
         background: '#0d1117',
-        padding: '64px 24px 50px',
+        padding: '50px 24px 30px',
+        minHeight: '200px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
         borderBottom: '1px solid #1e293b',
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,185,107,0.15) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
           <span className="section-badge">📬 Contact Us</span>
           <h1 style={{ fontFamily: 'Space Grotesk', fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#ffffff', margin: '16px 0 12px' }}>
             We're Here to Help

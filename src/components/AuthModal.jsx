@@ -129,9 +129,37 @@ export default function AuthModal({ isOpen, onClose }) {
     setSelectedRole(role);
   };
 
-  const handleRoleConfirm = () => {
+  const handleRoleConfirm = async () => {
     if (!selectedRole) return;
+    setIsLoading(true);
+    setError('');
+
     const finalUserData = { ...verifiedUserData, roles: [selectedRole] };
+    
+    try {
+      // Backend API Integration: user/create/
+      const response = await fetch('http://127.0.0.1:8000/ecogreencab/user/create/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: finalUserData.name,
+          phone: finalUserData.phone,
+          role: selectedRole
+        })
+      });
+
+      if (!response.ok) {
+        // We log the error but still allow local login for the demo prototype to not break UX
+        console.error('Failed to create user on backend API:', response.statusText);
+      } else {
+        const data = await response.json();
+        console.log('User successfully created on backend:', data);
+      }
+    } catch (err) {
+      console.error('API connection failed:', err);
+    }
     
     // Save to demo database
     const demoUsers = JSON.parse(localStorage.getItem('eco_demo_users') || '{}');
@@ -141,6 +169,7 @@ export default function AuthModal({ isOpen, onClose }) {
     login(finalUserData);
     handleClose();
     navigate(selectedRole === 'owner' ? '/owner/dashboard' : '/renter/dashboard');
+    setIsLoading(false);
   };
 
   const handleClose = () => {
@@ -341,14 +370,18 @@ export default function AuthModal({ isOpen, onClose }) {
 
               <button
                 className={`btn-role-confirm${selectedRole ? ' btn-role-confirm--active' : ''}`}
-                disabled={!selectedRole}
+                disabled={!selectedRole || isLoading}
                 onClick={handleRoleConfirm}
                 type="button"
                 id="role-confirm-btn"
               >
-                {!selectedRole && '👆 Select a role to continue'}
-                {selectedRole === 'renter' && '🚀 Go to Renter Dashboard →'}
-                {selectedRole === 'owner' && '🏠 Go to Owner Dashboard →'}
+                {isLoading ? 'Creating Account...' : (
+                  <>
+                    {!selectedRole && '👆 Select a role to continue'}
+                    {selectedRole === 'renter' && '🚀 Go to Renter Dashboard →'}
+                    {selectedRole === 'owner' && '🏠 Go to Owner Dashboard →'}
+                  </>
+                )}
               </button>
             </div>
           )}

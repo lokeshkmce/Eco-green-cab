@@ -43,8 +43,9 @@ export default function Navbar() {
       <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
         <div className="navbar-inner">
           {/* Logo */}
-          <Link to="/" className="brand-logo-container" onClick={closeMenu}>
-            <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" style={{ height: '45px', objectFit: 'contain' }} />
+          <Link to="/" className="brand-logo-container" onClick={closeMenu} style={{ gap: '12px' }}>
+            <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" className="navbar-logo-img" />
+            <span className="navbar-logo-text-gradient">Eco Green Cab</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -71,21 +72,23 @@ export default function Navbar() {
               </button>
             ) : (
               <Link 
-                to={user?.roles?.includes('admin') ? '/admin/dashboard' : user?.roles?.includes('renter') ? '/renter/dashboard' : '/owner/dashboard'} 
-                className="navbar-btn-outline" 
-                style={{ border: 'none', color: '#00b96b', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}
+                to="/admin/dashboard" 
+                className="navbar-btn-primary" 
+                style={{ 
+                  background: 'linear-gradient(135deg, #00b96b 0%, #009657 100%)', 
+                  color: 'white', 
+                  border: 'none', 
+                  boxShadow: '0 8px 20px rgba(0, 185, 107, 0.35)',
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '8px',
+                  padding: '10px 28px',
+                  borderRadius: '50px',
+                  fontWeight: 700,
+                  letterSpacing: '0.5px'
+                }}
               >
-                <MdPerson size={18} /> {user?.name || 'My Account'}
-              </Link>
-            )}
-            
-            {isLoggedIn && user?.roles?.includes('owner') ? (
-              <Link to="/list-your-ev" className="navbar-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <MdOutlineDirectionsCar size={18} /> List Your EV
-              </Link>
-            ) : (
-              <Link to="/rent" className="navbar-btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <MdElectricBolt size={18} /> Rent Now
+                <MdPerson size={20} /> Admin
               </Link>
             )}
           </div>
@@ -134,32 +137,25 @@ export default function Navbar() {
               </button>
             ) : (
               <Link
-                to={user?.roles?.includes('admin') ? '/admin/dashboard' : user?.roles?.includes('renter') ? '/renter/dashboard' : '/owner/dashboard'}
-                className="mobile-btn mobile-btn-outline"
-                onClick={closeMenu}
-                style={{ border: 'none', background: '#e6f9f1', color: '#00b96b', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-              >
-                <MdPerson size={20} /> {user?.name || 'My Account'}
-              </Link>
-            )}
-            
-            {isLoggedIn && user?.roles?.includes('owner') ? (
-              <Link
-                to="/list-your-ev"
+                to="/admin/dashboard"
                 className="mobile-btn mobile-btn-primary"
                 onClick={closeMenu}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                style={{ 
+                  border: 'none', 
+                  background: 'linear-gradient(135deg, #00b96b 0%, #009657 100%)', 
+                  color: 'white', 
+                  fontWeight: 700, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: '8px',
+                  boxShadow: '0 8px 20px rgba(0, 185, 107, 0.35)',
+                  padding: '12px',
+                  borderRadius: '12px',
+                  letterSpacing: '0.5px'
+                }}
               >
-                <MdOutlineDirectionsCar size={20} /> List Your EV
-              </Link>
-            ) : (
-              <Link
-                to="/rent"
-                className="mobile-btn mobile-btn-primary"
-                onClick={closeMenu}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-              >
-                <MdElectricBolt size={20} /> Rent an EV Now
+                <MdPerson size={22} /> Admin
               </Link>
             )}
           </div>

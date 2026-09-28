@@ -95,11 +95,12 @@ export default function BookingModal({ car, onClose }) {
 
         {!booked ? (
           <>
-            {/* Header */}
             <div style={{
               padding: '28px 32px 20px',
               borderBottom: '1px solid #e5e7eb',
               background: '#f8fafc',
+              borderTopLeftRadius: '24px',
+              borderTopRightRadius: '24px'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
                 <img
@@ -141,7 +142,7 @@ export default function BookingModal({ car, onClose }) {
             </div>
 
             {/* Form Body */}
-            <div style={{ padding: '28px 32px', overflowY: 'auto', maxHeight: '55vh', background: '#ffffff' }}>
+            <div style={{ padding: '28px 32px', background: '#ffffff', minHeight: '380px' }}>
               {/* Step 1: Dates */}
               {step === 1 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -334,7 +335,7 @@ export default function BookingModal({ car, onClose }) {
             </div>
 
             {/* Footer */}
-            <div className="bm-footer" style={{ padding: '20px 32px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', gap: '14px', background: '#f8fafc', flexWrap: 'wrap' }}>
+            <div className="bm-footer" style={{ padding: '20px 32px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', gap: '14px', background: '#f8fafc', flexWrap: 'wrap', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px' }}>
               {step > 1 ? (
                 <button onClick={() => setStep(step - 1)} style={{ padding: '12px 24px', borderRadius: '10px', background: '#ffffff', border: '1px solid #e5e7eb', color: '#111827', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>
                   ← Back
@@ -383,7 +384,7 @@ export default function BookingModal({ car, onClose }) {
           </>
         ) : (
           /* Booking Success */
-          <div style={{ padding: '60px 32px', textAlign: 'center', background: '#ffffff' }}>
+          <div style={{ padding: '60px 32px', textAlign: 'center', background: '#ffffff', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px' }}>
             <div style={{ fontSize: '3.5rem', marginBottom: '16px' }}>🎉</div>
             <h2 style={{ fontFamily: 'Space Grotesk', fontSize: '1.8rem', fontWeight: 800, color: '#111827', marginBottom: '8px' }}>
               Booking Confirmed!

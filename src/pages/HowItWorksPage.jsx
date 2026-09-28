@@ -11,7 +11,11 @@ export default function HowItWorksPage() {
       {/* Hero — 30% Dark Anchor Banner */}
       <div style={{
         background: '#0d1117',
-        padding: '64px 24px 44px',
+        padding: '50px 24px 30px',
+        minHeight: '200px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         borderBottom: '1px solid #1e293b',
         textAlign: 'center',
         position: 'relative',
@@ -49,11 +53,13 @@ export default function HowItWorksPage() {
                 background: '#ffffff',
                 border: '1px solid #e5e7eb',
                 borderRadius: '20px',
-                padding: '36px 28px',
+                padding: '24px 20px',
                 textAlign: 'center',
                 position: 'relative',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
                 transition: 'all 0.3s ease',
+                height: 'max-content',
+                alignSelf: 'start'
               }}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,185,107,0.4)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.08)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.04)'; }}
