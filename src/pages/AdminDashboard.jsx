@@ -3,7 +3,7 @@ import { useMarketplace } from '../context/MarketplaceContext';
 import { useAuth } from '../context/AuthContext';
 import { 
   MdDashboard, MdNotificationsActive, MdDirectionsCar, MdListAlt, 
-  MdSupportAgent, MdCheckCircle, MdCancel, MdElectricBolt, 
+  MdSupportAgent, MdCheckCircle, MdCancel, 
   MdAttachMoney, MdPerson, MdClose, MdEdit 
 } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
@@ -26,6 +26,7 @@ export default function AdminDashboard() {
   const [editingUser, setEditingUser] = useState(null);
   const [editUserForm, setEditUserForm] = useState({ name: '', phone: '', role: '' });
   const [userOverrides, setUserOverrides] = useState({});
+  const [selectedFleetCarId, setSelectedFleetCarId] = useState(null);
 
   useEffect(() => {
     if (activeTab === 'users') {
@@ -610,6 +611,36 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
+      
+      {/* Approval History Display */}
+      {approvedCars.length > 0 && (
+        <div style={{ marginTop: '48px' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#111827', marginBottom: '20px' }}>Approval History</h2>
+          <div style={{ display: 'grid', gap: '16px' }}>
+            {/* Show last 5 approved cars */}
+            {[...approvedCars].reverse().slice(0, 5).map(car => (
+              <div key={car.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', background: '#f8fafc', padding: '20px', borderRadius: '16px', border: '1px solid #e5e7eb' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <img src={car.image} alt={car.name} style={{ width: '60px', height: '60px', borderRadius: '8px', objectFit: 'cover' }} />
+                  <div>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#111827', margin: '0 0 4px' }}>{car.name}</h3>
+                    <div style={{ fontSize: '0.85rem', color: '#64748b' }}>Owner: {car.ownerName || 'Platform'}</div>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right', display: 'flex', gap: '24px', alignItems: 'center' }}>
+                  <div>
+                    <div style={{ fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Approved Price</div>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#10b981' }}>₹{car.price}/day</div>
+                  </div>
+                  <span style={{ background: '#d1fae5', color: '#065f46', padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                    <MdCheckCircle style={{ verticalAlign: 'middle', marginRight: '4px' }} /> APPROVED
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
@@ -628,27 +659,70 @@ export default function AdminDashboard() {
 
       <div style={{ padding: '24px 28px' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
-        {approvedCars.map(car => (
-          <div key={car.id} style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-            <div style={{ height: '200px', position: 'relative', background: '#f8fafc' }}>
-              <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#10b981', color: '#fff', fontSize: '0.7rem', fontWeight: 700, padding: '4px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>
-                Active
+        {approvedCars.map(car => {
+          const isSelected = selectedFleetCarId === car.id;
+          return (
+            <div 
+              key={car.id} 
+              onClick={() => setSelectedFleetCarId(isSelected ? null : car.id)}
+              style={{ 
+                background: '#ffffff', 
+                borderRadius: '16px', 
+                border: isSelected ? '2px solid #3b82f6' : '1px solid #e5e7eb', 
+                overflow: 'hidden', 
+                cursor: 'pointer', 
+                transition: 'all 0.2s', 
+                boxShadow: isSelected ? '0 12px 30px rgba(59,130,246,0.15)' : 'none',
+                transform: isSelected ? 'translateY(-4px)' : 'none'
+              }}
+            >
+              <div style={{ height: '200px', position: 'relative', background: '#f8fafc' }}>
+                <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#10b981', color: '#fff', fontSize: '0.7rem', fontWeight: 700, padding: '4px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>
+                  Active
+                </div>
+              </div>
+              <div style={{ padding: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: '0 0 8px', color: '#111827' }}>{car.name}</h3>
+                  <div style={{ fontSize: '0.8rem', color: '#3b82f6', fontWeight: 700 }}>
+                    {isSelected ? 'Less info' : 'View Owner'}
+                  </div>
+                </div>
+                <p style={{ margin: '0 0 16px', color: '#64748b', fontSize: '0.9rem' }}>{car.city} • ₹{car.price}/day</p>
+                
+                {isSelected && (
+                  <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', marginBottom: '20px', borderLeft: '4px solid #3b82f6', animation: 'fadeIn 0.2s ease-out' }}>
+                    <div style={{ fontSize: '0.85rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 800, marginBottom: '8px' }}>👤 Owner Details</div>
+                    <div style={{ display: 'grid', gap: '8px', fontSize: '0.9rem', color: '#334155' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ fontWeight: 600 }}>Name</span> 
+                        <span>{car.ownerName || 'Platform Owner'}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ fontWeight: 600 }}>Phone</span> 
+                        <span>{car.ownerPhone || 'N/A'}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ fontWeight: 600 }}>Email</span> 
+                        <span style={{ wordBreak: 'break-all', textAlign: 'right', paddingLeft: '12px' }}>{car.ownerEmail || 'N/A'}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                <button 
+                  onClick={(e) => { e.stopPropagation(); updateCarStatus(car.id, 'REJECTED'); }}
+                  style={{ width: '100%', padding: '10px', background: '#fef2f2', border: '1px solid #fecaca', color: '#ef4444', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', transition: 'background 0.2s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#fee2e2'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#fef2f2'}
+                >
+                  Delist Vehicle
+                </button>
               </div>
             </div>
-            <div style={{ padding: '20px' }}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: '0 0 8px', color: '#111827' }}>{car.name}</h3>
-              <p style={{ margin: '0 0 16px', color: '#64748b', fontSize: '0.9rem' }}>{car.city} • ₹{car.price}/day</p>
-              
-              <button 
-                onClick={() => updateCarStatus(car.id, 'REJECTED')}
-                style={{ width: '100%', padding: '10px', background: '#fef2f2', border: '1px solid #fecaca', color: '#ef4444', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}
-              >
-                Delist Vehicle
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {rejectedCars.length > 0 && (
@@ -691,7 +765,7 @@ export default function AdminDashboard() {
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
             <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e5e7eb' }}>
-              <th style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Booking ID</th>
+              <th style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Booking ID & Date</th>
               <th style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Renter Details</th>
               <th style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Vehicle & Dates</th>
               <th style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Total Paid</th>
@@ -705,7 +779,12 @@ export default function AdminDashboard() {
             ) : (
               [...bookings].reverse().map((b) => (
                 <tr key={b.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '16px 24px', fontWeight: 600, color: '#111827', fontSize: '0.95rem' }}>{b.id}</td>
+                  <td style={{ padding: '16px 24px' }}>
+                    <div style={{ fontWeight: 600, color: '#111827', fontSize: '0.95rem', marginBottom: '4px' }}>{b.id}</div>
+                    <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                      {b.createdAt ? new Date(b.createdAt).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'N/A'}
+                    </div>
+                  </td>
                   <td style={{ padding: '16px 24px' }}>
                     <div style={{ fontWeight: 600, color: '#111827' }}>{b.renterName}</div>
                     <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '4px' }}>{b.renterEmail}</div>
@@ -755,8 +834,11 @@ export default function AdminDashboard() {
       <div className="rd-layout">
         {/* MOBILE HEADER */}
       <div className="rd-mobile-header">
-        <Link to="/" className="brand-logo-dashboard">
-          <img src="/images/logo.jpg" alt="ieco" />
+        <Link to="/" className="brand-logo-dashboard" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+          <img src="/images/logo.jpg" alt="ieco" style={{ height: '36px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0, 212, 170, 0.3)' }} />
+          <span style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.5px', fontFamily: '"Space Grotesk", sans-serif' }}>
+            I Eco <span style={{ color: '#00d4aa' }}>Green</span> Cab
+          </span>
         </Link>
         <button className="rd-hamburger" onClick={() => setIsSidebarOpen(true)}>☰</button>
       </div>
@@ -766,8 +848,11 @@ export default function AdminDashboard() {
       {/* SIDEBAR */}
       <aside className={`rd-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
-          <Link to="/" className="brand-logo-dashboard" onClick={() => setIsSidebarOpen(false)} style={{ margin: 0, padding: '4px 8px' }}>
-            <img src="/images/logo.jpg" alt="ieco Admin" style={{ height: '32px' }} />
+          <Link to="/" className="brand-logo-dashboard" onClick={() => setIsSidebarOpen(false)} style={{ margin: 0, padding: '4px 8px', display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+            <img src="/images/logo.jpg" alt="ieco Admin" style={{ height: '36px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0, 212, 170, 0.3)' }} />
+            <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.5px', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
+              I Eco <span style={{ color: '#00d4aa' }}>Green</span> Cab
+            </span>
           </Link>
           
           <div className="rd-user-block" style={{ margin: 0, padding: 0, background: 'transparent', border: 'none' }}>

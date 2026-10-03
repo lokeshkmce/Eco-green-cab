@@ -55,7 +55,8 @@ export default function CustomSelect({ value, onChange, options, placeholder, di
           position: 'absolute',
           top: '100%',
           left: 0,
-          right: 0,
+          minWidth: '100%',
+          width: 'max-content',
           background: '#ffffff',
           border: '1px solid #e5e7eb',
           borderRadius: '8px',
@@ -73,7 +74,8 @@ export default function CustomSelect({ value, onChange, options, placeholder, di
               borderBottom: '1px solid #f3f4f6', 
               background: value === '' ? '#e6f9f1' : '#fff', 
               color: value === '' ? '#00b96b' : '#111827', 
-              fontWeight: value === '' ? 700 : 500 
+              fontWeight: value === '' ? 700 : 500,
+              whiteSpace: 'nowrap'
             }}
             onMouseEnter={(e) => { if(value !== '') e.target.style.background = '#f8fafc' }}
             onMouseLeave={(e) => { if(value !== '') e.target.style.background = '#fff' }}
@@ -90,7 +92,8 @@ export default function CustomSelect({ value, onChange, options, placeholder, di
                 borderBottom: '1px solid #f3f4f6', 
                 background: value === opt.value ? '#e6f9f1' : '#fff', 
                 color: value === opt.value ? '#00b96b' : '#111827', 
-                fontWeight: value === opt.value ? 700 : 500 
+                fontWeight: value === opt.value ? 700 : 500,
+                whiteSpace: 'nowrap'
               }}
               onMouseEnter={(e) => { if(value !== opt.value) e.target.style.background = '#f8fafc' }}
               onMouseLeave={(e) => { if(value !== opt.value) e.target.style.background = '#fff' }}

@@ -13,8 +13,8 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="brand-logo-container" style={{ margin: '0 0 16px 0', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', textDecoration: 'none' }}>
-              <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" style={{ height: '48px', borderRadius: '8px', background: '#ffffff', padding: '4px', mixBlendMode: 'normal' }} />
-              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>Eco Green Cab</span>
+              <img src="/images/logo.jpg" alt="I Eco Green Cab" style={{ height: '48px', borderRadius: '8px', background: '#ffffff', padding: '4px', mixBlendMode: 'normal' }} />
+              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>I Eco Green Cab</span>
             </Link>
             <p className="footer-brand-desc">
               India's premier self-drive electric vehicle marketplace. Driving sustainable, zero-emission smart mobility across Bengaluru, Mumbai, Delhi NCR, and 28+ Indian smart cities.
@@ -80,7 +80,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © {year} EcoGreen Cab. All rights reserved.
+            © {year} I Eco Green Cab. All rights reserved.
           </p>
           <div className="footer-bottom-links">
             <a href="#" className="footer-bottom-link">Privacy Policy</a>

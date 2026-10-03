@@ -2182,7 +2182,7 @@ export const testimonials = [
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80",
     rating: 5,
     comment:
-      "Listing my Nexon EV on EcoGreen Cab has been brilliant. I earn around ₹38,000 every month which pays off my car loan and insurance with surplus left over! Weekly direct bank transfers via NEFT and the verified renter KYC policy give me complete peace of mind.",
+      "Listing my Nexon EV on I Eco Green Cab has been brilliant. I earn around ₹38,000 every month which pays off my car loan and insurance with surplus left over! Weekly direct bank transfers via NEFT and the verified renter KYC policy give me complete peace of mind.",
     car: "Nexon EV (Host)",
     date: "September 2024",
     verified: true,
@@ -2219,7 +2219,7 @@ export const testimonials = [
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&q=80",
     rating: 5,
     comment:
-      "EcoGreen Cab is revolutionizing sustainable self-drives in India. The owner dashboard gives live telemetry, Fastag toll tracking, and automated payout invoices with GST breakdown. Proud to be a 5-star Superhost in Pune!",
+      "I Eco Green Cab is revolutionizing sustainable self-drives in India. The owner dashboard gives live telemetry, Fastag toll tracking, and automated payout invoices with GST breakdown. Proud to be a 5-star Superhost in Pune!",
     car: "Atto 3 (Host)",
     date: "October 2024",
     verified: true,
@@ -2383,7 +2383,7 @@ export const faqs = [
   },
   {
     q: "Is Fastag included for highway tolls?",
-    a: "Yes! All EcoGreen Cab electric vehicles come fitted with an active national Fastag. Toll charges incurred during expressway or national highway travel are automatically logged without queue delays.",
+    a: "Yes! All I Eco Green Cab electric vehicles come fitted with an active national Fastag. Toll charges incurred during expressway or national highway travel are automatically logged without queue delays.",
   },
   {
     q: "Can I take the EV for interstate road trips (e.g., Mumbai to Goa or Bengaluru to Ooty)?",
@@ -2394,7 +2394,7 @@ export const faqs = [
     a: "Charging is as simple as plugging in your smartphone. Our in-app map guides you to 500+ fast-charging stations across Tata Power EZ Charge, Jio-bp pulse, Statiq, and Zeon networks. Most DC fast chargers top up from 10% to 80% in 35–55 minutes.",
   },
   {
-    q: "What is the insurance policy on EcoGreen Cab?",
+    q: "What is the insurance policy on I Eco Green Cab?",
     a: "Every single booking includes comprehensive insurance covering up to ₹50 Lakhs liability. You can also opt for our zero-depreciation coverage for complete peace of mind.",
   },
 ];

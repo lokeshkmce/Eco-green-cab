@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import '../styles/components.css';
 
-import { MdClose, MdLocationOn, MdBatteryChargingFull, MdSpeed, MdPerson, MdCheckCircle, MdElectricBolt, MdChevronLeft, MdChevronRight } from 'react-icons/md';
-import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
+import { MdClose, MdLocationOn, MdBatteryChargingFull, MdPerson, MdCheckCircle, MdElectricBolt, MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { FaStar } from 'react-icons/fa';
 import { BsStars } from 'react-icons/bs';
 import { IoSpeedometerOutline } from 'react-icons/io5';
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMarketplace } from '../context/MarketplaceContext';
 
 const contactMethods = [
-  { icon: '📧', title: 'Email Support', value: 'support@ecogreencab.in', sub: 'Response within 2 hours', color: '#009958' },
+  { icon: '📧', title: 'Email Support', value: 'support@iecogreencab.in', sub: 'Response within 2 hours', color: '#009958' },
   { icon: '📱', title: 'Toll-Free & WhatsApp', value: '1800-209-4733', sub: '24/7 Pan-India Roadside Assist', color: '#0284c7' },
   { icon: '🏢', title: 'HQ Bengaluru', value: '100ft Road, Indiranagar', sub: 'Bengaluru, Karnataka 560038', color: '#009958' },
 ];

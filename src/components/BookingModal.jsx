@@ -321,7 +321,7 @@ export default function BookingModal({ car, onClose }) {
                     <div style={{ fontSize: '0.85rem', color: '#4b5563', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>Scan to Pay via UPI</div>
                     <div style={{ padding: '12px', background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', marginBottom: '16px' }}>
                       <QRCode 
-                        value={`upi://pay?pa=ecogreencab@upi&pn=EcoGreen%20Cab&am=${total}&cu=INR`} 
+                        value={`upi://pay?pa=ecogreencab@upi&pn=I%20Eco%20Green%20Cab&am=${total}&cu=INR`} 
                         size={160}
                         fgColor="#111827"
                       />

@@ -328,6 +328,7 @@
 .calc-slider {
   width: 100%;
   -webkit-appearance: none;
+  appearance: none;
   height: 6px;
   border-radius: 10px;
   background: #e5e7eb;

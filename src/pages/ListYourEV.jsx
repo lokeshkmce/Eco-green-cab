@@ -76,7 +76,7 @@ export default function ListYourEV() {
         const errData = await response.json().catch(() => ({}));
         console.error("Backend validation failed:", errData);
       } else {
-        console.log("Successfully created on backend!");
+        // Successfully created on backend
       }
     } catch (err) {
       console.error("Network error when connecting to API:", err);
@@ -171,7 +171,7 @@ export default function ListYourEV() {
             List Your EV. Start Earning.
           </h1>
           <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '560px', margin: '0 auto' }}>
-            Join 4,000+ EV hosts earning ₹35,000–₹85,000/month on EcoGreen Cab India.
+            Join 4,000+ EV hosts earning ₹35,000–₹85,000/month on I Eco Green Cab India.
           </p>
 
           {/* Stats */}
@@ -432,7 +432,7 @@ export default function ListYourEV() {
                       style={{ marginTop: '3px', accentColor: '#00b96b', width: '18px', height: '18px' }}
                     />
                     <span style={{ fontSize: '0.88rem', color: '#4b5563', lineHeight: 1.6 }}>
-                      I agree to the EcoGreen Cab India{' '}
+                      I agree to the I Eco Green Cab India{' '}
                       <a href="#" style={{ color: '#009958', fontWeight: 600 }}>Host Terms of Service</a>{' '}
                       and confirm this EV has a valid Green RTO registration, active insurance, and Fastag.
                     </span>

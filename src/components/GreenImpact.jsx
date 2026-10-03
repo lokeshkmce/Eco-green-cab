@@ -22,7 +22,7 @@ export default function GreenImpact() {
               Every Ride Saves the Planet
             </h2>
             <p className="green-description">
-              At EcoGreen Cab, sustainability isn't a feature — it's our foundation. Every electric mile driven on our platform contributes to a measurable reduction in global carbon emissions.
+              At I Eco Green Cab, sustainability isn't a feature — it's our foundation. Every electric mile driven on our platform contributes to a measurable reduction in global carbon emissions.
             </p>
 
             <div className="green-highlights">

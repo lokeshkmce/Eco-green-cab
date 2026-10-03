@@ -68,15 +68,6 @@ export default function EVMarketplace({ limit, searchFilters }) {
     if (searchFilters.variant) setSelectedVariant(searchFilters.variant);
   }, [searchFilters]);
 
-  // Reset downstream filters when upstream filter changes
-  useEffect(() => {
-    setSelectedModel('');
-    setSelectedVariant('');
-  }, [selectedBrand]);
-
-  useEffect(() => {
-    setSelectedVariant('');
-  }, [selectedModel]);
 
   const filteredCars = useMemo(() => {
     let result = [...approvedCars];
@@ -237,7 +228,11 @@ export default function EVMarketplace({ limit, searchFilters }) {
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdLabel /> Brand</label>
             <CustomSelect
               value={selectedBrand}
-              onChange={setSelectedBrand}
+              onChange={(v) => {
+                setSelectedBrand(v);
+                setSelectedModel('');
+                setSelectedVariant('');
+              }}
               options={brands.map(b => ({ value: b, label: b }))}
               placeholder="All Brands"
             />
@@ -248,7 +243,10 @@ export default function EVMarketplace({ limit, searchFilters }) {
             <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><MdDirectionsCar /> Model</label>
             <CustomSelect
               value={selectedModel}
-              onChange={setSelectedModel}
+              onChange={(v) => {
+                setSelectedModel(v);
+                setSelectedVariant('');
+              }}
               options={models.map(m => ({ value: m, label: m }))}
               placeholder="All Models"
               disabled={!selectedBrand}

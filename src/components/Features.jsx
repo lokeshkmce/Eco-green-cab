@@ -36,7 +36,7 @@ export default function Features() {
           <span className="section-badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><BsStars/> Platform Features</span>
           <h2 className="section-title">Everything You Need, Nothing You Don't</h2>
           <p className="section-subtitle">
-            EcoGreen Cab is built from the ground up to make EV rentals effortless, safe, and rewarding.
+            I Eco Green Cab is built from the ground up to make EV rentals effortless, safe, and rewarding.
           </p>
         </div>
 

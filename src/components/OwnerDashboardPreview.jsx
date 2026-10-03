@@ -58,7 +58,7 @@ export default function OwnerDashboardPreview() {
               <div className="dashboard-dot d-dot-red" />
               <div className="dashboard-dot d-dot-yellow" />
               <div className="dashboard-dot d-dot-green" />
-              <div className="dashboard-title-bar">ecogreencab.in/owner/dashboard</div>
+              <div className="dashboard-title-bar">iecogreencab.in/owner/dashboard</div>
             </div>
 
             <div className="dashboard-body">

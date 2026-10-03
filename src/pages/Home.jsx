@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import FeatureShowcase from '../components/FeatureShowcase';
 
 import SearchWidget from '../components/SearchWidget';
 import EVMarketplace from '../components/EVMarketplace';
@@ -19,6 +20,9 @@ export default function Home() {
 
       {/* Hero Section */}
       <Hero />
+
+      {/* 3D Feature Showcase */}
+      <FeatureShowcase />
 
       {/* Search Widget */}
       <div style={{

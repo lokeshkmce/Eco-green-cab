@@ -33,9 +33,8 @@ export default function AuthModal({ isOpen, onClose }) {
       }, 400); // slight pause so user sees the 4th digit
       return () => clearTimeout(timer);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.otp, step]);
-
-  if (!isOpen) return null;
 
   const handleSendOTP = async (e) => {
     e.preventDefault();
@@ -154,8 +153,8 @@ export default function AuthModal({ isOpen, onClose }) {
         // We log the error but still allow local login for the demo prototype to not break UX
         console.error('Failed to create user on backend API:', response.statusText);
       } else {
-        const data = await response.json();
-        console.log('User successfully created on backend:', data);
+        await response.json();
+        // User successfully created on backend
       }
     } catch (err) {
       console.error('API connection failed:', err);
@@ -181,6 +180,8 @@ export default function AuthModal({ isOpen, onClose }) {
     setIsLoading(false);
     onClose();
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="auth-modal-overlay" onClick={handleClose}>
@@ -320,7 +321,7 @@ export default function AuthModal({ isOpen, onClose }) {
 
               <h2 className="role-selection-title">You're Verified! 🎉</h2>
               <p className="role-selection-subtitle">
-                How would you like to use <strong>EcoGreen Cab</strong>?<br/>
+                How would you like to use <strong>I Eco Green Cab</strong>?<br/>
                 <span style={{ fontSize: '0.82rem', opacity: 0.6 }}>Pick a role — you can change it anytime later.</span>
               </p>
 

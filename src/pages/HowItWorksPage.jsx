@@ -28,7 +28,7 @@ export default function HowItWorksPage() {
             Simple. Fast. Sustainable.
           </h1>
           <p style={{ color: '#94a3b8', fontSize: '1.05rem', maxWidth: '540px', margin: '0 auto' }}>
-            Everything you need to know about renting or listing an EV on EcoGreen Cab.
+            Everything you need to know about renting or listing an EV on I Eco Green Cab.
           </p>
         </div>
       </div>
@@ -38,12 +38,12 @@ export default function HowItWorksPage() {
 
       {/* For Hosts (70% Light) */}
       <section className="section" style={{ background: '#ffffff', borderTop: '1px solid #e5e7eb' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '960px' }}>
           <div className="section-header">
             <span className="section-badge">🏠 For Hosts</span>
-            <h2 className="section-title" style={{ color: '#111827' }}>How to List Your EV</h2>
+            <h2 className="section-title" style={{ color: '#111827', fontSize: '2rem' }}>How to List Your EV</h2>
           </div>
-          <div className="grid-responsive-3">
+          <div className="grid-responsive-3" style={{ gap: '24px' }}>
             {[
               { step: 1, icon: '📝', title: 'Create Your Listing', desc: 'Sign up and add your EV details, photos, daily rate, and availability in minutes.' },
               { step: 2, icon: '✅', title: 'Get Verified', desc: 'Our team reviews your listing and vehicle. Once approved, you go live instantly.' },
@@ -52,29 +52,29 @@ export default function HowItWorksPage() {
               <div key={step.step} style={{
                 background: '#ffffff',
                 border: '1px solid #e5e7eb',
-                borderRadius: '20px',
-                padding: '24px 20px',
+                borderRadius: '16px',
+                padding: '20px 16px',
                 textAlign: 'center',
                 position: 'relative',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
                 transition: 'all 0.3s ease',
                 height: 'max-content',
                 alignSelf: 'start'
               }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,185,107,0.4)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.08)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.04)'; }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(0,185,107,0.4)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.06)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.03)'; }}
               >
-                <div style={{ width: '38px', height: '38px', background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', color: '#ffffff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.88rem', fontWeight: 800, margin: '0 auto 16px', boxShadow: '0 4px 12px rgba(0,185,107,0.3)' }}>
+                <div style={{ width: '32px', height: '32px', background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', color: '#ffffff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 800, margin: '0 auto 12px', boxShadow: '0 4px 12px rgba(0,185,107,0.2)' }}>
                   {step.step}
                 </div>
-                <div style={{ fontSize: '2.2rem', marginBottom: '14px' }}>{step.icon}</div>
-                <h3 style={{ fontFamily: 'Space Grotesk', color: '#111827', fontWeight: 700, marginBottom: '10px', fontSize: '1.15rem' }}>{step.title}</h3>
-                <p style={{ color: '#4b5563', fontSize: '0.92rem', lineHeight: 1.65 }}>{step.desc}</p>
+                <div style={{ fontSize: '1.8rem', marginBottom: '10px' }}>{step.icon}</div>
+                <h3 style={{ fontFamily: 'Space Grotesk', color: '#111827', fontWeight: 700, marginBottom: '8px', fontSize: '1.05rem' }}>{step.title}</h3>
+                <p style={{ color: '#4b5563', fontSize: '0.88rem', lineHeight: 1.55 }}>{step.desc}</p>
               </div>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: '48px' }}>
-            <Link to="/list-your-ev" className="btn btn-primary btn-lg">
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <Link to="/list-your-ev" className="btn btn-primary btn-lg" style={{ padding: '12px 28px', fontSize: '1rem' }}>
               🚗 List Your EV Today
             </Link>
           </div>

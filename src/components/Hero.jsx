@@ -26,13 +26,13 @@ const SLIDES = [
     img: '/hero_ev_4.jpg',
     car: 'Tata Punch EV',
     location: 'East Coast Road, Chennai',
-    bgPosition: 'left 55%', // Pushes the center of the image to the right
+    bgPosition: 'center center',
   },
   {
     img: '/hero_ev_5.jpg',
     car: 'MG ZS EV',
     location: 'Alleppey Backwaters, Kerala',
-    bgPosition: 'left 60%', // Pushes the center of the image to the right
+    bgPosition: 'center center',
   },
 ];
 

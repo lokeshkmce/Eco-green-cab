@@ -36,7 +36,7 @@ export default function About() {
             We're Building a Greener India, One Ride at a Time
           </h1>
           <p style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.8 }}>
-            Founded in 2020 in Bengaluru, EcoGreen Cab was born from a simple belief: premium self-drive travel and environmental responsibility can transform Indian cities. Today, we're India's premier community-driven electric mobility platform across 28+ smart cities.
+            Founded in 2020 in Bengaluru, I Eco Green Cab was born from a simple belief: premium self-drive travel and environmental responsibility can transform Indian cities. Today, we're India's premier community-driven electric mobility platform across 28+ smart cities.
           </p>
         </div>
       </div>

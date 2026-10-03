@@ -64,8 +64,11 @@ export default function OwnerDashboard() {
       
       {/* ─── MOBILE HEADER (Visible only on <1024px) ─── */}
       <div className="dashboard-mobile-header">
-        <Link to="/" className="brand-logo-dashboard">
-          <img src="/images/logo.jpg" alt="ieco" />
+        <Link to="/" className="brand-logo-dashboard" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+          <img src="/images/logo.jpg" alt="ieco" style={{ height: '36px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0, 212, 170, 0.3)' }} />
+          <span style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.5px', fontFamily: '"Space Grotesk", sans-serif' }}>
+            I Eco <span style={{ color: '#00d4aa' }}>Green</span> Cab
+          </span>
         </Link>
         <button className="hamburger-btn" onClick={() => setIsSidebarOpen(true)}>
           ☰
@@ -81,8 +84,11 @@ export default function OwnerDashboard() {
       {/* ─── SIDEBAR (30%) ─── */}
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
-          <Link to="/" className="brand-logo-dashboard" style={{ margin: 0, padding: '4px 8px' }}>
-            <img src="/images/logo.jpg" alt="ieco Owner" style={{ height: '32px' }} />
+          <Link to="/" className="brand-logo-dashboard" style={{ margin: 0, padding: '4px 8px', display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+            <img src="/images/logo.jpg" alt="ieco Owner" style={{ height: '36px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0, 212, 170, 0.3)' }} />
+            <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.5px', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
+              I Eco <span style={{ color: '#00d4aa' }}>Green</span> Cab
+            </span>
           </Link>
           
           <div style={{ margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
@@ -265,18 +271,18 @@ export default function OwnerDashboard() {
                     You don't have any active vehicles listed yet.
                   </div>
                 ) : (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '20px' }}>
                     {activeCars.map(car => (
                       <div key={car.id} style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-                        <div style={{ height: '140px', position: 'relative' }}>
-                          <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#10b981', color: '#fff', fontSize: '0.7rem', fontWeight: 700, padding: '4px 10px', borderRadius: '12px', textTransform: 'uppercase' }}>Active</div>
+                        <div style={{ height: '180px', position: 'relative', background: '#f8fafc' }}>
+                          <img src={car.image} alt={car.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '8px' }} />
+                          <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#10b981', color: '#fff', fontSize: '0.7rem', fontWeight: 700, padding: '4px 10px', borderRadius: '12px', textTransform: 'uppercase', zIndex: 2 }}>Active</div>
                         </div>
                         <div style={{ padding: '20px' }}>
                           <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 4px', color: '#111827' }}>{car.name}</h3>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div>
-                              <div style={{ fontSize: '0.75rem', color: '#64748b', textDecoration: 'line-through' }}>List Price: ₹{car.price}/day</div>
+                              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>List Price: <span style={{ textDecoration: 'line-through' }}>₹{car.price}/day</span></div>
                               <div style={{ color: '#00b96b', fontWeight: 800, fontSize: '1.15rem' }}>₹{Math.round(car.price * 0.85)}/day</div>
                             </div>
                             <div style={{ fontSize: '0.7rem', color: '#10b981', background: '#ecfdf5', padding: '4px 8px', borderRadius: '8px', fontWeight: 700 }}>
@@ -396,7 +402,7 @@ export default function OwnerDashboard() {
 
                       {msg.status === 'RESOLVED' && (
                         <div style={{ marginTop: '16px', background: '#ecfdf5', padding: '16px', borderRadius: '12px', border: '1px solid #a7f3d0' }}>
-                          <div style={{ fontWeight: 700, color: '#065f46', marginBottom: '8px' }}>EcoGreen Support Reply:</div>
+                          <div style={{ fontWeight: 700, color: '#065f46', marginBottom: '8px' }}>I Eco Green Support Reply:</div>
                           <p style={{ color: '#047857', margin: 0, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
                             {msg.reply}
                           </p>

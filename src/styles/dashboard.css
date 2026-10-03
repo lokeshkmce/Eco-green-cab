@@ -216,7 +216,7 @@
 .rd-header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 10;
   padding: 20px 28px;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
@@ -429,7 +429,9 @@
 .rd-rental-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 10px;
+  background: #f8fafc;
   display: block;
   transition: transform 0.4s ease;
 }
@@ -696,7 +698,7 @@
 .bookings-list { display: flex; flex-direction: column; gap: 12px; }
 .booking-card { display: flex; gap: 0; background: #fff; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; }
 .booking-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-.booking-card-img { width: 140px; height: 130px; object-fit: cover; flex-shrink: 0; }
+.booking-card-img { width: 200px; height: 130px; object-fit: contain; background: #f8fafc; padding: 8px; flex-shrink: 0; border-right: 1px solid #f1f5f9; }
 .booking-card-info { flex: 1; padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
 .booking-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .booking-card-name { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 800; color: #0f172a; }
@@ -711,8 +713,8 @@
 .favs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
 .fav-card { background: #fff; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.25s, box-shadow 0.25s; }
 .fav-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
-.fav-img-wrap { position: relative; height: 150px; overflow: hidden; }
-.fav-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+.fav-img-wrap { position: relative; height: 150px; overflow: hidden; background: #f8fafc; }
+.fav-img { width: 100%; height: 100%; object-fit: contain; padding: 10px; display: block; transition: transform 0.4s; }
 .fav-card:hover .fav-img { transform: scale(1.06); }
 .fav-remove-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,0.55); border: none; color: #fff; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
 .fav-remove-btn:hover { background: #ef4444; }
@@ -817,10 +819,12 @@
   .payments-stats { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px) {
-  .favs-grid { grid-template-columns: 1fr 1fr; }
   .booking-card { flex-direction: column; }
-  .booking-card-img { width: 100%; height: 160px; }
+  .booking-card-img { width: 100%; height: 180px; border-right: none; border-bottom: 1px solid #f1f5f9; }
   .help-footer-card { flex-direction: column; text-align: center; }
+}
+@media (max-width: 480px) {
+  .favs-grid { grid-template-columns: 1fr; }
 }
 
 
@@ -960,21 +964,23 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: flex-start; /* Prevent stretching across sidebar */
+  align-self: flex-start;
   text-decoration: none;
-  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
-  padding: 6px;
+  background: linear-gradient(135deg, #00b96b 0%, #0284c7 100%);
+  padding: 2.5px;
   border-radius: 12px;
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 6px 16px rgba(0, 230, 118, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 185, 107, 0.2);
   margin: 24px;
+  transition: all 0.3s ease;
 }
 
 .brand-logo-dashboard img {
   display: block;
-  height: 40px;
-  border-radius: 6px;
-  mix-blend-mode: normal !important; /* override global if any */
+  height: 38px;
+  background: #ffffff;
+  border-radius: 9.5px;
+  padding: 4px;
+  object-fit: contain;
 }
 
 /* Adjust for mobile headers */

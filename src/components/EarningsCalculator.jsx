@@ -18,7 +18,7 @@ export default function EarningsCalculator() {
           <span className="section-badge">💰 Host Earnings in India</span>
           <h2 className="section-title">Calculate Your Monthly Host Revenue</h2>
           <p className="section-subtitle">
-            Earn reliable passive income by listing your electric vehicle on EcoGreen Cab across Indian metro cities.
+            Earn reliable passive income by listing your electric vehicle on I Eco Green Cab across Indian metro cities.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export default function EarningsCalculator() {
                 color: '#166534',
                 lineHeight: 1.5,
               }}>
-                💡 EcoGreen Cab charges just a <strong style={{ color: '#009958' }}>20% platform fee</strong>. We provide ₹50 Lakh commercial insurance, automated Fastag settlement, verified customer Aadhaar/DL KYC, and weekly NEFT bank payouts.
+                💡 I Eco Green Cab charges just a <strong style={{ color: '#009958' }}>20% platform fee</strong>. We provide ₹50 Lakh commercial insurance, automated Fastag settlement, verified customer Aadhaar/DL KYC, and weekly NEFT bank payouts.
               </div>
             </div>
 

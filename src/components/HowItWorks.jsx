@@ -9,7 +9,7 @@ export default function HowItWorks() {
       <div className="container">
         <div className="section-header">
           <span className="section-badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MdOutlineListAlt/> Simple Process</span>
-          <h2 className="section-title">How EcoGreen Cab Works</h2>
+          <h2 className="section-title">How I Eco Green Cab Works</h2>
           <p className="section-subtitle">
             From discovery to driving — your premium EV experience in just 4 easy steps.
           </p>

@@ -38,14 +38,24 @@ export default function Navbar() {
     setAuthModalOpen(true);
   };
 
+  const getDashboardInfo = () => {
+    const label = user?.name ? user.name.split(' ')[0] : 'Dashboard';
+    if (user?.roles?.includes('admin')) return { path: '/admin/dashboard', label: 'Admin' };
+    if (user?.roles?.includes('owner')) return { path: '/owner/dashboard', label };
+    return { path: '/renter/dashboard', label };
+  };
+  const dashInfo = getDashboardInfo();
+
   return (
     <>
       <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
         <div className="navbar-inner">
           {/* Logo */}
           <Link to="/" className="brand-logo-container" onClick={closeMenu} style={{ gap: '12px' }}>
-            <img src="/images/logo.jpg" alt="ieco EcoGreen Cab" className="navbar-logo-img" />
-            <span className="navbar-logo-text-gradient">Eco Green Cab</span>
+            <div className="navbar-logo-wrapper">
+              <img src="/images/logo.jpg" alt="I Eco Green Cab" className="navbar-logo-img" />
+            </div>
+            <span className="navbar-logo-text-gradient">I Eco Green Cab</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -72,7 +82,7 @@ export default function Navbar() {
               </button>
             ) : (
               <Link 
-                to="/admin/dashboard" 
+                to={dashInfo.path} 
                 className="navbar-btn-primary" 
                 style={{ 
                   background: 'linear-gradient(135deg, #00b96b 0%, #009657 100%)', 
@@ -88,7 +98,7 @@ export default function Navbar() {
                   letterSpacing: '0.5px'
                 }}
               >
-                <MdPerson size={20} /> Admin
+                <MdPerson size={20} /> {dashInfo.label}
               </Link>
             )}
           </div>
@@ -137,7 +147,7 @@ export default function Navbar() {
               </button>
             ) : (
               <Link
-                to="/admin/dashboard"
+                to={dashInfo.path}
                 className="mobile-btn mobile-btn-primary"
                 onClick={closeMenu}
                 style={{ 
@@ -155,7 +165,7 @@ export default function Navbar() {
                   letterSpacing: '0.5px'
                 }}
               >
-                <MdPerson size={22} /> Admin
+                <MdPerson size={22} /> {dashInfo.label}
               </Link>
             )}
           </div>

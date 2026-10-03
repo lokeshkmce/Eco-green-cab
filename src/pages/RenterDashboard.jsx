@@ -285,7 +285,7 @@ function SupportView() {
       <div className="support-hero">
         <div className="support-hero-content">
           <h2 className="support-hero-title">How can we help?</h2>
-          <p className="support-hero-sub">Our team is available around the clock to ensure you have a seamless experience with EcoGreen.</p>
+          <p className="support-hero-sub">Our team is available around the clock to ensure you have a seamless experience with I Eco Green Cab.</p>
         </div>
         <div className="support-hero-icon">🤝</div>
       </div>
@@ -306,7 +306,7 @@ function SupportView() {
             <div className="support-card-h-name">Email Support</div>
             <div className="support-card-h-desc">Drop us a line anytime. We usually respond within 2-4 hours.</div>
           </div>
-          <div className="support-card-h-val">help@ecogreencab.in</div>
+          <div className="support-card-h-val">help@iecogreencab.in</div>
         </div>
       </div>
     </div>
@@ -387,8 +387,11 @@ export default function RenterDashboard() {
     <div className="rd-layout">
       {/* MOBILE HEADER */}
       <div className="rd-mobile-header">
-        <Link to="/" className="brand-logo-dashboard">
-          <img src="/images/logo.jpg" alt="ieco" />
+        <Link to="/" className="brand-logo-dashboard" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+          <img src="/images/logo.jpg" alt="ieco" style={{ height: '36px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0, 212, 170, 0.3)' }} />
+          <span style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.5px', fontFamily: '"Space Grotesk", sans-serif' }}>
+            I Eco <span style={{ color: '#00d4aa' }}>Green</span> Cab
+          </span>
         </Link>
         <button className="rd-hamburger" onClick={() => setIsSidebarOpen(true)}>☰</button>
       </div>
@@ -398,8 +401,11 @@ export default function RenterDashboard() {
       {/* SIDEBAR */}
       <aside className={`rd-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
-          <Link to="/" className="brand-logo-dashboard" onClick={closeSidebar} style={{ margin: 0, padding: '4px 8px' }}>
-            <img src="/images/logo.jpg" alt="ieco Renter" style={{ height: '32px' }} />
+          <Link to="/" className="brand-logo-dashboard" onClick={closeSidebar} style={{ margin: 0, padding: '4px 8px', display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+            <img src="/images/logo.jpg" alt="ieco Renter" style={{ height: '36px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0, 212, 170, 0.3)' }} />
+            <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.5px', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
+              I Eco <span style={{ color: '#00d4aa' }}>Green</span> Cab
+            </span>
           </Link>
           
           <div className="rd-user-block" style={{ margin: 0, padding: 0, background: 'transparent', border: 'none' }}>
