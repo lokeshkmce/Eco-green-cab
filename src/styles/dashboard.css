@@ -31,6 +31,7 @@
   position: relative;
   z-index: 20;
   transition: transform 0.3s ease;
+  overflow-y: auto;
 }
 
 .rd-sidebar::before {
@@ -110,6 +111,7 @@
   gap: 2px;
   padding: 0 12px;
   flex: 1;
+  overflow-y: auto;
 }
 .rd-nav-item {
   display: flex;
@@ -898,14 +900,14 @@
 
 /* ── Keep old class names working for other pages ── */
 .dashboard-layout { display: flex; height: 100vh; width: 100%; overflow: hidden; background: #f4f7fb; }
-.dashboard-sidebar { width: 240px; flex-shrink: 0; display: flex; flex-direction: column; background: #0d1117; border-right: 1px solid #1f2937; padding: 16px 0; height: 100vh; }
+.dashboard-sidebar { width: 240px; flex-shrink: 0; display: flex; flex-direction: column; background: #0d1117; border-right: 1px solid #1f2937; padding: 16px 0; height: 100vh; overflow-y: auto; }
 .dashboard-main { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; background: #f4f7fb; }
 .dashboard-header { padding: 16px 24px; border-bottom: 1px solid #e5e7eb; background: #ffffff; z-index: 10; }
 .dashboard-header-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .dashboard-content { padding: 20px 24px; width: 100%; flex: 1; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
 .dashboard-content-scroll { flex: 1; overflow-y: auto; }
 .sidebar-logo { padding: 0 16px 20px; display: flex; align-items: center; gap: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 800; color: #ffffff; text-decoration: none; }
-.sidebar-nav { display: flex; flex-direction: column; gap: 4px; padding: 0 12px; flex: 1; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 4px; padding: 0 12px; flex: 1; overflow-y: auto; }
 .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: #9ca3af; text-decoration: none; font-weight: 500; transition: all 0.2s ease; font-size: 0.9rem; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; }
 .sidebar-item:hover { background: rgba(255,255,255,0.05); color: #ffffff; }
 .sidebar-item.active { background: rgba(0,185,107,0.15); color: #00e676; font-weight: 600; border-left: 3px solid #00e676; border-radius: 0 8px 8px 0; }

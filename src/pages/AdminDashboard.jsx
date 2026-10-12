@@ -847,19 +847,20 @@ export default function AdminDashboard() {
 
       {/* SIDEBAR */}
       <aside className={`rd-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
-          <Link to="/" className="brand-logo-dashboard" onClick={() => setIsSidebarOpen(false)} style={{ margin: 0, padding: '4px 8px', display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', padding: '24px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '16px' }}>
+          <Link to="/" className="brand-logo-dashboard" onClick={() => setIsSidebarOpen(false)} style={{ margin: 0, padding: '0', display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', width: '100%' }}>
             <img src="/images/logo.jpg" alt="ieco Admin" style={{ height: '36px', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0, 212, 170, 0.3)' }} />
             <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.5px', whiteSpace: 'nowrap', fontFamily: '"Space Grotesk", sans-serif' }}>
               I Eco <span style={{ color: '#00d4aa' }}>Green</span> Cab
             </span>
           </Link>
           
-          <div className="rd-user-block" style={{ margin: 0, padding: 0, background: 'transparent', border: 'none' }}>
-            <div>
-              <div className="rd-user-name" style={{ fontSize: '0.9rem' }}>Super Admin</div>
-              <div className="rd-user-badge" style={{color: '#3b82f6', background: 'rgba(59,130,246,0.1)', fontSize: '0.65rem'}}>🔵 Platform</div>
+          <div className="rd-user-block" style={{ margin: 0, padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxSizing: 'border-box' }}>
+            <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div style={{ fontSize: '0.65rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.05em' }}>Logged in as</div>
+              <div className="rd-user-name" style={{ color: '#fff', fontWeight: 600, fontSize: '0.95rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '120px' }}>Super Admin</div>
             </div>
+            <div className="rd-user-badge" style={{ fontSize: '0.65rem', background: 'rgba(59,130,246,0.15)', color: '#60a5fa', padding: '4px 8px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}>🔵 Platform</div>
           </div>
         </div>
 
