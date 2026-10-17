@@ -37,7 +37,17 @@ export default function Home() {
 
 
       {/* Featured EVs Preview */}
-      <section className="section" style={{ background: '#ffffff', paddingTop: '10px' }}>
+      <section className="section" style={{
+        background: 'linear-gradient(180deg, #ffffff 0%, #f7fafb 100%)',
+        paddingTop: '16px',
+        paddingBottom: '32px',
+        position: 'relative',
+      }}>
+        {/* Decorative top border */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
+          background: 'linear-gradient(90deg, transparent, #00c472, #00d4aa, #38bdf8, transparent)',
+        }} />
         <div className="container">
           <div className="section-header">
             <span className="section-badge">⚡ Featured Vehicles</span>
@@ -49,7 +59,7 @@ export default function Home() {
 
           <EVMarketplace limit={8} />
 
-          <div style={{ textAlign: 'center', marginTop: '10px' }}>
+          <div style={{ textAlign: 'center', marginTop: '24px' }}>
             <Link to="/rent" className="btn btn-outline btn-lg">
               View All EVs →
             </Link>

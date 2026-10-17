@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
+import { createUser } from '../services/api';
+
 
 export default function AuthModal({ isOpen, onClose }) {
   const [step, setStep] = useState(1); // 1 = Phone Input, 2 = OTP Input, 3 = Role Selection
@@ -137,28 +139,23 @@ export default function AuthModal({ isOpen, onClose }) {
     
     try {
       // Backend API Integration: user/create/
-      const response = await fetch('http://127.0.0.1:8000/ecogreencab/user/create/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: finalUserData.name,
-          phone: finalUserData.phone,
-          role: selectedRole
-        })
+      const result = await createUser({
+        name: finalUserData.name,
+        phone: finalUserData.phone,
+        role: selectedRole,
       });
 
-      if (!response.ok) {
-        // We log the error but still allow local login for the demo prototype to not break UX
-        console.error('Failed to create user on backend API:', response.statusText);
+      if (!result.ok) {
+        // Log but don't block UX — local demo still works
+        console.error('Failed to create user on backend API:', result.error);
       } else {
-        await response.json();
-        // User successfully created on backend
+        // Persist the server-assigned user ID for future API calls (booking, listing, etc.)
+        finalUserData.id = result.data?.id ?? null;
       }
     } catch (err) {
       console.error('API connection failed:', err);
     }
+
     
     // Save to demo database
     const demoUsers = JSON.parse(localStorage.getItem('eco_demo_users') || '{}');

@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useMarketplace } from '../context/MarketplaceContext';
 import QRCode from 'react-qr-code';
 import '../styles/components.css';
+import { createBooking } from '../services/api';
+
 
 export default function BookingModal({ car, onClose }) {
   const [form, setForm] = useState({
@@ -46,7 +48,7 @@ export default function BookingModal({ car, onClose }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     const booking = bookCar({
       carId: car.id,
       carName: car.name,
@@ -59,6 +61,20 @@ export default function BookingModal({ car, onClose }) {
     });
     setConfirmedBookingId(booking.id);
     setBooked(true);
+
+    // Sync booking to backend (fire-and-forget — don't block UI)
+    createBooking({
+      booking_id: booking.id,
+      carId: car.id,
+      carName: car.name,
+      renterName: form.name,
+      renterEmail: form.email,
+      startDate: form.startDate,
+      endDate: form.endDate,
+      total: total,
+      drivingLicenseUploaded: form.drivingLicense ? true : false,
+      status: 'CONFIRMED',
+    }).catch(err => console.error('[Booking API] sync failed:', err));
   };
 
   const inputStyle = {

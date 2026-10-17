@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useMarketplace } from '../context/MarketplaceContext';
+import { createContactMessage } from '../services/api';
+
 
 const contactMethods = [
   { icon: '📧', title: 'Email Support', value: 'support@iecogreencab.in', sub: 'Response within 2 hours', color: '#009958' },
@@ -14,9 +16,18 @@ export default function Contact() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     addMessage(form);
+
+    // Sync to backend (fire-and-forget)
+    createContactMessage({
+      name: form.name,
+      email: form.email,
+      subject: form.subject,
+      message: form.message,
+    }).catch(err => console.error('[Contact API] sync failed:', err));
+
     setSent(true);
   };
 

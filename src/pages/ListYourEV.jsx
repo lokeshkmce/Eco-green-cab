@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useMarketplace } from '../context/MarketplaceContext';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config';
+import { createRentalCar } from '../services/api';
 
 const EV_BRANDS = {
   'Tata Motors': ['Punch EV', 'Nexon EV', 'Tiago EV', 'Tigor EV', 'Curvv EV', 'Harrier EV', 'Sierra EV'],
@@ -53,33 +54,23 @@ export default function ListYourEV() {
 
     // Call Backend API
     try {
-      const response = await fetch(`${API_BASE_URL}rental-car/create/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          rental_person: user?.id || 1, // Requires a valid user ID/foreign key
-          car_brand: form.carBrand,
-          car_model: form.carModel,
-          car_year: form.carYear,
-          car_type: form.carType,
-          description: form.description || 'A great EV ready for rent!',
-          daily_rate: form.dailyRate,
-          city: form.city,
-          location: form.location
-        })
+      const result = await createRentalCar({
+        rental_person: user?.id || 1,
+        car_brand: form.carBrand,
+        car_model: form.carModel,
+        car_year: form.carYear,
+        car_type: form.carType,
+        description: form.description || 'A great EV ready for rent!',
+        daily_rate: form.dailyRate,
+        city: form.city,
+        location: form.location,
       });
 
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        console.error("Backend validation failed:", errData);
-      } else {
-        // Successfully created on backend
+      if (!result.ok) {
+        console.error('Backend validation failed:', result.error);
       }
     } catch (err) {
-      console.error("Network error when connecting to API:", err);
+      console.error('Network error when connecting to API:', err);
     }
 
     // Add vehicle to local context (so it appears in the frontend Demo immediately)

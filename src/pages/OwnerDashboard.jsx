@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useMarketplace } from '../context/MarketplaceContext';
 import '../styles/dashboard.css';
+import { updateCarStatus as apiUpdateCarStatus } from '../services/api';
 
 export default function OwnerDashboard() {
   const { user, logout, addRole, updateUser } = useAuth();
@@ -19,6 +20,19 @@ export default function OwnerDashboard() {
   const [confirmingCar, setConfirmingCar] = useState(null);
   const [profileForm, setProfileForm] = useState({ name: user?.name || '', email: user?.email || '', phone: user?.phone || '' });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleOwnerUpdateStatus = async (carId, newStatus, price = null) => {
+    updateCarStatus(carId, newStatus, price);
+    try {
+      const payload = { status: newStatus };
+      if (price !== null && price !== undefined) {
+        payload.price = Number(price);
+      }
+      await apiUpdateCarStatus(carId, payload);
+    } catch (err) {
+      console.error('[Owner] Error syncing car status to API:', err);
+    }
+  };
 
   const normalizePhone = (phone) => phone ? phone.toString().replace(/[\s\-\+]/g, '').slice(-10) : '';
 
@@ -254,7 +268,7 @@ export default function OwnerDashboard() {
                             Review & Accept
                           </button>
                           <button 
-                            onClick={() => updateCarStatus(car.id, 'REJECTED')}
+                            onClick={() => handleOwnerUpdateStatus(car.id, 'REJECTED')}
                             style={{ padding: '12px', background: 'transparent', color: '#ef4444', border: '1px solid #ef4444', borderRadius: '8px', fontWeight: 700, cursor: 'pointer' }}
                           >
                             Reject & Delist
@@ -454,7 +468,7 @@ export default function OwnerDashboard() {
               </button>
               <button 
                 onClick={() => {
-                  updateCarStatus(confirmingCar.id, 'APPROVED', confirmingCar.counterPrice);
+                  handleOwnerUpdateStatus(confirmingCar.id, 'APPROVED', confirmingCar.counterPrice);
                   setConfirmingCar(null);
                 }}
                 style={{ flex: 1.5, padding: '14px', background: '#3b82f6', border: 'none', color: '#fff', borderRadius: '12px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 14px rgba(59,130,246,0.3)' }}

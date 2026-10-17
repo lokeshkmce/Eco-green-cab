@@ -9,6 +9,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import '../styles/dashboard.css'; // Re-use the existing 70/30 dashboard styles
+import { fetchUsers, deleteUser, updateCarStatus as apiUpdateCarStatus, fetchBookings, fetchContactMessages, replyToContactMessage } from '../services/api';
 
 export default function AdminDashboard() {
   const { cars, updateCarStatus, bookings, sendCounterOffer, messages, replyToMessage } = useMarketplace();
@@ -30,15 +31,14 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (activeTab === 'users') {
-      const fetchUsers = async () => {
+      const loadUsers = async () => {
         setLoadingUsers(true);
         try {
-          const response = await fetch('http://127.0.0.1:8000/ecogreencab/users/');
-          if (response.ok) {
-            const data = await response.json();
-            setApiUsers(data);
+          const result = await fetchUsers();
+          if (result.ok) {
+            setApiUsers(result.data || []);
           } else {
-            console.error('Failed to fetch users:', response.statusText);
+            console.error('Failed to fetch users:', result.error);
           }
         } catch (error) {
           console.error("API connection failed:", error);
@@ -46,9 +46,87 @@ export default function AdminDashboard() {
           setLoadingUsers(false);
         }
       };
-      fetchUsers();
+      loadUsers();
+    } else if (activeTab === 'support') {
+      fetchContactMessages().then(res => {
+        if (res.ok && Array.isArray(res.data)) {
+          console.log('[Admin] Live support tickets synced:', res.data);
+        }
+      }).catch(err => console.warn('[Admin] Live support sync error:', err));
+    } else if (activeTab === 'bookings') {
+      fetchBookings().then(res => {
+        if (res.ok && Array.isArray(res.data)) {
+          console.log('[Admin] Live bookings synced:', res.data);
+        }
+      }).catch(err => console.warn('[Admin] Live bookings sync error:', err));
     }
   }, [activeTab]);
+
+  const handleUpdateCarStatus = async (carId, newStatus, price = null) => {
+    // 1. Optimistic UI update in local marketplace context
+    updateCarStatus(carId, newStatus, price);
+
+    // 2. Sync with Backend API
+    try {
+      const payload = { status: newStatus };
+      if (price !== null && price !== undefined) {
+        payload.price = Number(price);
+      }
+      const res = await apiUpdateCarStatus(carId, payload);
+      if (!res.ok) {
+        console.warn(`[Admin] Backend updateCarStatus returned error for car ${carId}:`, res.error);
+      } else {
+        console.log(`[Admin] Backend car status updated for car ${carId}:`, res.data);
+      }
+    } catch (err) {
+      console.error(`[Admin] Error updating car status for ${carId}:`, err);
+    }
+  };
+
+  const handleSendCounterOffer = async (carId, price) => {
+    if (!price) {
+      alert('Please enter a new price to counter.');
+      return;
+    }
+    // 1. Optimistic UI update in local marketplace context
+    sendCounterOffer(carId, price);
+    setCounterInputs(prev => ({ ...prev, [carId]: '' }));
+
+    // 2. Sync with Backend API
+    try {
+      const res = await apiUpdateCarStatus(carId, {
+        status: 'COUNTERED',
+        price: Number(price),
+      });
+      if (!res.ok) {
+        console.warn(`[Admin] Backend counter offer returned error for car ${carId}:`, res.error);
+      } else {
+        console.log(`[Admin] Backend counter offer updated for car ${carId}:`, res.data);
+      }
+    } catch (err) {
+      console.error(`[Admin] Error sending counter offer for ${carId}:`, err);
+    }
+  };
+
+  const handleReplyMessage = async (msgId, replyText) => {
+    if (!replyText || !replyText.trim()) return;
+
+    // 1. Optimistic UI update in local marketplace context
+    replyToMessage(msgId, replyText);
+    setReplyInputs(prev => ({ ...prev, [msgId]: '' }));
+
+    // 2. Sync with Backend API
+    try {
+      const res = await replyToContactMessage(msgId, replyText);
+      if (!res.ok) {
+        console.warn(`[Admin] Backend reply returned error for message ${msgId}:`, res.error);
+      } else {
+        console.log(`[Admin] Reply successfully synced with API for message ${msgId}:`, res.data);
+      }
+    } catch (err) {
+      console.error(`[Admin] Error replying to message ${msgId}:`, err);
+    }
+  };
 
   const handleDeleteUser = async (userId, userPhone) => {
     if (!window.confirm(`Are you sure you want to delete ${userPhone}?`)) return;
@@ -56,15 +134,9 @@ export default function AdminDashboard() {
     if (userId) {
       // Optimistically update UI for API users
       setApiUsers(prev => prev.filter(u => u.id !== userId));
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/ecogreencab/user/${userId}/delete/`, {
-          method: 'DELETE',
-        });
-        if (!response.ok) {
-          console.error("Failed to delete user on API:", response.statusText);
-        }
-      } catch (error) {
-        console.error("API connection failed:", error);
+      const result = await deleteUser(userId);
+      if (!result.ok) {
+        console.error("Failed to delete user on API:", result.error);
       }
     } else {
       // Fallback for local demo users (no ID)
@@ -72,8 +144,7 @@ export default function AdminDashboard() {
       if (demoUsersRaw[userPhone]) {
         delete demoUsersRaw[userPhone];
         localStorage.setItem('eco_demo_users', JSON.stringify(demoUsersRaw));
-        // We'll force a state update to trigger a re-render
-        setUserFilter(prev => prev === 'car' ? 'car ' : 'car'); // Hacky way to re-render local users
+        setUserFilter(prev => prev === 'car' ? 'car ' : 'car');
         setTimeout(() => setUserFilter(prev => prev.trim()), 0);
       }
     }
@@ -556,7 +627,7 @@ export default function AdminDashboard() {
                     <button
                       onClick={() => {
                         if (counterInputs[car.id]) {
-                          sendCounterOffer(car.id, counterInputs[car.id]);
+                          handleSendCounterOffer(car.id, counterInputs[car.id]);
                         } else {
                           alert('Please enter a new price to counter.');
                         }
@@ -569,13 +640,13 @@ export default function AdminDashboard() {
                   
                   <div style={{ display: 'flex', gap: '8px', flex: 1 }}>
                     <button
-                      onClick={() => updateCarStatus(car.id, 'REJECTED')}
+                      onClick={() => handleUpdateCarStatus(car.id, 'REJECTED')}
                       style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '1px solid #ef4444', color: '#ef4444', background: '#fff', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
                     >
                       <MdCancel /> Reject
                     </button>
                     <button
-                      onClick={() => updateCarStatus(car.id, 'APPROVED')}
+                      onClick={() => handleUpdateCarStatus(car.id, 'APPROVED')}
                       style={{ flex: 1.5, padding: '12px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #00b96b 0%, #00d4aa 100%)', color: '#fff', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
                     >
                       <MdCheckCircle /> Approve
@@ -712,7 +783,7 @@ export default function AdminDashboard() {
                 )}
                 
                 <button 
-                  onClick={(e) => { e.stopPropagation(); updateCarStatus(car.id, 'REJECTED'); }}
+                  onClick={(e) => { e.stopPropagation(); handleUpdateCarStatus(car.id, 'REJECTED'); }}
                   style={{ width: '100%', padding: '10px', background: '#fef2f2', border: '1px solid #fecaca', color: '#ef4444', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', transition: 'background 0.2s' }}
                   onMouseEnter={(e) => e.currentTarget.style.background = '#fee2e2'}
                   onMouseLeave={(e) => e.currentTarget.style.background = '#fef2f2'}
@@ -737,7 +808,7 @@ export default function AdminDashboard() {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <span style={{ color: '#ef4444', fontSize: '0.8rem', fontWeight: 700, background: '#fef2f2', padding: '4px 10px', borderRadius: '12px' }}>REJECTED</span>
-                  <button onClick={() => updateCarStatus(car.id, 'PENDING')} style={{ padding: '8px 16px', background: '#f1f5f9', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}>Move to Pending</button>
+                  <button onClick={() => handleUpdateCarStatus(car.id, 'PENDING')} style={{ padding: '8px 16px', background: '#f1f5f9', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}>Move to Pending</button>
                 </div>
               </div>
             ))}
@@ -944,13 +1015,18 @@ export default function AdminDashboard() {
                           type="text"
                           value={replyInputs[msg.id] || ''}
                           onChange={(e) => setReplyInputs({ ...replyInputs, [msg.id]: e.target.value })}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && replyInputs[msg.id]) {
+                              handleReplyMessage(msg.id, replyInputs[msg.id]);
+                            }
+                          }}
                           placeholder="Type your reply here..."
                           style={{ flex: 1, padding: '10px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
                         />
                         <button 
                           onClick={() => {
                             if(replyInputs[msg.id]) {
-                              replyToMessage(msg.id, replyInputs[msg.id]);
+                              handleReplyMessage(msg.id, replyInputs[msg.id]);
                             }
                           }}
                           style={{ padding: '10px 20px', background: '#00e676', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}
