@@ -1,19 +1,21 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useMarketplace } from '../context/MarketplaceContext';
+import { useAuth } from '../context/AuthContext';
 import QRCode from 'react-qr-code';
 import '../styles/components.css';
 import { createBooking } from '../services/api';
 
 
 export default function BookingModal({ car, onClose }) {
+  const { user, updateUser } = useAuth();
   const [form, setForm] = useState({
     startDate: '',
     endDate: '',
     pickupLocation: car.location,
     insurance: 'basic',
-    name: '',
-    email: '',
-    phone: '',
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
     drivingLicense: null,
   });
   const [step, setStep] = useState(1); // 1=dates, 2=extras, 3=contact, 4=confirm
@@ -49,11 +51,16 @@ export default function BookingModal({ car, onClose }) {
   };
 
   const handleConfirm = async () => {
+    if (user && form.email && user.email !== form.email) {
+      updateUser({ email: form.email, phone: form.phone || user.phone });
+    }
+
     const booking = bookCar({
       carId: car.id,
       carName: car.name,
       renterName: form.name,
       renterEmail: form.email,
+      renterPhone: form.phone || user?.phone || '',
       startDate: form.startDate,
       endDate: form.endDate,
       total: total,

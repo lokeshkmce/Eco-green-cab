@@ -369,8 +369,14 @@ export default function RenterDashboard() {
   const handleOwnerAction = () => { addRole('owner'); navigate('/owner/dashboard'); };
   const closeSidebar = () => setIsSidebarOpen(false);
 
+  const normalizePhone = (phone) => phone ? phone.toString().replace(/[\s\-\+]/g, '').slice(-10) : '';
+
   const realBookings = bookings
-    .filter(b => b.renterEmail === user?.email)
+    .filter(b => 
+      (user?.email && b.renterEmail && b.renterEmail.toLowerCase() === user.email.toLowerCase()) ||
+      (user?.phone && b.renterPhone && normalizePhone(b.renterPhone) === normalizePhone(user.phone)) ||
+      (user?.name && b.renterName && b.renterName.toLowerCase() === user.name.toLowerCase())
+    )
     .map(b => ({
       id: b.id,
       vehicle: b.carName,
