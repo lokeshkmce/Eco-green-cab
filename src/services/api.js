@@ -141,7 +141,24 @@ export async function createRentalCar(carData) {
 export async function fetchRentalCars() {
   const result = await apiFetch('rental-cars/');
   if (result.ok && result.data) {
-    result.data = Array.isArray(result.data) ? result.data : [result.data];
+    const arr = Array.isArray(result.data) ? result.data : [result.data];
+    result.data = arr.map(c => ({
+      ...c,
+      name: `${c.car_brand || ''} ${c.car_model || ''}`.trim() || c.name || 'EV Car',
+      brand: c.car_brand || c.brand,
+      model: c.car_model || c.model,
+      year: c.car_year || c.year,
+      category: c.car_type || c.category || 'Electric Sedan',
+      price: Number(c.daily_rate || c.price) || 0,
+      counterPrice: c.counter_price ? Number(c.counter_price) : (c.counterPrice || null),
+      status: c.status || 'PENDING',
+      city: c.city || 'Chennai',
+      location: c.location || 'Central',
+      image: c.image || '/images/cars/ev1.png',
+      ownerName: c.owner_name || c.ownerName || 'Host',
+      ownerPhone: c.owner_phone || c.ownerPhone || 'N/A',
+      ownerEmail: c.owner_email || c.ownerEmail || 'N/A',
+    }));
   }
   return result;
 }
@@ -206,7 +223,22 @@ export async function createBooking(bookingData) {
 export async function fetchBookings() {
   const result = await apiFetch('bookings/');
   if (result.ok && result.data) {
-    result.data = Array.isArray(result.data) ? result.data : [result.data];
+    const arr = Array.isArray(result.data) ? result.data : [result.data];
+    result.data = arr.map(b => ({
+      ...b,
+      id: b.booking_id || (b.id ? `BK-${b.id}` : 'BK-0000'),
+      apiId: b.id,
+      carId: b.car_id || b.carId,
+      carName: b.car_name || b.carName,
+      renterName: b.renter_name || b.renterName,
+      renterEmail: b.renter_email || b.renterEmail,
+      startDate: b.start_date || b.startDate,
+      endDate: b.end_date || b.endDate,
+      total: Number(b.total) || 0,
+      drivingLicenseUploaded: b.driving_license_uploaded ?? b.drivingLicenseUploaded ?? true,
+      status: b.status || 'CONFIRMED',
+      createdAt: b.created_at || b.createdAt,
+    }));
   }
   return result;
 }
@@ -245,7 +277,12 @@ export async function createContactMessage(messageData) {
 export async function fetchContactMessages() {
   const result = await apiFetch('contact/message/');
   if (result.ok && result.data) {
-    result.data = Array.isArray(result.data) ? result.data : [result.data];
+    const arr = Array.isArray(result.data) ? result.data : [result.data];
+    result.data = arr.map(m => ({
+      ...m,
+      date: m.created_at || m.date || new Date().toISOString(),
+      replyDate: m.reply_date || m.replyDate,
+    }));
   }
   return result;
 }

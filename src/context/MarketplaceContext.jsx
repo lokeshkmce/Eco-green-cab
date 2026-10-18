@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { cars as initialCars } from '../data/cars';
+import { fetchRentalCars } from '../services/api';
 
 const MarketplaceContext = createContext();
 
@@ -66,6 +67,22 @@ export const MarketplaceProvider = ({ children }) => {
     } catch (e) {
       localStorage.removeItem('eco_messages');
     }
+
+    // Sync live cars from backend API
+    fetchRentalCars().then(res => {
+      if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
+        setCars(prev => {
+          const list = [...prev];
+          res.data.forEach(apiCar => {
+            const exists = list.some(c => c.id === apiCar.id || (c.name === apiCar.name && c.city === apiCar.city));
+            if (!exists) {
+              list.push(apiCar);
+            }
+          });
+          return list;
+        });
+      }
+    }).catch(() => {});
 
     // Sync across tabs
     const handleStorage = (e) => {

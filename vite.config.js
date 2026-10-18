@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/ecogreencab': {
-        target: 'https://capsule-most-rundown.ngrok-free.dev',
+        target: 'https://affecting-tingling-duke.ngrok-free.dev',
         changeOrigin: true,
         secure: false,
       },

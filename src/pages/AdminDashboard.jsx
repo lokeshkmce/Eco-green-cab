@@ -9,7 +9,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import '../styles/dashboard.css'; // Re-use the existing 70/30 dashboard styles
-import { fetchUsers, deleteUser, updateCarStatus as apiUpdateCarStatus, fetchBookings, fetchContactMessages, replyToContactMessage } from '../services/api';
+import { fetchUsers, deleteUser, updateCarStatus as apiUpdateCarStatus, fetchBookings, fetchContactMessages, replyToContactMessage, fetchRentalCars } from '../services/api';
 
 export default function AdminDashboard() {
   const { cars, updateCarStatus, bookings, sendCounterOffer, messages, replyToMessage } = useMarketplace();
@@ -28,6 +28,24 @@ export default function AdminDashboard() {
   const [editUserForm, setEditUserForm] = useState({ name: '', phone: '', role: '' });
   const [userOverrides, setUserOverrides] = useState({});
   const [selectedFleetCarId, setSelectedFleetCarId] = useState(null);
+  const [apiBookings, setApiBookings] = useState([]);
+  const [apiMessages, setApiMessages] = useState([]);
+  const [apiCars, setApiCars] = useState([]);
+
+  // Auto-sync live backend data on initial load
+  useEffect(() => {
+    fetchBookings().then(res => {
+      if (res.ok && Array.isArray(res.data)) setApiBookings(res.data);
+    }).catch(() => {});
+
+    fetchRentalCars().then(res => {
+      if (res.ok && Array.isArray(res.data)) setApiCars(res.data);
+    }).catch(() => {});
+
+    fetchContactMessages().then(res => {
+      if (res.ok && Array.isArray(res.data)) setApiMessages(res.data);
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (activeTab === 'users') {
@@ -50,15 +68,21 @@ export default function AdminDashboard() {
     } else if (activeTab === 'support') {
       fetchContactMessages().then(res => {
         if (res.ok && Array.isArray(res.data)) {
-          console.log('[Admin] Live support tickets synced:', res.data);
+          setApiMessages(res.data);
         }
       }).catch(err => console.warn('[Admin] Live support sync error:', err));
-    } else if (activeTab === 'bookings') {
+    } else if (activeTab === 'bookings' || activeTab === 'overview') {
       fetchBookings().then(res => {
         if (res.ok && Array.isArray(res.data)) {
-          console.log('[Admin] Live bookings synced:', res.data);
+          setApiBookings(res.data);
         }
       }).catch(err => console.warn('[Admin] Live bookings sync error:', err));
+    } else if (activeTab === 'fleet' || activeTab === 'approvals') {
+      fetchRentalCars().then(res => {
+        if (res.ok && Array.isArray(res.data)) {
+          setApiCars(res.data);
+        }
+      }).catch(err => console.warn('[Admin] Live rental cars sync error:', err));
     }
   }, [activeTab]);
 
@@ -150,17 +174,51 @@ export default function AdminDashboard() {
     }
   };
 
-  const pendingCars = cars.filter(c => c.status === 'PENDING');
-  const counteredCars = cars.filter(c => c.status === 'COUNTERED');
-  const approvedCars = cars.filter(c => c.status === 'APPROVED');
-  const rejectedCars = cars.filter(c => c.status === 'REJECTED');
+  // Merge cars: API cars + local context cars without duplicates
+  const displayCars = React.useMemo(() => {
+    const list = [...apiCars];
+    cars.forEach(localCar => {
+      if (!list.some(c => c.id === localCar.id || (c.name === localCar.name && c.city === localCar.city))) {
+        list.push(localCar);
+      }
+    });
+    return list;
+  }, [apiCars, cars]);
+
+  // Merge bookings: API bookings + local bookings without duplicates
+  const displayBookings = React.useMemo(() => {
+    const list = [...apiBookings];
+    bookings.forEach(localB => {
+      const id = localB.booking_id || localB.id;
+      if (!list.some(b => (b.booking_id || b.id) === id)) {
+        list.push(localB);
+      }
+    });
+    return list;
+  }, [apiBookings, bookings]);
+
+  // Merge messages: API messages + local messages without duplicates
+  const displayMessages = React.useMemo(() => {
+    const list = [...apiMessages];
+    messages.forEach(localM => {
+      if (!list.some(m => m.id === localM.id || (m.subject === localM.subject && m.email === localM.email))) {
+        list.push(localM);
+      }
+    });
+    return list;
+  }, [apiMessages, messages]);
+
+  const pendingCars = displayCars.filter(c => c.status === 'PENDING');
+  const counteredCars = displayCars.filter(c => c.status === 'COUNTERED');
+  const approvedCars = displayCars.filter(c => c.status === 'APPROVED');
+  const rejectedCars = displayCars.filter(c => c.status === 'REJECTED');
 
   // KPI Calculations
-  const totalRevenue = bookings.reduce((sum, b) => sum + (b.total || 0), 0);
+  const totalRevenue = displayBookings.reduce((sum, b) => sum + (b.total || 0), 0);
   const platformEarnings = totalRevenue * 0.15; // 15% platform fee
   
   // Recent activity
-  const recentBookings = [...bookings].reverse().slice(0, 5);
+  const recentBookings = [...displayBookings].reverse().slice(0, 5);
 
   const handleLogout = () => {
     logout();
@@ -843,12 +901,12 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {bookings.length === 0 ? (
+            {displayBookings.length === 0 ? (
               <tr>
                 <td colSpan="4" style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>No bookings on the platform yet.</td>
               </tr>
             ) : (
-              [...bookings].reverse().map((b) => (
+              [...displayBookings].reverse().map((b) => (
                 <tr key={b.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                   <td style={{ padding: '16px 24px' }}>
                     <div style={{ fontWeight: 600, color: '#111827', fontSize: '0.95rem', marginBottom: '4px' }}>{b.id}</div>
@@ -969,12 +1027,12 @@ export default function AdminDashboard() {
             </header>
             
             <div style={{ padding: '24px 28px', display: 'grid', gap: '16px' }}>
-              {!messages || messages.length === 0 ? (
+              {!displayMessages || displayMessages.length === 0 ? (
                 <div style={{ padding: '60px', textAlign: 'center', background: '#fff', borderRadius: '16px', border: '1px solid #e5e7eb', color: '#64748b' }}>
                   No support tickets at the moment.
                 </div>
               ) : (
-                messages.map(msg => (
+                displayMessages.map(msg => (
                   <div key={msg.id} style={{ background: '#fff', padding: '24px', borderRadius: '16px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                       <div>
